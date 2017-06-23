@@ -17,6 +17,21 @@ public class Maturite {
 
     }
 
+    public Maturite(Long idMaturite, Long idProduit, String contenu, Long idPhoto, boolean ideale, String popup) {
+        this.idMaturite = idMaturite;
+        this.idProduit = idProduit;
+        this.contenu = contenu;
+        this.idPhoto = idPhoto;
+        this.ideale = ideale;
+        this.popup = popup;
+    }
+
+    public String toString() {
+        return "idMaturite : " + getIdMaturite() + ", idProduit : " + getIdProduit() + ", contenu : "
+                + getContenu() + ", idPhoto : " + getIdPhoto() + ", maturiteIdeale : "
+                + isIdeale() + ", popup : " + getPopup();
+    }
+
     public Long getIdMaturite() {
         return idMaturite;
     }

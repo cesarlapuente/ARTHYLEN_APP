@@ -31,7 +31,6 @@ public class ApiRequest extends AsyncTask<String, Void, String> {
 
 
     public void setContext(Context context) {
-        Log.e("/*/*/*/*/*", "/*/*/*/*/*/*/");
         this.context = context;
         this.dao = new ProduitDAO(context);
     }
@@ -86,41 +85,17 @@ public class ApiRequest extends AsyncTask<String, Void, String> {
             List<Produit> produits = new ArrayList<>();
             for (int i = 0; i < rep.length(); i++) {
                 JSONObject o = (JSONObject) rep.get(i);
-                int niveauMaturite;
-                Long idMaturite;
-                int niveauEtat;
-                Long idEtat;
-
-                if (!o.getString("niveauMaturite").equals("null"))
-                    niveauMaturite = o.getInt("niveauMaturite");
-                else
-                    niveauMaturite = -1;
-
-                if (!o.getString("idMaturite").equals("null"))
-                    idMaturite = o.getLong("idMaturite");
-                else
-                    idMaturite = -1L;
-
-                if (o.getString("niveauEtat") != "null")
-                    niveauEtat = o.getInt("niveauEtat");
-                else
-                    niveauEtat = -1;
-
-                if (o.getString("idEtat") != "null")
-                    idEtat = o.getLong("idEtat");
-                else
-                    idEtat = -1L;
 
                 Produit p = new Produit(o.getLong("idProduit"), o.getString("nomProduit"),
-                        o.getString("varieteProduit"), niveauMaturite,
-                        idMaturite, niveauEtat,
-                        idEtat, o.getLong("idPresentation"));
+                        o.getString("varieteProduit"), o.optInt("niveauMaturite", -1),
+                        o.optLong("idMaturite", -1L), o.optInt("niveauEtat", -1),
+                        o.optLong("idEtat", -1), o.optLong("idPresentation", -1L));
                 produits.add(p);
             }
             dao.insertListProduit(produits);
             List<Produit> p2 = dao.getAllProduct();
             for (Produit p1 : p2) {
-                Log.e("thib", p1.getNomProduit());
+                Log.e("thib", p1.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();

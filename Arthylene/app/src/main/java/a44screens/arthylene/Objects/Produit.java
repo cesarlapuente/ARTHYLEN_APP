@@ -29,6 +29,13 @@ public class Produit {
         this.idPresentation = idPresentation;
     }
 
+    public String toString() {
+        return "id : " + getIdProduit() + ", nom : " + getNomProduit() + ", variete : " + getVarieteProduit()
+                + ", niveauMaturite : " + getNiveauMaturite() + ", idMAturite : " + getIdMaturite()
+                + ", niveauEtat : " + getNiveauEtat() + ", idEtat : " + getIdEtat()
+                + ", idPresentation : " + getIdPresentation();
+    }
+
     public Long getIdProduit() {
         return idProduit;
     }

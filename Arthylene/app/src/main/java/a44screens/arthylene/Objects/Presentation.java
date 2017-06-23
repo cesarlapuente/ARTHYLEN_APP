@@ -12,7 +12,18 @@ public class Presentation {
     private Long idPhoto;
 
     public Presentation() {
+    }
 
+    public Presentation(Long idPresentation, Long idProduit, String contenu, Long idPhoto) {
+        this.idPresentation = idPresentation;
+        this.idProduit = idProduit;
+        this.contenu = contenu;
+        this.idPhoto = idPhoto;
+    }
+
+    public String toString() {
+        return "idPresentation : " + getIdPresentation() + ", idProduit : " + getIdProduit()
+                + ", contenu : " + getContenu() + ", id photo : " + getIdPhoto();
     }
 
     public Long getIdPresentation() {

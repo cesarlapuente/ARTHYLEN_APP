@@ -22,7 +22,33 @@ public class Etiquette {
     private int emplacementChariot;
 
     public Etiquette() {
+    }
 
+    public Etiquette(Long idEtiquette, String code, Long idCagette, Long idPhoto, String nomProduit, String varieteProduit, int ete, int automne, int hiver, int printems, int nbCouche, int maturiteMin, int maturiteMax, int emplacementChariot) {
+        this.idEtiquette = idEtiquette;
+        this.code = code;
+        this.idCagette = idCagette;
+        this.idPhoto = idPhoto;
+        this.nomProduit = nomProduit;
+        VarieteProduit = varieteProduit;
+        this.ete = ete;
+        this.automne = automne;
+        this.hiver = hiver;
+        this.printems = printems;
+        this.nbCouche = nbCouche;
+        this.maturiteMin = maturiteMin;
+        this.maturiteMax = maturiteMax;
+        this.emplacementChariot = emplacementChariot;
+    }
+
+    public String toString() {
+        return "idEtiquette : " + getIdEtiquette() + ", code : " + getCode() + ", idCagette : "
+                + getIdCagette() + ", idPhoto : " + getIdPhoto() + ", nomProduit : "
+                + getNomProduit() + ", varieteProduit : " + getVarieteProduit() + ", ordreEte : "
+                + getEte() + ", ordreAutomne : " + getAutomne() + ", ordreHiver : " + getHiver()
+                + ", ordrePrintemps : " + getPrintems() + ", nombreDeCouche : " + getNbCouche()
+                + ", maturiteMin : " + getMaturiteMin() + ", maturiteMax : " + getMaturiteMax()
+                + ", emplacementChariot : " + getEmplacementChariot();
     }
 
     public Long getIdEtiquette() {

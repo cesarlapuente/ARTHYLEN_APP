@@ -13,7 +13,19 @@ public class Etat {
     private String popup;
 
     public Etat() {
+    }
 
+    public Etat(Long idEtat, Long idProduit, String contenu, Long idPhoto, String popup) {
+        this.idEtat = idEtat;
+        this.idProduit = idProduit;
+        this.contenu = contenu;
+        this.idPhoto = idPhoto;
+        this.popup = popup;
+    }
+
+    public String toString() {
+        return "idMaturite : " + getIdEtat() + ", idProduit : " + getIdProduit() + ", contenu : "
+                + getContenu() + ", idPhoto : " + getIdPhoto() + ", popup : " + getPopup();
     }
 
     public Long getIdEtat() {
