@@ -11,7 +11,7 @@ public final class EtiquetteContract {
     static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS" + EtiquetteEntry.TABLE_NAME;
 
-    private static final String TEXT = "TEXT, ";
+    private static final String TEXT = " TEXT, ";
 
     private static final String INTEGER = " INTEGER, ";
 

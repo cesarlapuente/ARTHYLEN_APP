@@ -42,14 +42,18 @@ public class PresentationDAO {
 
     public void insertListPresentation(List<Presentation> presentations) {
         db = mDbHandler.getWritableDatabase();
+        int update = -1;
 
         for (Presentation p : presentations) {
             ContentValues values = new ContentValues();
-            values.put(PresentationContract.PresentationEntry.COLUM_NAME_IDPRESENTATION, p.getIdPresentation());
             values.put(PresentationContract.PresentationEntry.COLUM_NAME_IDPRODUIT, p.getIdProduit());
             values.put(PresentationContract.PresentationEntry.COLUM_NAME_CONTENU, p.getContenu());
             values.put(PresentationContract.PresentationEntry.COLUM_NAME_IDPHOTO, p.getIdPhoto());
-            db.insert(PresentationContract.PresentationEntry.TABLE_NAME, null, values);
+            update = db.update(PresentationContract.PresentationEntry.TABLE_NAME, values, PresentationContract.PresentationEntry.COLUM_NAME_IDPRESENTATION + " = ?", new String[]{String.valueOf(p.getIdPresentation())});
+            if (update == 0) {
+                values.put(PresentationContract.PresentationEntry.COLUM_NAME_IDPRESENTATION, p.getIdPresentation());
+                db.insert(PresentationContract.PresentationEntry.TABLE_NAME, null, values);
+            }
         }
     }
 

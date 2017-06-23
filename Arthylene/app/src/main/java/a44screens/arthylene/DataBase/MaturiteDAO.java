@@ -42,16 +42,20 @@ public class MaturiteDAO {
 
     public void insertListMaturity(List<Maturite> maturites) {
         db = mDbHandler.getWritableDatabase();
+        int update = -1;
 
         for (Maturite m : maturites) {
             ContentValues values = new ContentValues();
-            values.put(MaturiteContract.MaturiteEntry.COLUM_NAME_IDMATURITE, m.getIdMaturite());
             values.put(MaturiteContract.MaturiteEntry.COLUM_NAME_IDPRODUIT, m.getIdProduit());
             values.put(MaturiteContract.MaturiteEntry.COLUM_NAME_CONTENU, m.getContenu());
             values.put(MaturiteContract.MaturiteEntry.COLUM_NAME_IDPHOTO, m.getIdPhoto());
             values.put(MaturiteContract.MaturiteEntry.COLUM_NAME_IDEALE, m.isIdeale());
             values.put(MaturiteContract.MaturiteEntry.COLUM_NAME_POPUP, m.getPopup());
-            db.insert(ProduitContract.ProduitEntry.TABLE_NAME, null, values);
+            update = db.update(MaturiteContract.MaturiteEntry.TABLE_NAME, values, MaturiteContract.MaturiteEntry.COLUM_NAME_IDMATURITE + " = ?", new String[]{String.valueOf(m.getIdMaturite())});
+            if (update == 0) {
+                values.put(MaturiteContract.MaturiteEntry.COLUM_NAME_IDMATURITE, m.getIdMaturite());
+                db.insert(MaturiteContract.MaturiteEntry.TABLE_NAME, null, values);
+            }
         }
     }
 

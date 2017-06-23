@@ -42,15 +42,19 @@ public class EtatDAO {
 
     public void insertListStates(List<Etat> etats) {
         db = mDbHandler.getWritableDatabase();
+        int update = -1;
 
         for (Etat e : etats) {
             ContentValues values = new ContentValues();
-            values.put(EtatContract.EtatEntry.COLUM_NAME_IDETAT, e.getIdEtat());
             values.put(EtatContract.EtatEntry.COLUM_NAME_IDPRODUIT, e.getIdProduit());
             values.put(EtatContract.EtatEntry.COLUM_NAME_CONTENU, e.getContenu());
             values.put(EtatContract.EtatEntry.COLUM_NAME_IDPHOTO, e.getIdPhoto());
             values.put(EtatContract.EtatEntry.COLUM_NAME_POPUP, e.getPopup());
-            db.insert(ProduitContract.ProduitEntry.TABLE_NAME, null, values);
+            update = db.update(EtatContract.EtatEntry.TABLE_NAME, values, EtatContract.EtatEntry.COLUM_NAME_IDETAT + " = ?", new String[]{String.valueOf(e.getIdEtat())});
+            if (update == 0) {
+                values.put(EtatContract.EtatEntry.COLUM_NAME_IDETAT, e.getIdEtat());
+                db.insert(EtatContract.EtatEntry.TABLE_NAME, null, values);
+            }
         }
     }
 

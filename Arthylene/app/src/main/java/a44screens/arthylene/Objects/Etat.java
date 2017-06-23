@@ -24,7 +24,7 @@ public class Etat {
     }
 
     public String toString() {
-        return "idMaturite : " + getIdEtat() + ", idProduit : " + getIdProduit() + ", contenu : "
+        return "idEtat : " + getIdEtat() + ", idProduit : " + getIdProduit() + ", contenu : "
                 + getContenu() + ", idPhoto : " + getIdPhoto() + ", popup : " + getPopup();
     }
 

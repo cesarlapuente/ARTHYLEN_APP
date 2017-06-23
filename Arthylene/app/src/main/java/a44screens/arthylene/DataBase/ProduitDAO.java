@@ -43,9 +43,10 @@ public class ProduitDAO {
     public void insertListProduit(List<Produit> produits) {
         db = mDbHandler.getWritableDatabase();
 
+        int update = -89;
+
         for (Produit p : produits) {
             ContentValues values = new ContentValues();
-            values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDPRODUIT, p.getIdProduit());
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_NOMPRODUIT, p.getNomProduit());
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_VARIETEPRODUIT, p.getVarieteProduit());
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_NIVEAUMATURITE, p.getNiveauMaturite());
@@ -53,7 +54,11 @@ public class ProduitDAO {
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_NIVEAUETAT, p.getNiveauEtat());
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDETAT, p.getIdEtat());
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDPRESENTATION, p.getIdPresentation());
-            db.insert(ProduitContract.ProduitEntry.TABLE_NAME, null, values);
+            update = db.update(ProduitContract.ProduitEntry.TABLE_NAME, values, ProduitContract.ProduitEntry.COLUM_NAME_IDPRODUIT + " = ?", new String[]{String.valueOf(p.getIdProduit())});
+            if (update == 0) {
+                values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDPRODUIT, p.getIdProduit());
+                db.insert(ProduitContract.ProduitEntry.TABLE_NAME, null, values);
+            }
         }
     }
 

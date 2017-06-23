@@ -42,24 +42,28 @@ public class EtiquetteDAO {
 
     public void insertListLabel(List<Etiquette> etiquettes) {
         db = mDbHandler.getWritableDatabase();
+        int update = -1;
 
-        for (Etiquette p : etiquettes) {
+        for (Etiquette e : etiquettes) {
             ContentValues values = new ContentValues();
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_IDETIQUETTE, p.getIdEtiquette());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_CODE, p.getCode());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_IDCAGETTE, p.getIdCagette());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_IDPHOTO, p.getIdPhoto());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_NOMPRODUIT, p.getNomProduit());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_VARIETEPRODUIT, p.getVarieteProduit());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_ETE, p.getEte());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_AUTOMNE, p.getAutomne());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_HIVER, p.getHiver());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_PRINTEMPS, p.getPrintems());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_NBCOUCHE, p.getNbCouche());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_MATUMIN, p.getMaturiteMin());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_MATUMAX, p.getMaturiteMax());
-            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_CHARIOT, p.getEmplacementChariot());
-            db.insert(EtiquetteContract.EtiquetteEntry.TABLE_NAME, null, values);
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_CODE, e.getCode());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_IDCAGETTE, e.getIdCagette());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_IDPHOTO, e.getIdPhoto());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_NOMPRODUIT, e.getNomProduit());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_VARIETEPRODUIT, e.getVarieteProduit());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_ETE, e.getEte());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_AUTOMNE, e.getAutomne());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_HIVER, e.getHiver());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_PRINTEMPS, e.getPrintems());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_NBCOUCHE, e.getNbCouche());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_MATUMIN, e.getMaturiteMin());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_MATUMAX, e.getMaturiteMax());
+            values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_CHARIOT, e.getEmplacementChariot());
+            update = db.update(EtiquetteContract.EtiquetteEntry.TABLE_NAME, values, EtiquetteContract.EtiquetteEntry.COLUM_NAME_IDETIQUETTE + " = ?", new String[]{String.valueOf(e.getIdEtiquette())});
+            if (update == 0) {
+                values.put(EtiquetteContract.EtiquetteEntry.COLUM_NAME_IDETIQUETTE, e.getIdEtiquette());
+                db.insert(EtiquetteContract.EtiquetteEntry.TABLE_NAME, null, values);
+            }
         }
     }
 
