@@ -1,4 +1,4 @@
-package a44screens.arthylene.Objects;
+package ffscreens.arthylene.objects;
 
 /**
  * Created by Thibault on 21/06/2017.

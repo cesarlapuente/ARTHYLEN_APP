@@ -1,4 +1,4 @@
-package a44screens.arthylene.Api;
+package ffscreens.arthylene.api;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,8 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import a44screens.arthylene.DataBase.ProduitDAO;
-import a44screens.arthylene.Objects.Produit;
+import ffscreens.arthylene.database.ProduitDAO;
+import ffscreens.arthylene.objects.Produit;
 
 /**
  * Created by Thibault on 23/06/2017.
@@ -18,14 +18,15 @@ import a44screens.arthylene.Objects.Produit;
 
 public class ProductRequest extends ApiRequest {
 
+
     List<Produit> produitList;
     ProduitDAO dao;
 
     public ProductRequest() {
     }
 
-    public ProductRequest(Context context) {
-        this.setContext(context);
+    @Override
+    public void setContext(Context context) {
         produitList = new ArrayList<>();
         dao = new ProduitDAO(context);
     }
@@ -40,7 +41,7 @@ public class ProductRequest extends ApiRequest {
     }
 
     @Override
-    void DAOInsert() {
+    void daoInsert() {
         dao.insertListProduit(produitList);
         List<Produit> p2 = dao.getAllProduct();
         for (Produit p1 : p2) {

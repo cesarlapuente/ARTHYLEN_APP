@@ -1,4 +1,4 @@
-package a44screens.arthylene.Api;
+package ffscreens.arthylene.api;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,8 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import a44screens.arthylene.DataBase.PresentationDAO;
-import a44screens.arthylene.Objects.Presentation;
+import ffscreens.arthylene.database.PresentationDAO;
+import ffscreens.arthylene.objects.Presentation;
 
 /**
  * Created by Thibault on 23/06/2017.
@@ -21,8 +21,8 @@ public class PresentationRequest extends ApiRequest {
     private List<Presentation> presentationList;
     private PresentationDAO dao;
 
-    public PresentationRequest(Context context) {
-        this.setContext(context);
+    @Override
+    public void setContext(Context context) {
         presentationList = new ArrayList<>();
         dao = new PresentationDAO(context);
     }
@@ -35,7 +35,7 @@ public class PresentationRequest extends ApiRequest {
     }
 
     @Override
-    void DAOInsert() {
+    void daoInsert() {
         dao.insertListPresentation(presentationList);
         List<Presentation> p2 = dao.getAllPresentations();
         for (Presentation p1 : p2) {

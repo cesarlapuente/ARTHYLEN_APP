@@ -1,37 +1,39 @@
-package a44screens.arthylene.Objects;
+package ffscreens.arthylene.objects;
 
 /**
  * Created by Thibault on 21/06/2017.
  */
 
-public class Presentation {
+public class Etat {
 
-    private Long idPresentation;
+    private Long idEtat;
     private Long idProduit;
     private String contenu;
     private Long idPhoto;
+    private String popup;
 
-    public Presentation() {
+    public Etat() {
     }
 
-    public Presentation(Long idPresentation, Long idProduit, String contenu, Long idPhoto) {
-        this.idPresentation = idPresentation;
+    public Etat(Long idEtat, Long idProduit, String contenu, Long idPhoto, String popup) {
+        this.idEtat = idEtat;
         this.idProduit = idProduit;
         this.contenu = contenu;
         this.idPhoto = idPhoto;
+        this.popup = popup;
     }
 
     public String toString() {
-        return "idPresentation : " + getIdPresentation() + ", idProduit : " + getIdProduit()
-                + ", contenu : " + getContenu() + ", id photo : " + getIdPhoto();
+        return "idEtat : " + getIdEtat() + ", idProduit : " + getIdProduit() + ", contenu : "
+                + getContenu() + ", idPhoto : " + getIdPhoto() + ", popup : " + getPopup();
     }
 
-    public Long getIdPresentation() {
-        return idPresentation;
+    public Long getIdEtat() {
+        return idEtat;
     }
 
-    public void setIdPresentation(Long idPresentation) {
-        this.idPresentation = idPresentation;
+    public void setIdEtat(Long idEtat) {
+        this.idEtat = idEtat;
     }
 
     public Long getIdProduit() {
@@ -56,5 +58,13 @@ public class Presentation {
 
     public void setIdPhoto(Long idPhoto) {
         this.idPhoto = idPhoto;
+    }
+
+    public String getPopup() {
+        return popup;
+    }
+
+    public void setPopup(String popup) {
+        this.popup = popup;
     }
 }

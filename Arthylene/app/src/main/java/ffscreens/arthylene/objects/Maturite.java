@@ -1,39 +1,43 @@
-package a44screens.arthylene.Objects;
+package ffscreens.arthylene.objects;
 
 /**
  * Created by Thibault on 21/06/2017.
  */
 
-public class Etat {
+public class Maturite {
 
-    private Long idEtat;
+    private Long idMaturite;
     private Long idProduit;
     private String contenu;
     private Long idPhoto;
+    private boolean ideale;
     private String popup;
 
-    public Etat() {
+    public Maturite() {
+
     }
 
-    public Etat(Long idEtat, Long idProduit, String contenu, Long idPhoto, String popup) {
-        this.idEtat = idEtat;
+    public Maturite(Long idMaturite, Long idProduit, String contenu, Long idPhoto, boolean ideale, String popup) {
+        this.idMaturite = idMaturite;
         this.idProduit = idProduit;
         this.contenu = contenu;
         this.idPhoto = idPhoto;
+        this.ideale = ideale;
         this.popup = popup;
     }
 
     public String toString() {
-        return "idEtat : " + getIdEtat() + ", idProduit : " + getIdProduit() + ", contenu : "
-                + getContenu() + ", idPhoto : " + getIdPhoto() + ", popup : " + getPopup();
+        return "idMaturite : " + getIdMaturite() + ", idProduit : " + getIdProduit() + ", contenu : "
+                + getContenu() + ", idPhoto : " + getIdPhoto() + ", maturiteIdeale : "
+                + isIdeale() + ", popup : " + getPopup();
     }
 
-    public Long getIdEtat() {
-        return idEtat;
+    public Long getIdMaturite() {
+        return idMaturite;
     }
 
-    public void setIdEtat(Long idEtat) {
-        this.idEtat = idEtat;
+    public void setIdMaturite(Long idMaturite) {
+        this.idMaturite = idMaturite;
     }
 
     public Long getIdProduit() {
@@ -58,6 +62,14 @@ public class Etat {
 
     public void setIdPhoto(Long idPhoto) {
         this.idPhoto = idPhoto;
+    }
+
+    public boolean isIdeale() {
+        return ideale;
+    }
+
+    public void setIdeale(boolean ideale) {
+        this.ideale = ideale;
     }
 
     public String getPopup() {

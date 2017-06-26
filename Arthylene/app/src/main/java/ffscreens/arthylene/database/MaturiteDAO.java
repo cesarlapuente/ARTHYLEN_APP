@@ -1,4 +1,4 @@
-package a44screens.arthylene.DataBase;
+package ffscreens.arthylene.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import a44screens.arthylene.Objects.Maturite;
+import ffscreens.arthylene.objects.Maturite;
 
 /**
  * Created by Thibault on 21/06/2017.

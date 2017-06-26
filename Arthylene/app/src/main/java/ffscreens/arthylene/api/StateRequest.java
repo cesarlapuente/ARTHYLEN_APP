@@ -1,4 +1,4 @@
-package a44screens.arthylene.Api;
+package ffscreens.arthylene.api;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,8 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import a44screens.arthylene.DataBase.EtatDAO;
-import a44screens.arthylene.Objects.Etat;
+import ffscreens.arthylene.database.EtatDAO;
+import ffscreens.arthylene.objects.Etat;
 
 /**
  * Created by Thibault on 23/06/2017.
@@ -21,8 +21,8 @@ public class StateRequest extends ApiRequest {
     private List<Etat> etatList;
     private EtatDAO dao;
 
-    public StateRequest(Context context) {
-        this.setContext(context);
+    @Override
+    public void setContext(Context context) {
         etatList = new ArrayList<>();
         dao = new EtatDAO(context);
     }
@@ -36,7 +36,7 @@ public class StateRequest extends ApiRequest {
     }
 
     @Override
-    void DAOInsert() {
+    void daoInsert() {
         dao.insertListStates(etatList);
         List<Etat> p2 = dao.getAllStates();
         for (Etat p1 : p2) {

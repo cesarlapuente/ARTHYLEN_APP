@@ -1,4 +1,4 @@
-package a44screens.arthylene.Api;
+package ffscreens.arthylene.api;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,20 +9,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import a44screens.arthylene.DataBase.EtiquetteDAO;
-import a44screens.arthylene.Objects.Etiquette;
+import ffscreens.arthylene.database.EtiquetteDAO;
+import ffscreens.arthylene.objects.Etiquette;
 
 /**
  * Created by Thibault on 23/06/2017.
  */
 
-public class EtiquetteRequest extends ApiRequest {
+public class LabelRequest extends ApiRequest {
 
     private List<Etiquette> etiquetteList;
     private EtiquetteDAO dao;
 
-    public EtiquetteRequest(Context context) {
-        this.setContext(context);
+    @Override
+    public void setContext(Context context) {
         etiquetteList = new ArrayList<>();
         dao = new EtiquetteDAO(context);
     }
@@ -40,7 +40,7 @@ public class EtiquetteRequest extends ApiRequest {
     }
 
     @Override
-    void DAOInsert() {
+    void daoInsert() {
         dao.insertListLabel(etiquetteList);
         List<Etiquette> p2 = dao.getAllLabels();
         for (Etiquette p1 : p2) {

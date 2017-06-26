@@ -1,4 +1,4 @@
-package a44screens.arthylene.Enumeration;
+package ffscreens.arthylene.enumeration;
 
 /**
  * Created by Thibault on 23/06/2017.

@@ -1,4 +1,4 @@
-package a44screens.arthylene.Api;
+package ffscreens.arthylene.api;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,20 +9,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import a44screens.arthylene.DataBase.MaturiteDAO;
-import a44screens.arthylene.Objects.Maturite;
+import ffscreens.arthylene.database.MaturiteDAO;
+import ffscreens.arthylene.objects.Maturite;
 
 /**
  * Created by Thibault on 23/06/2017.
  */
 
-public class MaturiyRequest extends ApiRequest {
+public class MaturityRequest extends ApiRequest {
 
     private List<Maturite> maturiteList;
     private MaturiteDAO dao;
 
-    public MaturiyRequest(Context context) {
-        this.setContext(context);
+    @Override
+    public void setContext(Context context) {
         maturiteList = new ArrayList<>();
         dao = new MaturiteDAO(context);
     }
@@ -36,7 +36,7 @@ public class MaturiyRequest extends ApiRequest {
     }
 
     @Override
-    void DAOInsert() {
+    void daoInsert() {
         dao.insertListMaturity(maturiteList);
         List<Maturite> p2 = dao.getAllMaturity();
         for (Maturite p1 : p2) {

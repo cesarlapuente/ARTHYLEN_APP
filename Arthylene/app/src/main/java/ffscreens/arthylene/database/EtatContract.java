@@ -1,4 +1,4 @@
-package a44screens.arthylene.DataBase;
+package ffscreens.arthylene.database;
 
 import android.provider.BaseColumns;
 

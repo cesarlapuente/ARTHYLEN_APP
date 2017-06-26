@@ -1,7 +1,8 @@
-package a44screens.arthylene.Api;
+package ffscreens.arthylene.api;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,9 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
-
-import a44screens.arthylene.Enumeration.ApiAdress;
 
 /**
  * Created by Thibault on 21/06/2017.
@@ -22,22 +20,15 @@ import a44screens.arthylene.Enumeration.ApiAdress;
 
 public abstract class ApiRequest extends AsyncTask<String, Void, String> {
 
-    Context context;
-    ApiAdress api;
-    List l;
-
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
+    public abstract void setContext(Context context);
 
     @Override
     protected String doInBackground(String... params) {
-        URL siteUrl = null;
+        URL siteUrl;
         URLConnection siteConnection;
         BufferedReader in;
         String codeHtml = null;
-        String rl = null;
+        String rl;
 
         try {
             siteUrl = new URL(params[0]);
@@ -60,7 +51,7 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
             // Fermeture du BufferReader
             in.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("log", "doInBackground: ", e);
         }
 
         return codeHtml;
@@ -75,14 +66,14 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
                 JSONObject o = (JSONObject) rep.get(i);
                 addEntity(o);
             }
-            DAOInsert();
+            daoInsert();
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e("log", "onPostExecute: ", e);
         }
     }
 
     abstract void addEntity(JSONObject o) throws JSONException;
 
-    abstract void DAOInsert();
+    abstract void daoInsert();
 
 }
