@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="ffscreens.arthylene.ShelvingActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_weight="0.01"
+        android:background="@drawable/fondo_title"
+        android:gravity="center"
+        android:text="@string/shelving"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <SurfaceView
+        android:id="@+id/screen"
+        android:layout_width="match_parent"
+        android:layout_height="675dp"
+        android:layout_below="@+id/title"
+        android:layout_weight="0.99" />
+
+    <Button
+        android:id="@+id/picture"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignBottom="@+id/screen"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/boton_photo3x" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="98dp"
+            android:background="@drawable/fondo_menu3x"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/home"
+                android:layout_width="93dp"
+                android:layout_height="93dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:layout_weight="0.78"
+                android:background="@drawable/fondo_home3x22" />
+
+            <RadioGroup
+                android:id="@+id/rg"
+                android:layout_width="wrap_content"
+                android:layout_height="93dp"
+                android:layout_weight="2.28"
+                android:elevation="0dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/assistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@drawable/assistance" />
+
+                <RadioButton
+                    android:id="@+id/condition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@drawable/condition" />
+
+                <RadioButton
+                    android:id="@+id/presentation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@drawable/presentation" />
+
+                <RadioButton
+                    android:id="@+id/checklist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@drawable/checklist" />
+
+                <RadioButton
+                    android:id="@+id/placement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@drawable/placement" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,8 +1,11 @@
 package ffscreens.arthylene;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import ffscreens.arthylene.api.ApiRequest;
 import ffscreens.arthylene.enumeration.ApiAdress;
@@ -11,10 +14,21 @@ public class HomeActivity extends Activity {
 
     private static final String URL = "http://192.168.1.114/api/";
 
+    private Button shelving;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        shelving = (Button) findViewById(R.id.shelving);
+
+        shelving.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ShelvingActivity.class));
+            }
+        });
 
         ApiRequest task;
 
