@@ -15,18 +15,27 @@ public class HomeActivity extends Activity {
     private static final String URL = "http://192.168.1.114/api/";
 
     private Button shelving;
+    private Button reception;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        shelving = (Button) findViewById(R.id.shelving);
+        shelving = findViewById(R.id.shelving);
+        reception = findViewById(R.id.rec);
 
         shelving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this, ShelvingActivity.class));
+            }
+        });
+
+        reception.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ReceptionActivity.class));
             }
         });
 
