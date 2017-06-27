@@ -29,11 +29,18 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
         BufferedReader in;
         String codeHtml = null;
         String rl;
+        InputStreamReader isr = null;
 
         try {
             siteUrl = new URL(params[0]);
             siteConnection = siteUrl.openConnection();
-            in = new BufferedReader(new InputStreamReader(siteConnection.getInputStream()));
+            siteConnection.setConnectTimeout(1000 * 10);
+            try {
+                isr = new InputStreamReader(siteConnection.getInputStream());
+            } catch (Exception e) {
+                super.cancel(true);
+            }
+            in = new BufferedReader(isr);
 
             codeHtml = "";
             // Récupération du code HTML du site ligne par ligne

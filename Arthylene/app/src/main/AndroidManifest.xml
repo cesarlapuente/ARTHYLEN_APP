@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ShelvingActivity" />
-        <activity android:name=".ReceptionActivity"></activity>
+        <activity android:name=".ReceptionActivity" />
+        <activity android:name=".CheckListActivity"></activity>
     </application>
 
 </manifest>
