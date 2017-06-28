@@ -4,7 +4,6 @@ package ffscreens.arthylene.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by Thibault on 21/06/2017.
@@ -26,23 +25,22 @@ class DbHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.e("------> ", ProduitContract.SQL_CREATE_ENTRIES);
         db.execSQL(ProduitContract.SQL_CREATE_ENTRIES);
         db.execSQL(PresentationContract.SQL_CREATE_ENTRIES);
         db.execSQL(MaturiteContract.SQL_CREATE_ENTRIES);
         db.execSQL(EtatContract.SQL_CREATE_ENTRIES);
         db.execSQL(EtiquetteContract.SQL_CREATE_ENTRIES);
-        Log.e("------> ", "<*++++++++----");
+        db.execSQL(ChecklistContract.SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.e("-****-----> ", "<*--****----");
         db.execSQL(ProduitContract.SQL_DELETE_ENTRIES);
         db.execSQL(PresentationContract.SQL_DELETE_ENTRIES);
         db.execSQL(MaturiteContract.SQL_DELETE_ENTRIES);
         db.execSQL(EtatContract.SQL_DELETE_ENTRIES);
         db.execSQL(EtiquetteContract.SQL_DELETE_ENTRIES);
+        db.execSQL(ChecklistContract.SQL_DELETE_ENTRIES);
         onCreate(db);
     }
 }

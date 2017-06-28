@@ -1,4 +1,4 @@
-package ffscreens.arthylene.adapter;
+package ffscreens.arthylene.objects;
 
 /**
  * Created by Thibault on 27/06/2017.
@@ -6,6 +6,7 @@ package ffscreens.arthylene.adapter;
 
 public class Item {
 
+    private Long id;
     private String title;
     private String content;
     private boolean important;
@@ -16,6 +17,22 @@ public class Item {
         this.content = content;
         this.important = important;
         this.checked = checked;
+    }
+
+    public Item(Long id, String title, String content, boolean important, boolean checked) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.important = important;
+        this.checked = checked;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -48,5 +65,10 @@ public class Item {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public String toString() {
+        return "id : " + getId() + ", title : " + getTitle() + ", content : " + getContent() +
+                ", important : " + isImportant() + ", checked : " + isChecked();
     }
 }
