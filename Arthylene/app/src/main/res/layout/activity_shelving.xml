@@ -19,22 +19,13 @@
         android:textColor="@android:color/white"
         android:textSize="30sp" />
 
-    <SurfaceView
-        android:id="@+id/screen"
+    <FrameLayout
+        android:id="@+id/fr"
         android:layout_width="match_parent"
         android:layout_height="675dp"
-        android:layout_below="@+id/title"
-        android:layout_weight="0.99" />
+        android:layout_below="@+id/title">
 
-    <Button
-        android:id="@+id/picture"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignBottom="@+id/screen"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/boton_photo3x" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

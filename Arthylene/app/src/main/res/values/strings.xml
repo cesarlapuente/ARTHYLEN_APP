@@ -3,4 +3,5 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="shelving">Shelving</string>
     <string name="reception">Reception</string>
+    <string name="etat">EtatEnum</string>
 </resources>

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ffscreens.arthylene.CheckListActivity">
+    tools:context="ffscreens.arthylene.fragment.CheckListFragment">
 
     <ListView
-        android:id="@+id/checklist"
+        android:id="@+id/listchecklist"
         android:layout_width="584dp"
         android:layout_height="871dp"
         tools:layout_editor_absoluteX="8dp"

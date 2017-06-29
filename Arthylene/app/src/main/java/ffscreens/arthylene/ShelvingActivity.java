@@ -1,13 +1,17 @@
 package ffscreens.arthylene;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import ffscreens.arthylene.enumeration.EtatEnum;
+import ffscreens.arthylene.fragment.CheckListFragment;
+import ffscreens.arthylene.fragment.PictureFragment;
 
 public class ShelvingActivity extends Activity {
 
@@ -19,6 +23,7 @@ public class ShelvingActivity extends Activity {
     private RadioButton presentation;
     private RadioButton checklist;
     private RadioButton placement;
+    private EtatEnum etatEnum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +37,34 @@ public class ShelvingActivity extends Activity {
         placement = findViewById(R.id.placement);
 
         assistance.setChecked(true);
+        etatEnum = EtatEnum.ASSISTANCE;
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
+
+
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                startActivity(new Intent(ShelvingActivity.this, CheckListActivity.class));
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
+                switch (id) {
+                    case R.id.assistance:
+                    case R.id.condition:
+                    case R.id.presentation:
+                        etatEnum = getEtat(id);
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.fr, PictureFragment.newInstance(getEtat(id))).commit();
+                        break;
+                    case R.id.checklist:
+                        etatEnum = EtatEnum.CHECKLIST;
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.fr, new CheckListFragment()).commit();
+                        break;
+                    default:
+                        break;
+                }
+
+
+                Log.e("+++", String.valueOf(radioGroup.getCheckedRadioButtonId() + " " + R.id.condition));
             }
         });
 
@@ -51,5 +79,18 @@ public class ShelvingActivity extends Activity {
                 me.finish();
             }
         });
+    }
+
+    private EtatEnum getEtat(int id) {
+        switch (id) {
+            case R.id.assistance:
+                return EtatEnum.ASSISTANCE;
+            case R.id.condition:
+                return EtatEnum.CONDITION;
+            case R.id.presentation:
+                return EtatEnum.PRESENTATION;
+            default:
+                return EtatEnum.ASSISTANCE;
+        }
     }
 }
