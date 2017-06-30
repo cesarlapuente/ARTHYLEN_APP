@@ -4,4 +4,5 @@
     <string name="shelving">Shelving</string>
     <string name="reception">Reception</string>
     <string name="etat">EtatEnum</string>
+    <string name="key_valid">valid</string>
 </resources>

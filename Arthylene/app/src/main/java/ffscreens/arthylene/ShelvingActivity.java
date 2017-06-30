@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import ffscreens.arthylene.enumeration.EtatEnum;
 import ffscreens.arthylene.fragment.CheckListFragment;
 import ffscreens.arthylene.fragment.PictureFragment;
+import ffscreens.arthylene.fragment.PopupFragment;
 
-public class ShelvingActivity extends Activity {
+public class ShelvingActivity extends Activity implements PictureFragment.PictureFragmentCallback {
 
     private Button home;
     private Activity me;
@@ -50,9 +52,7 @@ public class ShelvingActivity extends Activity {
                     case R.id.assistance:
                     case R.id.condition:
                     case R.id.presentation:
-                        etatEnum = getEtat(id);
-                        getFragmentManager().beginTransaction()
-                                .replace(R.id.fr, PictureFragment.newInstance(getEtat(id))).commit();
+                        showPictureFragment(getEtat(id));
                         break;
                     case R.id.checklist:
                         etatEnum = EtatEnum.CHECKLIST;
@@ -81,6 +81,12 @@ public class ShelvingActivity extends Activity {
         });
     }
 
+    private void showPictureFragment(EtatEnum etatEnum) {
+        this.etatEnum = etatEnum;
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
+    }
+
     private EtatEnum getEtat(int id) {
         switch (id) {
             case R.id.assistance:
@@ -91,6 +97,25 @@ public class ShelvingActivity extends Activity {
                 return EtatEnum.PRESENTATION;
             default:
                 return EtatEnum.ASSISTANCE;
+        }
+    }
+
+    @Override
+    public void onPictureResult(boolean valid) {
+        Toast.makeText(me, "picture", Toast.LENGTH_SHORT).show();
+        switch (etatEnum) {
+            case CONDITION:
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fr, PopupFragment.newInstance(true, "Check condition detail", "Product info sheet")).commit();
+                break;
+            case PRESENTATION:
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fr, PopupFragment.newInstance(false, "Check presentation detail", "Detail")).commit();
+                break;
+            default:
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fr, new PopupFragment()).commit();
+                break;
         }
     }
 }
