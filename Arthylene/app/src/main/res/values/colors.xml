@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#ff8640</color>
     <color name="vertClair">#aeff00</color>
+    <color name="blancTransparant">#a1ffffff</color>
 </resources>

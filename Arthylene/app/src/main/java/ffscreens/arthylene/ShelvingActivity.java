@@ -13,6 +13,7 @@ import android.widget.Toast;
 import ffscreens.arthylene.enumeration.EtatEnum;
 import ffscreens.arthylene.fragment.CheckListFragment;
 import ffscreens.arthylene.fragment.PictureFragment;
+import ffscreens.arthylene.fragment.PlacementFragment;
 import ffscreens.arthylene.fragment.PopupFragment;
 
 public class ShelvingActivity extends Activity implements PictureFragment.PictureFragmentCallback {
@@ -58,6 +59,10 @@ public class ShelvingActivity extends Activity implements PictureFragment.Pictur
                         etatEnum = EtatEnum.CHECKLIST;
                         getFragmentManager().beginTransaction()
                                 .replace(R.id.fr, new CheckListFragment()).commit();
+                        break;
+                    case R.id.placement:
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.fr, new PlacementFragment()).commit();
                         break;
                     default:
                         break;
