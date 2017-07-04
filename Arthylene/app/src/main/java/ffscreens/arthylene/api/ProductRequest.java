@@ -22,9 +22,6 @@ public class ProductRequest extends ApiRequest {
     List<Produit> produitList;
     ProduitDAO dao;
 
-    public ProductRequest() {
-    }
-
     @Override
     public void setContext(Context context) {
         produitList = new ArrayList<>();

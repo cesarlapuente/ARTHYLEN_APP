@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 public final class ChecklistContract {
 
     static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS" + ChecklistEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + ChecklistEntry.TABLE_NAME;
 
     private static final String TEXT = " TEXT, ";
 

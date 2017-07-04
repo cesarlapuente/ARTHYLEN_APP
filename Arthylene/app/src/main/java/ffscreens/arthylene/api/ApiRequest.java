@@ -20,7 +20,17 @@ import java.net.URLConnection;
 
 public abstract class ApiRequest extends AsyncTask<String, Void, String> {
 
+    AsyncDelegate asyncDelegate;
+
+    public void setAsyncDelegate(AsyncDelegate asyncDelegate) {
+        this.asyncDelegate = asyncDelegate;
+    }
+
     public abstract void setContext(Context context);
+
+    private void websiteDown() {
+        asyncDelegate.execFinished(this, false);
+    }
 
     @Override
     protected String doInBackground(String... params) {
@@ -38,7 +48,7 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
             try {
                 isr = new InputStreamReader(siteConnection.getInputStream());
             } catch (Exception e) {
-                super.cancel(true);
+                return null;
             }
             in = new BufferedReader(isr);
 
@@ -67,15 +77,24 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         // result contient le JSON
-        try {
-            JSONArray rep = new JSONArray(result);
-            for (int i = 0; i < rep.length(); i++) {
-                JSONObject o = (JSONObject) rep.get(i);
-                addEntity(o);
-            }
-            daoInsert();
-        } catch (JSONException e) {
-            Log.e("log", "onPostExecute: ", e);
+        if (result == null) {
+            asyncDelegate.execFinished(this, false);
+        } else {
+            Log.e("----------------------", "------------------------");
+            try {
+                JSONArray rep = new JSONArray(result);
+                for (int i = 0; i < rep.length(); i++) {
+                    JSONObject o = (JSONObject) rep.get(i);
+                    addEntity(o);
+                }
+                daoInsert();
+                //Thread.sleep(1000);
+                asyncDelegate.execFinished(this, true);
+            } catch (JSONException e) {
+                Log.e("log", "onPostExecute: ", e);
+            }/* catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
         }
     }
 

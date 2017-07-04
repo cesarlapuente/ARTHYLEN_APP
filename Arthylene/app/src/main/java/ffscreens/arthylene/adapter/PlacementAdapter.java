@@ -2,6 +2,7 @@ package ffscreens.arthylene.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +24,8 @@ import ffscreens.arthylene.objects.ItemPlacement;
 
 public class PlacementAdapter extends RecyclerView.Adapter<PlacementAdapter.MyViewHolder> {
 
-    List<ItemPlacement> itemPlacements;
-    Context context;
+    private List<ItemPlacement> itemPlacements;
+    private Context context;
 
     public PlacementAdapter(List<ItemPlacement> list, Context context) {
         itemPlacements = list;
@@ -32,7 +33,7 @@ public class PlacementAdapter extends RecyclerView.Adapter<PlacementAdapter.MyVi
         Log.e("+++", itemPlacements.toString());
     }
 
-    public ItemPlacement getItem(int position) {
+    private ItemPlacement getItem(int position) {
         return itemPlacements.get(position);
     }
 
@@ -44,11 +45,11 @@ public class PlacementAdapter extends RecyclerView.Adapter<PlacementAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final PlacementAdapter.MyViewHolder holder, final int position) {
-        ItemPlacement itemPlacement = getItem(position);
+        ItemPlacement itemPlacement = getItem(holder.getAdapterPosition());
         holder.title.setText(itemPlacement.getTitle());
         holder.image.setImageResource(itemPlacement.getImage());
         if (itemPlacement.isSelected()) {
-            holder.background.setBackgroundColor(context.getResources().getColor(R.color.vertClair));
+            holder.background.setBackgroundColor(ResourcesCompat.getColor(context.getResources(), R.color.vertClair, null));
         } else {
             holder.background.setBackgroundColor(Color.WHITE);
         }
@@ -56,10 +57,10 @@ public class PlacementAdapter extends RecyclerView.Adapter<PlacementAdapter.MyVi
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!getItem(position).isSelected()) {
+                if (!getItem(holder.getAdapterPosition()).isSelected()) {
                     Toast.makeText(context, holder.title.getText(), Toast.LENGTH_SHORT).show();
-                    getItem(position).setSelected(!getItem(position).isSelected());
-                    deselectOther(getItem(position));
+                    getItem(holder.getAdapterPosition()).setSelected(!getItem(holder.getAdapterPosition()).isSelected());
+                    deselectOther(getItem(holder.getAdapterPosition()));
                     PlacementAdapter.super.notifyDataSetChanged();
                 }
             }
@@ -85,7 +86,7 @@ public class PlacementAdapter extends RecyclerView.Adapter<PlacementAdapter.MyVi
         ImageView image;
         RelativeLayout background;
 
-        public MyViewHolder(View itemView) {
+        private MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textViewPlacement);
             image = itemView.findViewById(R.id.placementImageView);
