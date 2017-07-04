@@ -49,9 +49,10 @@ public class ChecklistDAO {
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_TITLE, i.getTitle());
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CONTENU, i.getContent());
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_IMPORTANT, i.isImportant());
-            values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED, i.isChecked());
+            //values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED, i.isChecked());
             update = db.update(ChecklistContract.ChecklistEntry.TABLE_NAME, values, ChecklistContract.ChecklistEntry._ID + " = ?", new String[]{String.valueOf(i.getId())});
             if (update == 0) {
+                values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED, false);
                 db.insert(ChecklistContract.ChecklistEntry.TABLE_NAME, null, values);
             }
         }

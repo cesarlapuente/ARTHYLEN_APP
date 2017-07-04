@@ -11,12 +11,20 @@ public class Item {
     private String content;
     private boolean important;
     private boolean checked;
+    //private long idPhoto;
 
     public Item(String title, String content, boolean important, boolean checked) {
         this.title = title;
         this.content = content;
         this.important = important;
         this.checked = checked;
+    }
+
+    public Item(Long id, String title, String content, boolean important) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.important = important;
     }
 
     public Item(Long id, String title, String content, boolean important, boolean checked) {

@@ -34,10 +34,12 @@ public class CheckListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         dao = new ChecklistDAO(getActivity());
 
+        view.getParent().requestDisallowInterceptTouchEvent(true);
+
 
         listView = view.findViewById(R.id.listchecklist);
 
-       /* final List<Item> items = new ArrayList<>();
+        /*final List<Item> items = new ArrayList<>();
         items.add(new Item("titre", "contenu", true, true));
         items.add(new Item("titre2", "contenu2", true, false));
         items.add(new Item("titre3", "contenu3", false, false));

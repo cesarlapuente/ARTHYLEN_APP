@@ -55,4 +55,5 @@
         android:textColor="@android:color/background_light"
         android:textSize="30sp"
         android:textStyle="bold" />
+
 </LinearLayout>

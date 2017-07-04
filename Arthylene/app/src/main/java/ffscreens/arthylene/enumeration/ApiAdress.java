@@ -9,5 +9,6 @@ public enum ApiAdress {
     maturity,
     state,
     presentation,
-    label
+    label,
+    checklist
 }

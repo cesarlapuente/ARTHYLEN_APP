@@ -15,10 +15,17 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
+ * Arthylene
  * Created by Thibault on 21/06/2017.
  */
 
 public abstract class ApiRequest extends AsyncTask<String, Void, String> {
+
+    private AsyncDelegate asyncDelegate;
+
+    public void setAsyncDelegate(AsyncDelegate asyncDelegate) {
+        this.asyncDelegate = asyncDelegate;
+    }
 
     public abstract void setContext(Context context);
 
@@ -27,9 +34,9 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
         URL siteUrl;
         URLConnection siteConnection;
         BufferedReader in;
-        String codeHtml = null;
+        StringBuilder codeHtml = null;
         String rl;
-        InputStreamReader isr = null;
+        InputStreamReader isr;
 
         try {
             siteUrl = new URL(params[0]);
@@ -38,14 +45,14 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
             try {
                 isr = new InputStreamReader(siteConnection.getInputStream());
             } catch (Exception e) {
-                super.cancel(true);
+                return null;
             }
             in = new BufferedReader(isr);
 
-            codeHtml = "";
+            codeHtml = new StringBuilder();
             // Récupération du code HTML du site ligne par ligne
             while ((rl = in.readLine()) != null) {
-                codeHtml += rl;
+                codeHtml.append(rl);
 
                 // Test si le l'AsyncTask est cancel pour annuler
                 // la lecture du site
@@ -61,21 +68,31 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
             Log.e("log", "doInBackground: ", e);
         }
 
-        return codeHtml;
+        assert codeHtml != null;
+        return codeHtml.toString();
     }
 
     @Override
     protected void onPostExecute(String result) {
         // result contient le JSON
-        try {
-            JSONArray rep = new JSONArray(result);
-            for (int i = 0; i < rep.length(); i++) {
-                JSONObject o = (JSONObject) rep.get(i);
-                addEntity(o);
-            }
-            daoInsert();
-        } catch (JSONException e) {
-            Log.e("log", "onPostExecute: ", e);
+        if (result == null) {
+            asyncDelegate.execFinished(this, false);
+        } else {
+            Log.e("----------------------", "------------------------");
+            try {
+                JSONArray rep = new JSONArray(result);
+                for (int i = 0; i < rep.length(); i++) {
+                    JSONObject o = (JSONObject) rep.get(i);
+                    addEntity(o);
+                }
+                daoInsert();
+                //Thread.sleep(1000);
+                asyncDelegate.execFinished(this, true);
+            } catch (JSONException e) {
+                Log.e("log", "onPostExecute: ", e);
+            }/* catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
         }
     }
 

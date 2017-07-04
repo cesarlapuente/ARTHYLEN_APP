@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 public final class PresentationContract {
 
     static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS" + PresentationEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + PresentationEntry.TABLE_NAME;
 
     private static final String TEXT = " TEXT, ";
 

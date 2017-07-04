@@ -32,8 +32,6 @@ public class PlacementFragment extends android.app.Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //GridView gridView = view.findViewById(R.id.gridview);
-        //ListView list = view.findViewById(R.id.seasons);
         RecyclerView rv = view.findViewById(R.id.rv);
 
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
