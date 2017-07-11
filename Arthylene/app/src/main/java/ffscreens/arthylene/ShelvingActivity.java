@@ -15,8 +15,9 @@ import ffscreens.arthylene.fragment.CheckListFragment;
 import ffscreens.arthylene.fragment.PictureFragment;
 import ffscreens.arthylene.fragment.PlacementFragment;
 import ffscreens.arthylene.fragment.PopupFragment;
+import ffscreens.arthylene.fragment.SheetFragment;
 
-public class ShelvingActivity extends Activity implements PictureFragment.PictureFragmentCallback {
+public class ShelvingActivity extends Activity implements PictureFragment.PictureFragmentCallback, PopupFragment.PopupCallback, SheetFragment.SheetCallback {
 
     private Button home;
     private Activity me;
@@ -122,5 +123,15 @@ public class ShelvingActivity extends Activity implements PictureFragment.Pictur
                         .replace(R.id.fr, new PopupFragment()).commit();
                 break;
         }
+    }
+
+    @Override
+    public void popupOnResult() {
+        showPictureFragment(etatEnum);
+    }
+
+    @Override
+    public void onResult() {
+        showPictureFragment(etatEnum);
     }
 }

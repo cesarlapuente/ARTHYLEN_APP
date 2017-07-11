@@ -1,6 +1,7 @@
 package ffscreens.arthylene.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import ffscreens.arthylene.R;
  */
 
 public class PopupFragment extends Fragment {
+
+    private PopupCallback popupCallback;
 
     public static PopupFragment newInstance(boolean valid, String popup, String bottom) {
         PopupFragment fragment = new PopupFragment();
@@ -43,6 +46,24 @@ public class PopupFragment extends Fragment {
         Button back = view.findViewById(R.id.back);
         Button next = view.findViewById(R.id.next);
 
+        final Fragment me = this;
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupCallback.popupOnResult();
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fr, new SheetFragment()).commit();
+            }
+        });
+
 
         if (getArguments() != null) {
             Bundle args = getArguments();
@@ -56,9 +77,25 @@ public class PopupFragment extends Fragment {
                 }
             }
         }
-
-
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PopupCallback) {
+            popupCallback = (PopupCallback) context;
+        }
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        popupCallback = null;
+    }
+
+    public interface PopupCallback {
+
+        public void popupOnResult();
+
+    }
 }
