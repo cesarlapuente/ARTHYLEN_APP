@@ -12,11 +12,13 @@
         android:layout_alignBottom="@+id/back"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
+        android:layout_marginEnd="60dp"
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
         android:layout_toEndOf="@+id/back"
         android:gravity="center_vertical"
         android:text="Message popup"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="24sp" />
 
