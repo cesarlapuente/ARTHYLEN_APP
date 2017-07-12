@@ -21,7 +21,8 @@ public final class ChecklistContract {
                     ChecklistEntry.COLUM_NAME_TITLE + TEXT +
                     ChecklistEntry.COLUM_NAME_CONTENU + TEXT +
                     ChecklistEntry.COLUM_NAME_IMPORTANT + INTEGER +
-                    ChecklistEntry.COLUM_NAME_CHECKED + " INTEGER)";
+                    ChecklistEntry.COLUM_NAME_CHECKED + INTEGER +
+                    ChecklistEntry.COLUM_NAME_IDPHOTO + " INTEGER)";
 
     private ChecklistContract() {
 
@@ -38,6 +39,8 @@ public final class ChecklistContract {
         static final String COLUM_NAME_IMPORTANT = "important";
 
         static final String COLUM_NAME_CHECKED = "checked";
+
+        static final String COLUM_NAME_IDPHOTO = "idPhoto";
 
         private ChecklistEntry() {
         }

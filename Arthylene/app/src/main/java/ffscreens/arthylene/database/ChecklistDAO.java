@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,13 +46,15 @@ public class ChecklistDAO {
         int update = -1;
 
         for (Item i : items) {
+            Log.e("thib", i.toString());
             ContentValues values = new ContentValues();
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_TITLE, i.getTitle());
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CONTENU, i.getContent());
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_IMPORTANT, i.isImportant());
-            //values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED, i.isChecked());
+            values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_IDPHOTO, i.getIdPhoto());
             update = db.update(ChecklistContract.ChecklistEntry.TABLE_NAME, values, ChecklistContract.ChecklistEntry._ID + " = ?", new String[]{String.valueOf(i.getId())});
             if (update == 0) {
+                values.put(ChecklistContract.ChecklistEntry._ID, i.getId());
                 values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED, false);
                 db.insert(ChecklistContract.ChecklistEntry.TABLE_NAME, null, values);
             }
@@ -67,6 +70,7 @@ public class ChecklistDAO {
         values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CONTENU, item.getContent());
         values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_IMPORTANT, item.isImportant());
         values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED, item.isChecked());
+        values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_IDPHOTO, item.getIdPhoto());
 
         String selection = ChecklistContract.ChecklistEntry._ID + " = ?";
         String[] args = {String.valueOf(item.getId())};
@@ -75,7 +79,7 @@ public class ChecklistDAO {
     }
 
     public List<Item> getAllItems() {
-        List<Item> etats = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
 
         db = mDbHandler.getWritableDatabase();
 
@@ -85,6 +89,7 @@ public class ChecklistDAO {
                 ChecklistContract.ChecklistEntry.COLUM_NAME_CONTENU,
                 ChecklistContract.ChecklistEntry.COLUM_NAME_IMPORTANT,
                 ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED,
+                ChecklistContract.ChecklistEntry.COLUM_NAME_IDPHOTO,
         };
 
         Cursor cursor = db.query(
@@ -103,13 +108,14 @@ public class ChecklistDAO {
             String contenu = cursor.getString(cursor.getColumnIndexOrThrow(ChecklistContract.ChecklistEntry.COLUM_NAME_CONTENU));
             int important = cursor.getInt(cursor.getColumnIndexOrThrow(ChecklistContract.ChecklistEntry.COLUM_NAME_IMPORTANT));
             int checked = cursor.getInt(cursor.getColumnIndexOrThrow(ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED));
+            Long idPhoto = cursor.getLong(cursor.getColumnIndexOrThrow(ChecklistContract.ChecklistEntry.COLUM_NAME_IDPHOTO));
 
-            Item e = new Item(id, title, contenu, (important == 1), (checked == 1));
-            etats.add(e);
+            Item e = new Item(id, title, contenu, (important == 1), (checked == 1), idPhoto);
+            items.add(e);
         }
         cursor.close();
 
-        return etats;
+        return items;
     }
 
 }

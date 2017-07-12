@@ -11,28 +11,31 @@ public class Item {
     private String content;
     private boolean important;
     private boolean checked;
-    //private long idPhoto;
+    private long idPhoto;
 
-    public Item(String title, String content, boolean important, boolean checked) {
+    public Item(String title, String content, boolean important, boolean checked, Long idPhoto) {
         this.title = title;
         this.content = content;
         this.important = important;
         this.checked = checked;
+        this.idPhoto = idPhoto;
     }
 
-    public Item(Long id, String title, String content, boolean important) {
+    public Item(Long id, String title, String content, boolean important, Long idPhoto) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.important = important;
+        this.idPhoto = idPhoto;
     }
 
-    public Item(Long id, String title, String content, boolean important, boolean checked) {
+    public Item(Long id, String title, String content, boolean important, boolean checked, Long idPhoto) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.important = important;
         this.checked = checked;
+        this.idPhoto = idPhoto;
     }
 
     public Long getId() {
@@ -75,8 +78,17 @@ public class Item {
         this.checked = checked;
     }
 
+    public long getIdPhoto() {
+        return idPhoto;
+    }
+
+    public void setIdPhoto(long idPhoto) {
+        this.idPhoto = idPhoto;
+    }
+
     public String toString() {
         return "id : " + getId() + ", title : " + getTitle() + ", content : " + getContent() +
-                ", important : " + isImportant() + ", checked : " + isChecked();
+                ", important : " + isImportant() + ", checked : " + isChecked() + ", idPhoto : " +
+                getIdPhoto();
     }
 }

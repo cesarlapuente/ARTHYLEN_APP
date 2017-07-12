@@ -31,6 +31,7 @@ class DbHandler extends SQLiteOpenHelper {
         db.execSQL(EtatContract.SQL_CREATE_ENTRIES);
         db.execSQL(EtiquetteContract.SQL_CREATE_ENTRIES);
         db.execSQL(ChecklistContract.SQL_CREATE_ENTRIES);
+        db.execSQL(PhotoContract.SQL_CREATE_ENTRIES);
     }
 
     @Override
@@ -41,6 +42,7 @@ class DbHandler extends SQLiteOpenHelper {
         db.execSQL(EtatContract.SQL_DELETE_ENTRIES);
         db.execSQL(EtiquetteContract.SQL_DELETE_ENTRIES);
         db.execSQL(ChecklistContract.SQL_DELETE_ENTRIES);
+        db.execSQL(PhotoContract.SQL_DELETE_ENTRIES);
         onCreate(db);
     }
 }

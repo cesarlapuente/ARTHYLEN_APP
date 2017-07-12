@@ -10,8 +10,10 @@ import android.widget.RadioGroup;
 
 import ffscreens.arthylene.enumeration.EtatEnum;
 import ffscreens.arthylene.fragment.PictureFragment;
+import ffscreens.arthylene.fragment.PopupFragment;
+import ffscreens.arthylene.fragment.SheetFragment;
 
-public class ReceptionActivity extends Activity {
+public class ReceptionActivity extends Activity implements PictureFragment.PictureFragmentCallback, SheetFragment.SheetCallback, PopupFragment.PopupCallback {
 
     private Button home;
     private Activity me;
@@ -60,5 +62,40 @@ public class ReceptionActivity extends Activity {
             default:
                 return EtatEnum.SCAN;
         }
+    }
+
+    @Override
+    public void onPictureResult(boolean valid) {
+        switch (etatEnum) {
+            case CONDITION:
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fr, PopupFragment.newInstance(true, "Check condition detail", "Product info sheet")).commit();
+                break;
+            case PRESENTATION:
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fr, PopupFragment.newInstance(false, "Check presentation detail", "Detail")).commit();
+                break;
+            default:
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fr, new PopupFragment()).commit();
+                break;
+        }
+    }
+
+    private void showPictureFragment(EtatEnum etatEnum) {
+        this.etatEnum = etatEnum;
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
+    }
+
+
+    @Override
+    public void onResult() {
+        showPictureFragment(etatEnum);
+    }
+
+    @Override
+    public void popupOnResult() {
+        showPictureFragment(etatEnum);
     }
 }

@@ -10,5 +10,6 @@ public enum ApiAdress {
     state,
     presentation,
     label,
-    checklist
+    checklist,
+    picture
 }

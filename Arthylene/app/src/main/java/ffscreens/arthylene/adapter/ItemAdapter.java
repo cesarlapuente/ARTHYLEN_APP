@@ -1,8 +1,6 @@
 package ffscreens.arthylene.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,7 +15,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import ffscreens.arthylene.R;
+import ffscreens.arthylene.database.PhotoDAO;
 import ffscreens.arthylene.objects.Item;
+import ffscreens.arthylene.objects.Photo;
+import ffscreens.arthylene.utils.ImageLoader;
 
 /**
  * Created by Thibault on 27/06/2017.
@@ -27,10 +28,12 @@ public class ItemAdapter extends BaseAdapter {
 
     private List<Item> itemList;
     private Context context;
+    private ImageLoader imageLoader;
 
     public ItemAdapter(@NonNull Context context, @NonNull List<Item> items) {
         itemList = items;
         this.context = context;
+        imageLoader = new ImageLoader(context);
     }
 
     @Override
@@ -68,8 +71,14 @@ public class ItemAdapter extends BaseAdapter {
             convertView.setTag(itemViewOlder);
         }
 
+        PhotoDAO dao = new PhotoDAO(context);
+
         Item item = getItem(position);
-        itemViewOlder.image.setImageDrawable(new ColorDrawable(Color.RED));
+        Photo photo = dao.getPhoto(item.getIdPhoto());
+
+        imageLoader.DisplayImage("http://192.168.1.114" + photo.getPhoto(), itemViewOlder.image);
+
+
         itemViewOlder.title.setText(item.getTitle());
         itemViewOlder.conten.setText(item.getContent());
         if (item.isImportant()) {
@@ -84,6 +93,7 @@ public class ItemAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 
     private class ItemViewOlder {
         ImageView image;

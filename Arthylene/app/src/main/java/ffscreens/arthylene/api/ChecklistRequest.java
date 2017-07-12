@@ -31,7 +31,7 @@ public class ChecklistRequest extends ApiRequest {
     void addEntity(JSONObject o) throws JSONException {
         Item e = new Item(o.getLong("id"), o.getString("titre"),
                 o.getString("contenu"), (o.optInt("isImportant", -1) == 1)
-                /*,o.optLong("idPhoto", -1L)*/);
+                , o.optLong("idPhoto", -1L));
         itemList.add(e);
     }
 
