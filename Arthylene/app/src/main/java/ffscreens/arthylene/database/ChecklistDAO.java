@@ -54,6 +54,7 @@ public class ChecklistDAO {
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_IDPHOTO, i.getIdPhoto());
             update = db.update(ChecklistContract.ChecklistEntry.TABLE_NAME, values, ChecklistContract.ChecklistEntry._ID + " = ?", new String[]{String.valueOf(i.getId())});
             if (update == 0) {
+                Log.e("+++", "insertListItem: ");
                 values.put(ChecklistContract.ChecklistEntry._ID, i.getId());
                 values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CHECKED, false);
                 db.insert(ChecklistContract.ChecklistEntry.TABLE_NAME, null, values);

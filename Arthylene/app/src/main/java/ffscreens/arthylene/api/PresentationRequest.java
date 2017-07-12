@@ -42,4 +42,16 @@ public class PresentationRequest extends ApiRequest {
             Log.e("presentation --->", p1.toString());
         }
     }
+
+    @Override
+    void daoDeleteRemoved() {
+        /*List<Item> local = dao.getAllItems();
+        ArrayList<Item> remove = new ArrayList<>();
+        for(Item item : local){
+            if(!itemList.contains(item)){
+                remove.add(item);
+            }
+        }
+        dao.deleteListItem(remove);*/
+    }
 }

@@ -38,7 +38,6 @@ public class ChecklistRequest extends ApiRequest {
 
     @Override
     void daoInsert() {
-        deleteRemoved(dao.getAllItems(), itemList);
         dao.insertListItem(itemList);
         List<Item> p2 = dao.getAllItems();
         for (Item p1 : p2) {
@@ -46,13 +45,18 @@ public class ChecklistRequest extends ApiRequest {
         }
     }
 
-    protected void deleteRemoved(List<Item> local, List<Item> online) {
-        ArrayList<Item> list = new ArrayList<>();
-        for (Item o : local) {
-            if (!online.contains(o)) {
-                list.add(o);
+    @Override
+    void daoDeleteRemoved() {
+        List<Item> local = dao.getAllItems();
+        ArrayList<Item> remove = new ArrayList<>();
+        Log.e("local", local.toString());
+        Log.e("online", itemList.toString());
+        for (Item item : local) {
+            if (!itemList.contains(item)) {
+                Log.e("thib", "daoDeleteRemoved: ");
+                remove.add(item);
             }
         }
-        dao.deleteListItem(list);
+        dao.deleteListItem(remove);
     }
 }

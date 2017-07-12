@@ -43,4 +43,16 @@ public class StateRequest extends ApiRequest {
             Log.e("etat --->", p1.toString());
         }
     }
+
+    @Override
+    void daoDeleteRemoved() {
+        /*List<Item> local = dao.getAllItems();
+        ArrayList<Item> remove = new ArrayList<>();
+        for(Item item : local){
+            if(!itemList.contains(item)){
+                remove.add(item);
+            }
+        }
+        dao.deleteListItem(remove);*/
+    }
 }

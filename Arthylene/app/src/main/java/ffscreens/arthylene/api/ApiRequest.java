@@ -85,6 +85,7 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
                     JSONObject o = (JSONObject) rep.get(i);
                     addEntity(o);
                 }
+                daoDeleteRemoved();
                 daoInsert();
                 //Thread.sleep(1000);
                 asyncDelegate.execFinished(this, true);
@@ -96,20 +97,10 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
         }
     }
 
-    /*protected void deleteRemoved(List local, List online){
-        List<Object> list = new ArrayList();
-        for(Object o : local){
-            if(!online.contains(o)){
-                list.add(o);
-            }
-        }
-        daoDelete(list);
-    }*/
-
     abstract void addEntity(JSONObject o) throws JSONException;
 
     abstract void daoInsert();
 
-    //abstract void daoDelete(List list);
+    abstract void daoDeleteRemoved();
 
 }

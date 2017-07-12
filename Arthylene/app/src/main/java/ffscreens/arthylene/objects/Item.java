@@ -91,4 +91,10 @@ public class Item {
                 ", important : " + isImportant() + ", checked : " + isChecked() + ", idPhoto : " +
                 getIdPhoto();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Item item = (Item) obj;
+        return getId().equals(item.getId());
+    }
 }
