@@ -13,6 +13,7 @@ import ffscreens.arthylene.database.ChecklistDAO;
 import ffscreens.arthylene.objects.Item;
 
 /**
+ * Arthylene
  * Created by Thibault on 23/06/2017.
  */
 
@@ -37,10 +38,21 @@ public class ChecklistRequest extends ApiRequest {
 
     @Override
     void daoInsert() {
+        deleteRemoved(dao.getAllItems(), itemList);
         dao.insertListItem(itemList);
         List<Item> p2 = dao.getAllItems();
         for (Item p1 : p2) {
             Log.e("item --->", p1.toString());
         }
+    }
+
+    protected void deleteRemoved(List<Item> local, List<Item> online) {
+        ArrayList<Item> list = new ArrayList<>();
+        for (Item o : local) {
+            if (!online.contains(o)) {
+                list.add(o);
+            }
+        }
+        dao.deleteListItem(list);
     }
 }

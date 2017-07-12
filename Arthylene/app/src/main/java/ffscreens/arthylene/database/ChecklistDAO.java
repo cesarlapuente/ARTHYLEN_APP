@@ -118,4 +118,14 @@ public class ChecklistDAO {
         return items;
     }
 
+    public void deleteListItem(List<Item> items) {
+        db = mDbHandler.getWritableDatabase();
+        for (Item item : items) {
+            String selection = ChecklistContract.ChecklistEntry._ID + " = ?";
+            String[] arg = {String.valueOf(item.getId())};
+
+            db.delete(ChecklistContract.ChecklistEntry.TABLE_NAME, selection, arg);
+        }
+    }
+
 }
