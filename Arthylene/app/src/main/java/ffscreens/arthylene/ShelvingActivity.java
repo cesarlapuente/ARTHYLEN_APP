@@ -3,12 +3,10 @@ package ffscreens.arthylene;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import ffscreens.arthylene.enumeration.EtatEnum;
 import ffscreens.arthylene.fragment.CheckListFragment;
@@ -17,11 +15,15 @@ import ffscreens.arthylene.fragment.PlacementFragment;
 import ffscreens.arthylene.fragment.PopupFragment;
 import ffscreens.arthylene.fragment.SheetFragment;
 
-public class ShelvingActivity extends Activity implements PictureFragment.PictureFragmentCallback, PopupFragment.PopupCallback, SheetFragment.SheetCallback {
+public class ShelvingActivity extends Activity
+        implements
+        PictureFragment.PictureFragmentCallback,
+        PopupFragment.PopupCallback,
+        SheetFragment.SheetCallback {
 
     private Button home;
-    private Activity me;
-    private RadioGroup rg;
+    private Activity activity;
+    private RadioGroup radioGroup;
     private RadioButton assistance;
     private RadioButton condition;
     private RadioButton presentation;
@@ -33,21 +35,25 @@ public class ShelvingActivity extends Activity implements PictureFragment.Pictur
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelving);
-        rg = findViewById(R.id.rg);
+        activity = this;
+
+        /* set buttons */
+        home = findViewById(R.id.home);
+        radioGroup = findViewById(R.id.rg);
         assistance = findViewById(R.id.assistance);
         condition = findViewById(R.id.condition);
         presentation = findViewById(R.id.presentation);
         checklist = findViewById(R.id.checklist);
         placement = findViewById(R.id.placement);
 
+        /* set the initial state */
         assistance.setChecked(true);
         etatEnum = EtatEnum.ASSISTANCE;
         getFragmentManager().beginTransaction()
                 .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
 
 
-
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
                 switch (id) {
@@ -68,31 +74,25 @@ public class ShelvingActivity extends Activity implements PictureFragment.Pictur
                     default:
                         break;
                 }
-
-
-                Log.e("+++", String.valueOf(radioGroup.getCheckedRadioButtonId() + " " + R.id.condition));
             }
         });
-
-
-        me = this;
-
-        home = findViewById(R.id.home);
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                me.finish();
+                activity.finish();
             }
         });
     }
 
+    /* open the picture fragment whith the actual state of the app */
     private void showPictureFragment(EtatEnum etatEnum) {
         this.etatEnum = etatEnum;
         getFragmentManager().beginTransaction()
                 .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
     }
 
+    /* return the state assigned to this button */
     private EtatEnum getEtat(int id) {
         switch (id) {
             case R.id.assistance:
@@ -106,9 +106,15 @@ public class ShelvingActivity extends Activity implements PictureFragment.Pictur
         }
     }
 
+    /* interface of PictureFragment
+     *
+     * open the popupFragment with the result of the recognition
+     *
+     * To start PopupFragment use PopupFragment.newInstance(boolean valid, String popup message, String option)
+     *
+     */
     @Override
-    public void onPictureResult(boolean valid) {
-        Toast.makeText(me, "picture", Toast.LENGTH_SHORT).show();
+    public void onPictureResult(boolean valid, String result) {
         switch (etatEnum) {
             case CONDITION:
                 getFragmentManager().beginTransaction()
@@ -120,11 +126,12 @@ public class ShelvingActivity extends Activity implements PictureFragment.Pictur
                 break;
             default:
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fr, new PopupFragment()).commit();
+                        .replace(R.id.fr, PopupFragment.newInstance(true, result, "Detail")).commit();
                 break;
         }
     }
 
+    /* re-open the pictureFragment */
     @Override
     public void popupOnResult() {
         showPictureFragment(etatEnum);

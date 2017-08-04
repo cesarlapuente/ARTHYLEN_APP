@@ -78,7 +78,6 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
         if (result == null) {
             asyncDelegate.execFinished(this, false);
         } else {
-            Log.e("----------------------", "------------------------");
             try {
                 JSONArray rep = new JSONArray(result);
                 for (int i = 0; i < rep.length(); i++) {
@@ -87,13 +86,10 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
                 }
                 daoDeleteRemoved();
                 daoInsert();
-                //Thread.sleep(1000);
                 asyncDelegate.execFinished(this, true);
             } catch (JSONException e) {
                 Log.e("log", "onPostExecute: ", e);
-            }/* catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+            }
         }
     }
 

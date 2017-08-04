@@ -1,7 +1,6 @@
 package ffscreens.arthylene.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,10 +39,10 @@ public class ProductRequest extends ApiRequest {
     @Override
     void daoInsert() {
         dao.insertListProduit(produitList);
-        List<Produit> p2 = dao.getAllProduct();
+        /*List<Produit> p2 = dao.getAllProduct();
         for (Produit p1 : p2) {
             Log.e("product -->", p1.toString());
-        }
+        }*/
     }
 
     @Override

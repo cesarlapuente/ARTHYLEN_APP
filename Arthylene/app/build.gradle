@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
@@ -28,5 +27,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.android.support:design:26.+'
+    compile files('libs/ScanFruitsSDK-1.0.0.jar')
     testCompile 'junit:junit:4.12'
 }

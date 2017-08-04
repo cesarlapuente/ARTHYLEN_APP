@@ -1,7 +1,6 @@
 package ffscreens.arthylene.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,10 +37,10 @@ public class StateRequest extends ApiRequest {
     @Override
     void daoInsert() {
         dao.insertListStates(etatList);
-        List<Etat> p2 = dao.getAllStates();
+        /*List<Etat> p2 = dao.getAllStates();
         for (Etat p1 : p2) {
             Log.e("etat --->", p1.toString());
-        }
+        }*/
     }
 
     @Override

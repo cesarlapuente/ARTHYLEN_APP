@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import ffscreens.arthylene.R;
 
 /**
@@ -67,14 +71,26 @@ public class PopupFragment extends Fragment {
 
         if (getArguments() != null) {
             Bundle args = getArguments();
-            popup.setText(args.getString("popup", "default"));
-            bottom.setText(args.getString("bottom", "default"));
-            if (args.containsKey(getString(R.string.key_valid))) {
-                if (args.getBoolean(getString(R.string.key_valid))) {
-                    image.setImageResource(R.drawable.icon_ok3x);
-                } else {
-                    image.setImageResource(R.drawable.icon_wrong3x);
+
+            try {
+                JSONArray array = new JSONArray(args.getString("popup", "default"));
+                StringBuilder resBuilder = new StringBuilder();
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    resBuilder.append(object.opt("value")).append(" : ").append(object.opt("confidence")).append("\n");
                 }
+
+                popup.setText(resBuilder.toString());
+                bottom.setText(args.getString("bottom", "default"));
+                if (args.containsKey(getString(R.string.key_valid))) {
+                    if (args.getBoolean(getString(R.string.key_valid))) {
+                        image.setImageResource(R.drawable.icon_ok3x);
+                    } else {
+                        image.setImageResource(R.drawable.icon_wrong3x);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }

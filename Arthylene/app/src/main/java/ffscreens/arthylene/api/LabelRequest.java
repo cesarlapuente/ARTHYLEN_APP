@@ -1,7 +1,6 @@
 package ffscreens.arthylene.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,10 +41,10 @@ public class LabelRequest extends ApiRequest {
     @Override
     void daoInsert() {
         dao.insertListLabel(etiquetteList);
-        List<Etiquette> p2 = dao.getAllLabels();
+        /*List<Etiquette> p2 = dao.getAllLabels();
         for (Etiquette p1 : p2) {
             Log.e("etiquette --->", p1.toString());
-        }
+        }*/
     }
 
     @Override

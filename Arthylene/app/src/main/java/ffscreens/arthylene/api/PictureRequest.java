@@ -1,7 +1,6 @@
 package ffscreens.arthylene.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,9 +37,9 @@ public class PictureRequest extends ApiRequest {
     void daoInsert() {
         dao.insertListPicture(photoList);
         List<Photo> p2 = dao.getAllPicture();
-        for (Photo p1 : p2) {
+        /*for (Photo p1 : p2) {
             Log.e("chemin --->", p1.toString());
-        }
+        }*/
     }
 
     @Override

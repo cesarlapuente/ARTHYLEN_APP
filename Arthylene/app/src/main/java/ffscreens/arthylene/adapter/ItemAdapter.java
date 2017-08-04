@@ -21,7 +21,8 @@ import ffscreens.arthylene.objects.Photo;
 import ffscreens.arthylene.utils.ImageLoader;
 
 /**
- * Created by Thibault on 27/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 27/06/2017.
  */
 
 public class ItemAdapter extends BaseAdapter {
@@ -76,6 +77,7 @@ public class ItemAdapter extends BaseAdapter {
         Item item = getItem(position);
         Photo photo = dao.getPhoto(item.getIdPhoto());
 
+        //changer ip par nom de domaine du site
         imageLoader.DisplayImage("http://192.168.1.114" + photo.getPhoto(), itemViewOlder.image);
 
 

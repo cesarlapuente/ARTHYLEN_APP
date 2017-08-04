@@ -95,6 +95,6 @@ public class Item {
     @Override
     public boolean equals(Object obj) {
         Item item = (Item) obj;
-        return getId().equals(item.getId());
+        return item != null && getId().equals(item.getId());
     }
 }

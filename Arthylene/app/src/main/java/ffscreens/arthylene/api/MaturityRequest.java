@@ -1,7 +1,6 @@
 package ffscreens.arthylene.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,10 +37,10 @@ public class MaturityRequest extends ApiRequest {
     @Override
     void daoInsert() {
         dao.insertListMaturity(maturiteList);
-        List<Maturite> p2 = dao.getAllMaturity();
+        /*List<Maturite> p2 = dao.getAllMaturity();
         for (Maturite p1 : p2) {
             Log.e("maturite --->", p1.toString());
-        }
+        }*/
     }
 
     @Override

@@ -1,7 +1,6 @@
 package ffscreens.arthylene.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,10 +36,10 @@ public class PresentationRequest extends ApiRequest {
     @Override
     void daoInsert() {
         dao.insertListPresentation(presentationList);
-        List<Presentation> p2 = dao.getAllPresentations();
+        /*List<Presentation> p2 = dao.getAllPresentations();
         for (Presentation p1 : p2) {
             Log.e("presentation --->", p1.toString());
-        }
+        }*/
     }
 
     @Override

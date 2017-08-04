@@ -39,10 +39,10 @@ public class ChecklistRequest extends ApiRequest {
     @Override
     void daoInsert() {
         dao.insertListItem(itemList);
-        List<Item> p2 = dao.getAllItems();
+        /*List<Item> p2 = dao.getAllItems();
         for (Item p1 : p2) {
             Log.e("item --->", p1.toString());
-        }
+        }*/
     }
 
     @Override

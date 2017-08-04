@@ -3,6 +3,7 @@ package ffscreens.arthylene.fragment;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -14,6 +15,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.RggbChannelVector;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
@@ -25,25 +27,31 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.util.Range;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import es.uab.cvc.scanfruits.ScanFruitsSDK;
 import ffscreens.arthylene.R;
 import ffscreens.arthylene.enumeration.EtatEnum;
 
@@ -53,6 +61,7 @@ import ffscreens.arthylene.enumeration.EtatEnum;
  */
 
 public class PictureFragment extends Fragment {
+
 
     private static final String TAG = "Picture_Fragment";
     private static final int REQUEST_CAMERA_PERMISSION = 200;
@@ -65,6 +74,7 @@ public class PictureFragment extends Fragment {
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
 
+    protected byte[] byteScan;
     private TextureView textureView;
     private PictureFragmentCallback pictureFragmentCallback;
     private EtatEnum etat;
@@ -75,6 +85,7 @@ public class PictureFragment extends Fragment {
     private ImageReader imageReader;
     private File file;
     private Handler mBackgroundHandler;
+    private SharedPreferences preferences;
     private final CameraDevice.StateCallback callback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(@NonNull CameraDevice cameraDevice) {
@@ -122,6 +133,8 @@ public class PictureFragment extends Fragment {
             // nothing
         }
     };
+    private String result;
+    private IntBuffer mFrameRGB3;
 
     public static PictureFragment newInstance(EtatEnum etatEnum) {
         PictureFragment fragment = new PictureFragment();
@@ -131,17 +144,75 @@ public class PictureFragment extends Fragment {
         return fragment;
     }
 
+    public static RggbChannelVector colorTemperature(int whiteBalance) {
+        float temperature = whiteBalance / 100;
+        float red;
+        float green;
+        float blue;
+
+        //Calculate red
+        if (temperature <= 66)
+            red = 255;
+        else {
+            red = temperature - 60;
+            red = (float) (329.698727446 * (Math.pow((double) red, -0.1332047592)));
+            if (red < 0)
+                red = 0;
+            if (red > 255)
+                red = 255;
+        }
+
+
+        //Calculate green
+        if (temperature <= 66) {
+            green = temperature;
+            green = (float) (99.4708025861 * Math.log(green) - 161.1195681661);
+            if (green < 0)
+                green = 0;
+            if (green > 255)
+                green = 255;
+        } else {
+            green = temperature - 60;
+            green = (float) (288.1221695283 * (Math.pow((double) green, -0.0755148492)));
+            if (green < 0)
+                green = 0;
+            if (green > 255)
+                green = 255;
+        }
+
+        //calculate blue
+        if (temperature >= 66)
+            blue = 255;
+        else if (temperature <= 19)
+            blue = 0;
+        else {
+            blue = temperature - 10;
+            blue = (float) (138.5177312231 * Math.log(blue) - 305.0447927307);
+            if (blue < 0)
+                blue = 0;
+            if (blue > 255)
+                blue = 255;
+        }
+
+        Log.v(TAG, "red=" + red + ", green=" + green + ", blue=" + blue);
+        return new RggbChannelVector((red / 255) * 2, (green / 255), (green / 255), (blue / 255) * 2);
+    }
+
     private void startBackgroundThread() {
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 
-    protected void stopBackgroundThread() throws InterruptedException {
+    protected void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
-        mBackgroundThread.join();
-        mBackgroundThread = null;
-        mBackgroundHandler = null;
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void takePicture() {
@@ -150,19 +221,24 @@ public class PictureFragment extends Fragment {
             return;
         }
         CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-        ImageReader reader = null;
         try {
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(device.getId());
-            Size[] jpegSizes;
-            jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
+
+            Range<Integer> compensationRange = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE);
+            Log.e("+++", compensationRange.getLower() + " " + compensationRange.getUpper());
+
+            Size[] jpegSizes = null;
+            if (characteristics != null) {
+                jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
+            }
             int width = 640;
             int height = 480;
             if (jpegSizes != null && 0 < jpegSizes.length) {
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
             }
-            reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
-            List<Surface> outputSurfaces = new ArrayList<>(2);
+            ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
+            List<Surface> outputSurfaces = new ArrayList<Surface>(2);
             outputSurfaces.add(reader.getSurface());
             outputSurfaces.add(new Surface(textureView.getSurfaceTexture()));
             final CaptureRequest.Builder captureBuilder = device.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
@@ -171,7 +247,7 @@ public class PictureFragment extends Fragment {
             // Orientation
             int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
-            file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+            final File file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
@@ -180,57 +256,66 @@ public class PictureFragment extends Fragment {
                         image = reader.acquireLatestImage();
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
+
                         buffer.get(bytes);
+
                         save(bytes);
                     } catch (IOException e) {
-                        Log.e(TAG, "onImageAvailable: ", e);
+                        e.printStackTrace();
                     } finally {
                         if (image != null) {
                             image.close();
                         }
                     }
                 }
-
                 private void save(byte[] bytes) throws IOException {
-                    try (OutputStream output = new FileOutputStream(file)) {
-                        output.write(bytes);
-                    } catch (IOException e) {
-                        Log.e(TAG, "save: ", e);
+                    OutputStream output = null;
+                    try {
+                        byteScan = bytes.clone();
+
+                        /*output = new FileOutputStream(file);
+                        output.write(bytes);*/
+                    } finally {
+                        if (null != output) {
+                            output.close();
+                        }
                     }
                 }
             };
             reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
             final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
                 @Override
-                public void onCaptureCompleted(@NonNull CameraCaptureSession session,
-                                               @NonNull CaptureRequest request,
-                                               @NonNull TotalCaptureResult result) {
-                    super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(getActivity(), "Saved:" + file, Toast.LENGTH_SHORT).show();
-                    createCameraPreview();
+                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result2) {
+                    super.onCaptureCompleted(session, request, result2);
+                    ByteBuffer buffer = ByteBuffer.allocateDirect((640 * 480) << 2);
+                    buffer.order(ByteOrder.LITTLE_ENDIAN);
+                    mFrameRGB3 = buffer.asIntBuffer();
+                    ScanFruitsSDK.convertYUV420sp2BGRA(byteScan, 640, 480, mFrameRGB3);
+                    mFrameRGB3.rewind();
+
+                    result = ScanFruitsSDK.processImage(mFrameRGB3, 640, 480);
+
+
+                    Log.e("*-+", result);
+                    pictureFragmentCallback.onPictureResult(true, result);
+                    //createCameraPreview();
                 }
             };
             device.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
                 @Override
-                public void onConfigured(@NonNull CameraCaptureSession session) {
+                public void onConfigured(CameraCaptureSession session) {
                     try {
                         session.capture(captureBuilder.build(), captureListener, mBackgroundHandler);
                     } catch (CameraAccessException e) {
-                        Log.e(TAG, "onConfigured: ", e);
+                        e.printStackTrace();
                     }
                 }
-
                 @Override
-                public void onConfigureFailed(@NonNull CameraCaptureSession session) {
-                    //
+                public void onConfigureFailed(CameraCaptureSession session) {
                 }
             }, mBackgroundHandler);
         } catch (CameraAccessException e) {
-            Log.e(TAG, "takePicture: ", e);
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
+            e.printStackTrace();
         }
     }
 
@@ -242,6 +327,7 @@ public class PictureFragment extends Fragment {
             Surface surface = new Surface(texture);
             builder = device.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             builder.addTarget(surface);
+            // builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
             device.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
@@ -294,8 +380,8 @@ public class PictureFragment extends Fragment {
         if (null == device) {
             Log.e("Picture fragment", "updatePreview error, return");
         }
-        builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
         try {
+            builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, preferences.getInt("white", 0));
             session.setRepeatingRequest(builder.build(), null, mBackgroundHandler);
         } catch (CameraAccessException e) {
             Log.e(TAG, "updatePreview: ", e);
@@ -336,12 +422,14 @@ public class PictureFragment extends Fragment {
     @Override
     public void onPause() {
         closeCamera();
-        try {
-            stopBackgroundThread();
-        } catch (InterruptedException e) {
-            Log.e(TAG, "onPause: ", e);
-        }
+        stopBackgroundThread();
         super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        //ScanFruitsSDK.processDestroy();
+        super.onDestroy();
     }
 
     @Nullable
@@ -356,6 +444,69 @@ public class PictureFragment extends Fragment {
         Button picture = view.findViewById(R.id.picture);
         textureView = view.findViewById(R.id.previsualisation);
         textureView.setSurfaceTextureListener(textureListener);
+        final SeekBar balance = view.findViewById(R.id.balance);
+
+        preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        // Debug Load Library
+        String processInitOk = String.format("ScanFruitsSDK.processIsCreated() = %s", ScanFruitsSDK.processIsCreated() ? "TRUE" : "FALSE");
+        Log.d("ScanFruits", processInitOk);
+
+        RelativeLayout rl = view.findViewById(R.id.rlPicture);
+        balance.setProgress((12 + preferences.getInt("white", 0)) * 4);
+        balance.setMax(99);
+
+
+        /* Indicates the state of the app when calling this fragment */
+        if (getArguments() != null) {
+            Bundle args = getArguments();
+            if (args.containsKey(getString(R.string.etat))) {
+                etat = (EtatEnum) args.get(getString(R.string.etat));
+            }
+        }
+
+        balance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                int j = (-12 + (i / 4));
+                preferences.edit().putInt("white", j).apply();
+                builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, j);
+                try {
+                    session.setRepeatingRequest(builder.build(), null, mBackgroundHandler);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                //nothing
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                //nothing
+            }
+        });
+
+        /* show or mask the seedbar for the white  */
+        rl.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int pointerIndex = ((motionEvent.getAction() & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+                int pointCnt = motionEvent.getPointerCount();
+
+                if ((pointCnt == 3) && (pointerIndex <= 1)) {
+                    if (balance.getVisibility() == View.VISIBLE) {
+                        balance.setVisibility(View.INVISIBLE);
+                    } else {
+                        balance.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                return true;
+            }
+        });
 
 
         picture.setOnClickListener(new View.OnClickListener() {
@@ -364,18 +515,10 @@ public class PictureFragment extends Fragment {
                 if (etat.equals(EtatEnum.ASSISTANCE)) {
                     takePicture();
                 } else {
-                    pictureFragmentCallback.onPictureResult(true);
+                    pictureFragmentCallback.onPictureResult(true, "contenu");
                 }
             }
         });
-
-        if (getArguments() != null) {
-            Bundle args = getArguments();
-            if (args.containsKey(getString(R.string.etat))) {
-                etat = (EtatEnum) args.get(getString(R.string.etat));
-                Toast.makeText(getActivity(), etat.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }
 
     }
 
@@ -390,11 +533,12 @@ public class PictureFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        closeCamera();
         pictureFragmentCallback = null;
     }
 
 
     public interface PictureFragmentCallback {
-        void onPictureResult(boolean valid);
+        void onPictureResult(boolean valid, String result);
     }
 }

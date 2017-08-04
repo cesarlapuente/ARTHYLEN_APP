@@ -7,4 +7,5 @@
     <string name="key_valid">valid</string>
     <string name="connection_fail">Failed to connect to site</string>
     <string name="network_fail">No network access</string>
+    <string name="pathCvc">/CVC/ScanFruits/</string>
 </resources>

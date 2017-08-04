@@ -65,7 +65,7 @@ public class ReceptionActivity extends Activity implements PictureFragment.Pictu
     }
 
     @Override
-    public void onPictureResult(boolean valid) {
+    public void onPictureResult(boolean valid, String result) {
         switch (etatEnum) {
             case CONDITION:
                 getFragmentManager().beginTransaction()

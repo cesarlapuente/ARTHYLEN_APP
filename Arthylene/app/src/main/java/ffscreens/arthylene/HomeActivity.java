@@ -29,7 +29,5 @@ public class HomeActivity extends Activity {
                 startActivity(new Intent(HomeActivity.this, ReceptionActivity.class));
             }
         });
-
     }
-
 }
