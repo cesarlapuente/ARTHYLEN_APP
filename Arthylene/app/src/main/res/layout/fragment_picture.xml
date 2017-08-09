@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true" />-->
 
     <Button
         android:id="@+id/picture"
@@ -24,7 +24,7 @@
         android:layout_marginRight="30dp"
         android:background="@drawable/boton_photo3x" />
 
-    <SeekBar
+    <!--<SeekBar
         android:id="@+id/balance"
         android:layout_width="200dp"
         android:layout_height="wrap_content"

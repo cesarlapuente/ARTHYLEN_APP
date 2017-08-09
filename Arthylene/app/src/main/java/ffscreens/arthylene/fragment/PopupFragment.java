@@ -75,6 +75,7 @@ public class PopupFragment extends Fragment {
         if (getArguments() != null) {
             Bundle args = getArguments();
 
+
             try {
                 JSONArray array = new JSONArray(args.getString("popup", "default"));
                 StringBuilder resBuilder = new StringBuilder();

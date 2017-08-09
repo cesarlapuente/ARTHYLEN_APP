@@ -14,6 +14,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
 
     private static final String TAG = "Picture_Fragment";
     private static final int REQUEST_CAMERA_PERMISSION = 200;
+    String json = "test";
     private Preview mPreview;
     private Camera mCamera;
     private Camera.Size sizeFrame;
@@ -46,6 +48,7 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
     private EtatEnum etat;
     private TextureView textureView;
     private SharedPreferences preferences;
+    private PictureFragmentCallback pictureFragmentCallback;
 
     /*****************************************/
     /*  api camera2 version  */
@@ -60,7 +63,6 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
 //    }
 //
 //    protected byte[] byteScan;
-//    private PictureFragmentCallback pictureFragmentCallback;
 //    private CameraDevice device;
 //    private CameraCaptureSession session;
 //    private CaptureRequest.Builder builder;
@@ -474,15 +476,12 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
 
             // Frame Size...
             List<Camera.Size> sizesPreview = params.getSupportedPreviewSizes();
-            for (Camera.Size size : sizesPreview) {
-                Log.e(TAG, size.height + " " + size.width);
-            }
             sizeFrame = mPreview.getBestCameraSize(sizesPreview, Constants.PREVIEW_WIDTH, Constants.PREVIEW_HEIGHT);
 
             // Picture Size...
             List<Camera.Size> sizesPicture = params.getSupportedPictureSizes();
             sizePicture = mPreview.getBestCameraSize(sizesPicture, Constants.PICTURE_WIDTH, Constants.PICTURE_HEIGHT);
-            params.setPictureSize(Constants.PREVIEW_WIDTH, Constants.PREVIEW_HEIGHT);
+            //params.setPictureSize(Constants.PREVIEW_WIDTH, Constants.PREVIEW_HEIGHT);
 
             // Jpeg Quality...
             params.setJpegQuality(Constants.PICTURE_QUALITY);
@@ -538,6 +537,7 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
                 offset, 0, offset + sizeROI, sizeROI);
 
         Log.d("ScanFruits", result);
+        json = result;
 
         result = result.replace("[", "");
         result = result.replace("]", "");
@@ -575,13 +575,14 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
         /*
          * part for camera2 api version
          */
-        /*Button picture = view.findViewById(R.id.picture);
-        textureView = view.findViewById(R.id.previsualisation);
+        Button picture = view.findViewById(R.id.picture);
+        pictureFragmentCallback = (PictureFragmentCallback) getActivity();
+        /*textureView = view.findViewById(R.id.previsualisation);
         textureView.setSurfaceTextureListener(textureListener);
         final SeekBar balance = view.findViewById(R.id.balance);
 
         preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        pictureFragmentCallback = (PictureFragmentCallback) getActivity();*/
+        */
 
         /*balance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -627,16 +628,17 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
         });*/
 
 
-        /*picture.setOnClickListener(new View.OnClickListener() {
+        picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (etat.equals(EtatEnum.ASSISTANCE)) {
-                    takePicture();
+                    //takePicture();
+                    pictureFragmentCallback.onPictureResult(true, json);
                 } else {
                     pictureFragmentCallback.onPictureResult(true, "contenu");
                 }
             }
-        });*/
+        });
 
         /************************/
 
