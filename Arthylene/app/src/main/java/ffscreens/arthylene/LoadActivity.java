@@ -172,7 +172,7 @@ public class LoadActivity extends Activity implements AsyncDelegate {
                     getApplicationContext().getString(R.string.pathCvc);
             publishProgress(10);
             ScanFruitsSDK.processCreate(pathConfig);
-            ScanFruitsSDK.processSetNumThreads(4);
+            ScanFruitsSDK.processSetNumThreads(2);
             ScanFruitsSDK.processSetTopK(3);
             publishProgress(20);
         /*  */

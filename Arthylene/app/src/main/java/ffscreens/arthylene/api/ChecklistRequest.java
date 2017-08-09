@@ -1,7 +1,6 @@
 package ffscreens.arthylene.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,11 +48,8 @@ public class ChecklistRequest extends ApiRequest {
     void daoDeleteRemoved() {
         List<Item> local = dao.getAllItems();
         ArrayList<Item> remove = new ArrayList<>();
-        Log.e("local", local.toString());
-        Log.e("online", itemList.toString());
         for (Item item : local) {
             if (!itemList.contains(item)) {
-                Log.e("thib", "daoDeleteRemoved: ");
                 remove.add(item);
             }
         }

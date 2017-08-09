@@ -52,6 +52,8 @@ public class PopupFragment extends Fragment {
 
         final Fragment me = this;
 
+        popupCallback = (PopupCallback) getActivity();
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

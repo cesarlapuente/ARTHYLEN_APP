@@ -18,10 +18,8 @@ import ffscreens.arthylene.objects.Item;
 
 public class CheckListFragment extends Fragment {
 
-    private ListView listView;
     private ItemAdapter adapter;
     private ChecklistDAO dao;
-    private List<Item> itemsDao;
 
     @Nullable
     @Override
@@ -37,24 +35,9 @@ public class CheckListFragment extends Fragment {
         view.getParent().requestDisallowInterceptTouchEvent(true);
 
 
-        listView = view.findViewById(R.id.listchecklist);
+        ListView listView = view.findViewById(R.id.listchecklist);
 
-        /*final List<Item> items = new ArrayList<>();
-        items.add(new Item("titre", "contenu", true, true));
-        items.add(new Item("titre2", "contenu2", true, false));
-        items.add(new Item("titre3", "contenu3", false, false));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-
-        dao.insertListItem(items);*/
-
-        itemsDao = dao.getAllItems();
+        List<Item> itemsDao = dao.getAllItems();
 
         adapter = new ItemAdapter(getActivity(), itemsDao);
         listView.setAdapter(adapter);
@@ -71,43 +54,4 @@ public class CheckListFragment extends Fragment {
         });
     }
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_check_list);
-        dao = new ChecklistDAO(getApplicationContext());
-
-        listView = findViewById(R.id.checklist);
-
-       *//* final List<Item> items = new ArrayList<>();
-        items.add(new Item("titre", "contenu", true, true));
-        items.add(new Item("titre2", "contenu2", true, false));
-        items.add(new Item("titre3", "contenu3", false, false));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-        items.add(new Item("titre4", "contenu4", false, true));
-
-        dao.insertListItem(items);*//*
-
-        itemsDao = dao.getAllItems();
-
-        adapter = new ItemAdapter(this, itemsDao);
-        listView.setAdapter(adapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Item item = adapter.getItem(position);
-                item.setChecked(!item.isChecked());
-                dao.updateItem(item);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }*/
 }
