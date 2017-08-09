@@ -25,6 +25,11 @@ import ffscreens.arthylene.api.ApiRequest;
 import ffscreens.arthylene.api.AsyncDelegate;
 import ffscreens.arthylene.enumeration.ApiAdress;
 
+/**
+ * Arthylene
+ * Created by Thibault on 21/06/2017.
+ */
+
 public class LoadActivity extends Activity implements AsyncDelegate {
 
     private static final String URL = "http://192.168.1.114/api/";

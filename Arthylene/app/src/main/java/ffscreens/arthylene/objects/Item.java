@@ -1,7 +1,8 @@
 package ffscreens.arthylene.objects;
 
 /**
- * Created by Thibault on 27/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 27/06/2017.
  */
 
 public class Item {

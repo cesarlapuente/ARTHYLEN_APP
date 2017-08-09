@@ -12,7 +12,8 @@ import ffscreens.arthylene.database.ProduitDAO;
 import ffscreens.arthylene.objects.Produit;
 
 /**
- * Created by Thibault on 23/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 23/06/2017.
  */
 
 public class ProductRequest extends ApiRequest {

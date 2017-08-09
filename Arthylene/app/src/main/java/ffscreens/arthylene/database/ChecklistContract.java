@@ -3,7 +3,8 @@ package ffscreens.arthylene.database;
 import android.provider.BaseColumns;
 
 /**
- * Created by Thibault on 21/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 21/06/2017.
  */
 
 public final class ChecklistContract {

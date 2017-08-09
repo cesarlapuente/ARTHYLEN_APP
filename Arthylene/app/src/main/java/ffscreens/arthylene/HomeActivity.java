@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Arthylene
+ * Created by Thibault on 21/06/2017.
+ */
+
 public class HomeActivity extends Activity {
 
     @Override

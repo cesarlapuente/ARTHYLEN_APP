@@ -12,7 +12,8 @@ import ffscreens.arthylene.database.PhotoDAO;
 import ffscreens.arthylene.objects.Photo;
 
 /**
- * Created by Thibault on 23/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 23/06/2017.
  */
 
 public class PictureRequest extends ApiRequest {

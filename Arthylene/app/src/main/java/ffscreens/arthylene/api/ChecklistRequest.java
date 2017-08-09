@@ -21,12 +21,18 @@ public class ChecklistRequest extends ApiRequest {
     private List<Item> itemList;
     private ChecklistDAO dao;
 
+    /*
+     * init the context
+     */
     @Override
     public void setContext(Context context) {
         itemList = new ArrayList<>();
         dao = new ChecklistDAO(context);
     }
 
+    /*
+     * build the item object with the JSON object
+     */
     @Override
     void addEntity(JSONObject o) throws JSONException {
         Item e = new Item(o.getLong("id"), o.getString("titre"),
@@ -44,6 +50,9 @@ public class ChecklistRequest extends ApiRequest {
         }*/
     }
 
+    /*
+     * remove items who are deleted on website
+     */
     @Override
     void daoDeleteRemoved() {
         List<Item> local = dao.getAllItems();

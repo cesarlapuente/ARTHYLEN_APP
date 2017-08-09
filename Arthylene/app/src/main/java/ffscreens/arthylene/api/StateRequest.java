@@ -12,7 +12,8 @@ import ffscreens.arthylene.database.EtatDAO;
 import ffscreens.arthylene.objects.Etat;
 
 /**
- * Created by Thibault on 23/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 23/06/2017.
  */
 
 public class StateRequest extends ApiRequest {

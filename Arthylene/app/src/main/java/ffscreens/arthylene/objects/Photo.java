@@ -2,7 +2,7 @@ package ffscreens.arthylene.objects;
 
 /**
  * Arthylene
- * Created by Thibault on 12/07/2017.
+ * Created by Thibault Nougues on 12/07/2017.
  */
 
 public class Photo {

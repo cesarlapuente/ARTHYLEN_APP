@@ -13,7 +13,7 @@ import ffscreens.arthylene.R;
 
 /**
  * Arthylene
- * Created by Thibault on 11/07/2017.
+ * Created by Thibault Nougues on 11/07/2017.
  */
 
 public class SheetFragment extends Fragment {

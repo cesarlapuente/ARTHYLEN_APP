@@ -16,6 +16,11 @@ import ffscreens.arthylene.adapter.ItemAdapter;
 import ffscreens.arthylene.database.ChecklistDAO;
 import ffscreens.arthylene.objects.Item;
 
+/**
+ * Arthylene
+ * Created by Thibault on 21/06/2017.
+ */
+
 public class CheckListFragment extends Fragment {
 
     private ItemAdapter adapter;

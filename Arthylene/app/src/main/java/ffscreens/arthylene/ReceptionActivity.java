@@ -13,6 +13,12 @@ import ffscreens.arthylene.fragment.PictureFragment;
 import ffscreens.arthylene.fragment.PopupFragment;
 import ffscreens.arthylene.fragment.SheetFragment;
 
+/**
+ * Arthylene
+ * Created by Thibault Nougues on 29/06/2017.
+ */
+
+
 public class ReceptionActivity extends Activity implements PictureFragment.PictureFragmentCallback, SheetFragment.SheetCallback, PopupFragment.PopupCallback {
 
     private Button home;

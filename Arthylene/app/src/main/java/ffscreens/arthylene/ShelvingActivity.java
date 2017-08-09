@@ -15,6 +15,10 @@ import ffscreens.arthylene.fragment.PlacementFragment;
 import ffscreens.arthylene.fragment.PopupFragment;
 import ffscreens.arthylene.fragment.SheetFragment;
 
+/**
+ *
+ */
+
 public class ShelvingActivity extends Activity
         implements
         PictureFragment.PictureFragmentCallback,

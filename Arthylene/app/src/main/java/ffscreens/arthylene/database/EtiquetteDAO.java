@@ -11,7 +11,8 @@ import java.util.List;
 import ffscreens.arthylene.objects.Etiquette;
 
 /**
- * Created by Thibault on 21/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 21/06/2017.
  */
 
 public class EtiquetteDAO {

@@ -18,7 +18,8 @@ import org.json.JSONObject;
 import ffscreens.arthylene.R;
 
 /**
- * Created by Thibault on 29/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 29/06/2017.
  */
 
 public class PopupFragment extends Fragment {

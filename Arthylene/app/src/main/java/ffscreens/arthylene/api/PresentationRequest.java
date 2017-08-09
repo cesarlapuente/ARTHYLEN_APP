@@ -12,7 +12,8 @@ import ffscreens.arthylene.database.PresentationDAO;
 import ffscreens.arthylene.objects.Presentation;
 
 /**
- * Created by Thibault on 23/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 23/06/2017.
  */
 
 public class PresentationRequest extends ApiRequest {

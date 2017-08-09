@@ -16,7 +16,8 @@ import ffscreens.arthylene.adapter.PlacementAdapter;
 import ffscreens.arthylene.objects.ItemPlacement;
 
 /**
- * Created by Thibault on 30/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 30/06/2017.
  */
 
 public class PlacementFragment extends android.app.Fragment {

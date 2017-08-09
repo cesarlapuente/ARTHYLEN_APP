@@ -19,7 +19,8 @@ import ffscreens.arthylene.R;
 import ffscreens.arthylene.objects.ItemPlacement;
 
 /**
- * Created by Thibault on 30/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 30/06/2017.
  */
 
 public class PlacementAdapter extends RecyclerView.Adapter<PlacementAdapter.MyViewHolder> {

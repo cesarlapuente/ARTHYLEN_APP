@@ -12,7 +12,8 @@ import ffscreens.arthylene.database.MaturiteDAO;
 import ffscreens.arthylene.objects.Maturite;
 
 /**
- * Created by Thibault on 23/06/2017.
+ * Arthylene
+ * Created by Thibault Nougues on 23/06/2017.
  */
 
 public class MaturityRequest extends ApiRequest {
