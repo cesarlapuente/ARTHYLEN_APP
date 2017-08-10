@@ -16,7 +16,8 @@ import ffscreens.arthylene.fragment.PopupFragment;
 import ffscreens.arthylene.fragment.SheetFragment;
 
 /**
- *
+ * Arthylene
+ * Created by Thibault Nougues
  */
 
 public class ShelvingActivity extends Activity

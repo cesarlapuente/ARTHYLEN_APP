@@ -8,7 +8,7 @@ import android.widget.Button;
 
 /**
  * Arthylene
- * Created by Thibault on 21/06/2017.
+ * Created by Thibault Nougues on 21/06/2017.
  */
 
 public class HomeActivity extends Activity {
