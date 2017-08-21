@@ -8,4 +8,7 @@
     <string name="connection_fail">Failed to connect to site</string>
     <string name="network_fail">No network access</string>
     <string name="pathCvc">/CVC/ScanFruits/</string>
+
+    <!-- url website -->
+    <string name="url_website">http://192.168.1.114</string>
 </resources>
