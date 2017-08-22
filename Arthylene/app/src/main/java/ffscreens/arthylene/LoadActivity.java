@@ -32,8 +32,6 @@ import ffscreens.arthylene.enumeration.ApiAdress;
 
 public class LoadActivity extends Activity implements AsyncDelegate {
 
-    private static final String URL = "http://192.168.1.114/api/";
-
     /* code for checkPermission */
     private int permissionCode = 1414;
 
@@ -78,7 +76,7 @@ public class LoadActivity extends Activity implements AsyncDelegate {
                     task.setAsyncDelegate(this);
                     task.setContext(getApplicationContext());
                     task.setContext(getApplicationContext());
-                    task.execute(URL + api.toString());
+                    task.execute(getString(R.string.url_website) + api.toString());
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                     Log.e("log", "onCreate: ", e);
                 }

@@ -78,7 +78,7 @@ public class ItemAdapter extends BaseAdapter {
         Photo photo = dao.getPhoto(item.getIdPhoto());
 
         //changer ip par nom de domaine du site
-        imageLoader.DisplayImage("http://192.168.1.114" + photo.getPhoto(), itemViewOlder.image);
+        imageLoader.DisplayImage(context.getString(R.string.url_website) + photo.getPhoto(), itemViewOlder.image);
 
 
         itemViewOlder.title.setText(item.getTitle());
