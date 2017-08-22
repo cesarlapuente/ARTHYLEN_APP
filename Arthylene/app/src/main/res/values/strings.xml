@@ -9,6 +9,6 @@
     <string name="network_fail">No network access</string>
     <string name="pathCvc">/CVC/ScanFruits/</string>
 
-    <!-- url website -->
+    <!-- Arthylene url website -->
     <string name="url_website">http://192.168.2.47</string>
 </resources>
