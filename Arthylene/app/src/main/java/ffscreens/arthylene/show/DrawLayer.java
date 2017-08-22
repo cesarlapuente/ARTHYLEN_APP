@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
@@ -96,8 +97,11 @@ public class DrawLayer extends View {
         canvas.drawRect(borderRight, paintBorder);
 
         // Draw messsage
-        int posx = borderWidth + 10;
-        int posy = canvas.getHeight() - 110;
+        Rect r = new Rect();
+        paintMessage.getTextBounds(message, 0,message.length(),r );
+        int posx = 10;
+        int posy = canvas.getHeight()- r.height()*10;
+
 
         for (String messageLine : message.split("\n")) {
             canvas.drawText(messageLine, posx, posy, paintMessage);

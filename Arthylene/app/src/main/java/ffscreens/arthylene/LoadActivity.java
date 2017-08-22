@@ -175,6 +175,7 @@ public class LoadActivity extends Activity implements AsyncDelegate {
             /* config CVC framework */
             String pathConfig = Environment.getExternalStorageDirectory().getPath() +
                     getApplicationContext().getString(R.string.pathCvc);
+            System.out.println("path :: "+pathConfig);
             publishProgress(10);
             ScanFruitsSDK.processCreate(pathConfig);
             ScanFruitsSDK.processSetNumThreads(2);
