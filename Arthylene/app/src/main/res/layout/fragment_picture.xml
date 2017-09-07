@@ -18,13 +18,12 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
         android:background="@drawable/boton_photo3x" />
 
     <!--<SeekBar
+
         android:id="@+id/balance"
         android:layout_width="200dp"
         android:layout_height="wrap_content"

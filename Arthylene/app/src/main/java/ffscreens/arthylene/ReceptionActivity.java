@@ -39,7 +39,7 @@ public class ReceptionActivity extends Activity implements PictureFragment.Pictu
         scan.setChecked(true);
         etatEnum = EtatEnum.SCAN;
         getFragmentManager().beginTransaction()
-                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
+                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit(); //fr = frameLayout
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -49,14 +49,14 @@ public class ReceptionActivity extends Activity implements PictureFragment.Pictu
             }
         });
 
-        me = this;
+        me = this; //ReceptionActivity
 
         home = findViewById(R.id.home);
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                me.finish();
+                me.finish(); //Stop ReceptionActivity; HomeActivity is still running in background
             }
         });
     }

@@ -22,8 +22,10 @@
     <FrameLayout
         android:id="@+id/fr"
         android:layout_width="match_parent"
-        android:layout_height="700dp"
-        android:layout_below="@+id/title">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="94dp">
 
     </FrameLayout>
 
@@ -43,7 +45,7 @@
 
             <Button
                 android:id="@+id/home"
-                android:layout_width="93dp"
+                android:layout_width="wrap_content"
                 android:layout_height="93dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
@@ -55,7 +57,7 @@
             <RadioGroup
                 android:id="@+id/rg"
                 android:layout_width="wrap_content"
-                android:layout_height="93dp"
+                android:layout_height="match_parent"
                 android:layout_weight="2.28"
                 android:elevation="0dp"
                 android:orientation="horizontal">
@@ -63,43 +65,55 @@
                 <RadioButton
                     android:id="@+id/assistance"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:button="@drawable/assistance" />
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableBottom="@drawable/assistance"
+                    android:gravity="center"/>
 
                 <RadioButton
                     android:id="@+id/condition"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:button="@drawable/condition" />
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableBottom="@drawable/condition"
+                    android:gravity="center"/>
 
                 <RadioButton
                     android:id="@+id/presentation"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:button="@drawable/presentation" />
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableBottom="@drawable/presentation"
+                    android:gravity="center"/>
 
                 <RadioButton
                     android:id="@+id/checklist"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:button="@drawable/checklist" />
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableBottom="@drawable/checklist"
+                    android:gravity="center"/>
 
                 <RadioButton
                     android:id="@+id/placement"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:button="@drawable/placement" />
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableBottom="@drawable/placement"
+                    android:gravity="center"/>
 
             </RadioGroup>
 
         </LinearLayout>
-
     </LinearLayout>
-
-
 </RelativeLayout>
