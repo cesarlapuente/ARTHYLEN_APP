@@ -47,7 +47,7 @@ public class ShelvingActivity extends Activity
         radioGroup = findViewById(R.id.rg);
         assistance = findViewById(R.id.assistance);
         condition = findViewById(R.id.condition);
-        presentation = findViewById(R.id.presentation);
+//        presentation = findViewById(R.id.presentation);
         checklist = findViewById(R.id.checklist);
         placement = findViewById(R.id.placement);
 
@@ -64,7 +64,7 @@ public class ShelvingActivity extends Activity
                 switch (id) {
                     case R.id.assistance:
                     case R.id.condition:
-                    case R.id.presentation:
+//                    case R.id.presentation:
                         showPictureFragment(getEtat(id));
                         break;
                     case R.id.checklist:
@@ -104,8 +104,8 @@ public class ShelvingActivity extends Activity
                 return EtatEnum.ASSISTANCE;
             case R.id.condition:
                 return EtatEnum.CONDITION;
-            case R.id.presentation:
-                return EtatEnum.PRESENTATION;
+//            case R.id.presentation:
+//                return EtatEnum.PRESENTATION;
             default:
                 return EtatEnum.ASSISTANCE;
         }
