@@ -41,6 +41,9 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
         try {
             siteUrl = new URL(params[0]);
             siteConnection = siteUrl.openConnection();
+
+            Log.i(this.getClass().getName(), "URL : " + siteUrl);
+
             siteConnection.setConnectTimeout(1000 * 10);
             try {
                 isr = new InputStreamReader(siteConnection.getInputStream());
@@ -65,7 +68,7 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
             // Fermeture du BufferReader
             in.close();
         } catch (IOException e) {
-            Log.e("log", "doInBackground: ", e);
+            Log.e(this.getClass().getName(), "doInBackground: ", e);
         }
 
         assert codeHtml != null;
@@ -75,20 +78,26 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         // result contient le JSON
-        if (result == null) {
+        Log.i(this.getClass().getName(), "Result : " + result);
+
+        if (result == null || result.length() == 0) {
             asyncDelegate.execFinished(this, false);
         } else {
             try {
                 JSONArray rep = new JSONArray(result);
-                for (int i = 0; i < rep.length(); i++) {
+                for (int i = 0; i < rep.length(); i++)
+                {
                     JSONObject o = (JSONObject) rep.get(i);
-                    addEntity(o);
+                    if(o.has("message")) //error on api
+                        break;
+                    else
+                        addEntity(o);
                 }
                 daoDeleteRemoved();
                 daoInsert();
                 asyncDelegate.execFinished(this, true);
             } catch (JSONException e) {
-                Log.e("log", "onPostExecute: ", e);
+                Log.e(this.getClass().getName(), "onPostExecute : ", e);
             }
         }
     }

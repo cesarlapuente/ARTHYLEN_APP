@@ -96,7 +96,7 @@ public class LoadActivity extends Activity implements AsyncDelegate {
         progress += 80 / ApiAdress.values().length;
         progressBar.setProgress(progress);
         if (compteur == ApiAdress.values().length) {
-            if (!this.done) {
+            if (!this.done) { //if any error on http request
                 Toast.makeText(this, getString(R.string.connection_fail), Toast.LENGTH_SHORT).show();
             }
             startActivity(new Intent(LoadActivity.this, HomeActivity.class));

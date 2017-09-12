@@ -39,13 +39,13 @@ public class ReceptionActivity extends Activity implements PictureFragment.Pictu
         scan.setChecked(true);
         etatEnum = EtatEnum.SCAN;
         getFragmentManager().beginTransaction()
-                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit(); //fr = frameLayout
+                .replace(R.id.frameLayout, PictureFragment.newInstance(etatEnum)).commit(); //fr = frameLayout
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fr, PictureFragment.newInstance(getEtat(id))).commit();
+                        .replace(R.id.frameLayout, PictureFragment.newInstance(getEtat(id))).commit();
             }
         });
 
@@ -75,15 +75,15 @@ public class ReceptionActivity extends Activity implements PictureFragment.Pictu
         switch (etatEnum) {
             case CONDITION:
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fr, PopupFragment.newInstance(true, "Check condition detail", "Product info sheet")).commit();
+                        .replace(R.id.frameLayout, PopupFragment.newInstance(true, "Check condition detail", "Product info sheet")).commit();
                 break;
             case PRESENTATION:
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fr, PopupFragment.newInstance(false, "Check presentation detail", "Detail")).commit();
+                        .replace(R.id.frameLayout, PopupFragment.newInstance(false, "Check presentation detail", "Detail")).commit();
                 break;
             default:
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fr, new PopupFragment()).commit();
+                        .replace(R.id.frameLayout, new PopupFragment()).commit();
                 break;
         }
     }
@@ -91,7 +91,7 @@ public class ReceptionActivity extends Activity implements PictureFragment.Pictu
     private void showPictureFragment(EtatEnum etatEnum) {
         this.etatEnum = etatEnum;
         getFragmentManager().beginTransaction()
-                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
+                .replace(R.id.frameLayout, PictureFragment.newInstance(etatEnum)).commit();
     }
 
 

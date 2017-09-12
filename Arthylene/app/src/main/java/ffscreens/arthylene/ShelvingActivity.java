@@ -55,7 +55,7 @@ public class ShelvingActivity extends Activity
         assistance.setChecked(true);
         etatEnum = EtatEnum.ASSISTANCE;
         getFragmentManager().beginTransaction()
-                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
+                .replace(R.id.frameLayout, PictureFragment.newInstance(etatEnum)).commit();
 
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -70,11 +70,11 @@ public class ShelvingActivity extends Activity
                     case R.id.checklist:
                         etatEnum = EtatEnum.CHECKLIST;
                         getFragmentManager().beginTransaction()
-                                .replace(R.id.fr, new CheckListFragment()).commit();
+                                .replace(R.id.frameLayout, new CheckListFragment()).commit();
                         break;
                     case R.id.placement:
                         getFragmentManager().beginTransaction()
-                                .replace(R.id.fr, new PlacementFragment()).commit();
+                                .replace(R.id.frameLayout, new PlacementFragment()).commit();
                         break;
                     default:
                         break;
@@ -94,7 +94,7 @@ public class ShelvingActivity extends Activity
     private void showPictureFragment(EtatEnum etatEnum) {
         this.etatEnum = etatEnum;
         getFragmentManager().beginTransaction()
-                .replace(R.id.fr, PictureFragment.newInstance(etatEnum)).commit();
+                .replace(R.id.frameLayout, PictureFragment.newInstance(etatEnum)).commit();
     }
 
     /* return the state assigned to this button */
@@ -123,15 +123,15 @@ public class ShelvingActivity extends Activity
         switch (etatEnum) {
             case CONDITION:
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fr, PopupFragment.newInstance(true, "Check condition detail", "Product info sheet")).commit();
+                        .replace(R.id.frameLayout, PopupFragment.newInstance(true, "Check condition detail", "Product info sheet")).commit();
                 break;
             case PRESENTATION:
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fr, PopupFragment.newInstance(false, "Check presentation detail", "Detail")).commit();
+                        .replace(R.id.frameLayout, PopupFragment.newInstance(false, "Check presentation detail", "Detail")).commit();
                 break;
             default:
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fr, PopupFragment.newInstance(true, result, "Detail")).commit();
+                        .replace(R.id.frameLayout, PopupFragment.newInstance(true, result, "Detail")).commit();
                 break;
         }
     }

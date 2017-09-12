@@ -10,5 +10,5 @@
     <string name="pathCvc">/CVC/ScanFruits/</string>
 
     <!-- Arthylene url website -->
-    <string name="url_website">http://192.168.2.47</string>
+    <string name="url_website">http://192.168.0.147/api/</string>
 </resources>

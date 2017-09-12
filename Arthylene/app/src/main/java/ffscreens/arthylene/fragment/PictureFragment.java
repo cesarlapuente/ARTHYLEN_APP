@@ -554,7 +554,7 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
         result = result.replace("\n ,", "\n");
         result = result.replace("\"", "");
         Drawing.getInstance().viewLayer.message = result;
-        Drawing.getInstance().viewLayer.invalidate();
+        Drawing.getInstance().viewLayer.invalidate();//write message on picture
     }
 
     public void onPictureTaken(final byte[] data, Camera camera) {

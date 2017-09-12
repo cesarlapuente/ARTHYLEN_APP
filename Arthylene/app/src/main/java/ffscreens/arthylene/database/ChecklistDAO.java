@@ -47,7 +47,7 @@ public class ChecklistDAO {
         int update = -1;
 
         for (Item i : items) {
-            Log.e("thib", i.toString());
+//            Log.e("thib", i.toString());
             ContentValues values = new ContentValues();
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_TITLE, i.getTitle());
             values.put(ChecklistContract.ChecklistEntry.COLUM_NAME_CONTENU, i.getContent());
