@@ -2,13 +2,66 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sheet"
+    android:background="@drawable/body"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/backSheet"
-        android:layout_width="30dp"
-        android:layout_height="50dp"
-        android:layout_margin="30dp"
-        android:background="@drawable/button_back" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/backSheet"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_margin="30dp"
+            android:layout_weight="0"
+            android:background="@drawable/button_back" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Fiches des maturités du produit" />
+
+        <TableLayout
+            android:id="@+id/tableMaturity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Fiches des états du produit" />
+
+        <TableLayout
+            android:id="@+id/tableState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </TableLayout>
+
+    </LinearLayout>
 </RelativeLayout>

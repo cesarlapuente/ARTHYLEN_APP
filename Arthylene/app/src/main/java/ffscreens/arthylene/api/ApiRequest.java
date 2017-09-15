@@ -87,11 +87,11 @@ public abstract class ApiRequest extends AsyncTask<String, Void, String> {
                 JSONArray rep = new JSONArray(result);
                 for (int i = 0; i < rep.length(); i++)
                 {
-                    JSONObject o = (JSONObject) rep.get(i);
-                    if(o.has("message")) //error on api
+                    JSONObject jsonObject = (JSONObject) rep.get(i);
+                    if(jsonObject.has("message")) //error on api
                         break;
                     else
-                        addEntity(o);
+                        addEntity(jsonObject);
                 }
                 daoDeleteRemoved();
                 daoInsert();

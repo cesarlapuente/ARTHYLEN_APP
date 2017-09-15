@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,14 @@ public class SheetFragment extends Fragment {
                 sheetCallback.onResult();
             }
         });
+
+//        if (getArguments() != null)
+//        {
+            Bundle args = getArguments();
+            Log.i(this.getClass().getName(), "args : " + args);
+//        }
+        //todo recevoir l'objet list avec les data
+        //todo parcourir l'objet et placer chaque row dans le row d'un des deux tab
     }
 
     @Override

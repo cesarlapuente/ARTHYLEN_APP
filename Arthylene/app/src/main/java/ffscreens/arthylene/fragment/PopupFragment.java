@@ -3,6 +3,7 @@ package ffscreens.arthylene.fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ffscreens.arthylene.R;
+import ffscreens.arthylene.database.PresentationDAO;
+import ffscreens.arthylene.database.ProduitDAO;
+import ffscreens.arthylene.objects.Presentation;
+import ffscreens.arthylene.objects.Produit;
 
 /**
  * Arthylene
@@ -26,6 +34,8 @@ import ffscreens.arthylene.R;
 public class PopupFragment extends Fragment {
 
     private PopupCallback popupCallback;
+    private TextView textViewNomProduit, textViewDescriptionProduit;
+    private  JSONArray detectedProductJSON;
 
     public static PopupFragment newInstance(boolean valid, String popup, String bottom) {
         PopupFragment fragment = new PopupFragment();
@@ -49,13 +59,20 @@ public class PopupFragment extends Fragment {
         ImageView image = view.findViewById(R.id.imageView2);
         TextView popup = view.findViewById(R.id.textPopup);
         TextView bottom = view.findViewById(R.id.textBottom);
+
+        textViewNomProduit = view.findViewById(R.id.textViewNomProduit);
+        textViewDescriptionProduit = view.findViewById(R.id.textViewDescriptionProduit);
+
         Button back = view.findViewById(R.id.back);
         Button next = view.findViewById(R.id.next);
 
         final Fragment me = this;
 
+
         popupCallback = (PopupCallback) getActivity();
 
+        ArrayList<Result> results = new ArrayList<>();
+        Result result;
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,14 +81,7 @@ public class PopupFragment extends Fragment {
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, new SheetFragment()).commit();
-            }
-        });
-
+        //Texte en haut, avec la précision
         if (getArguments() != null)
         {
             Bundle args = getArguments(); //data about the scan
@@ -83,6 +93,27 @@ public class PopupFragment extends Fragment {
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
                     resBuilder.append(object.opt("value")).append(" : ").append(object.opt("confidence")).append("\n");
+
+                    //select and put the result result array
+                    String name;
+                    Integer mat;
+
+                    if(!object.opt("value").toString().equals("UNKNOWN"))
+                    {
+                        String concatResult = object.opt("value").toString();
+                        String[] separated = concatResult.split(" ");
+
+                        name = separated[0];
+                        mat = Integer.parseInt(separated[1].replaceAll("[^0-9]", ""));
+                    }
+                    else
+                    {
+                        name = "UNKNOWN";
+                        mat = 0;
+                    }
+
+                    result = new Result(name, mat, Float.parseFloat(object.opt("confidence").toString()));
+                    results.add(result);
                 }
 
                 popup.setText(resBuilder.toString());
@@ -98,6 +129,79 @@ public class PopupFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+
+        //checking the detected fruit
+        for (Result detectedFruit : results)
+        {
+            if(detectedFruit.getConvidence() > 0.80 && !detectedFruit.getName().equals("UNKNOWN"))
+                getDetectedFruitInfo(results);
+        }
+
+
+/**can be better**/
+        final Bundle dataBundle = new Bundle();
+        dataBundle.putString("detectedProductJSON", detectedProductJSON.toString());
+
+        final Fragment sheetFragment = new SheetFragment();
+        sheetFragment.setArguments(dataBundle);
+
+        //this button is init after the fruit has been detected; so minimum data can be send to the next fragment
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //todo, facile en fait !!!! je sais comment faire !!! Onclick je chope le bon objet, déjà trier et après je le met dans le bundle qui sur l'autre fragment sera transformé en tableau
+                getFragmentManager().beginTransaction().replace(R.id.frameLayout, sheetFragment).commit(); //envoi un objet nul
+            }
+        });
+    }
+
+    //looking for informations about the detected product in databases.
+    //get all informations and after use them, optimization = get only useful informations
+    private void getDetectedFruitInfo(ArrayList<Result> results)
+    {
+        ProduitDAO productDAO;
+        productDAO = new ProduitDAO(getActivity());
+        List<Produit> allProducts = productDAO.getAllProduct();
+
+        List<Produit> detectedProduct = new ArrayList<>();
+
+        PresentationDAO presentationDAO;
+        presentationDAO = new PresentationDAO(getActivity());
+        List<Presentation> allPresentations = presentationDAO.getAllPresentations();
+
+        for (Result resultFruit : results)
+        {
+            if(resultFruit.getConvidence() > 0.80 && !resultFruit.getName().equals("UNKNOWN"))
+            {
+                Log.i(this.getClass().getName(), "Fruit : " + resultFruit.getName() + " - Maturity : " + resultFruit.getMaturity() + " - Convidence : " + resultFruit.getConvidence());
+
+                for(int i = 0; i < allProducts.size(); i++)
+                {
+                    if(resultFruit.getName().equalsIgnoreCase(allProducts.get(i).getNomProduit()))
+                    {
+                        detectedProduct.add(allProducts.get(i));
+                    }
+                }
+            }
+        }
+
+        detectedProductJSON = new JSONArray(detectedProduct);
+
+        textViewNomProduit.setText(detectedProduct.get(0).getNomProduit());
+        for(int j = 0; j < allPresentations.size(); j++)
+        {
+            if((allPresentations.get(j).getIdProduit().compareTo(detectedProduct.get(0).getIdProduit())) == 0)
+            {
+                textViewDescriptionProduit.setText(allPresentations.get(j).getContenu());
+                break;
+            }
+        }
+
+
+//        for(int j = 0;j < detectedProduct.size(); j++)
+//        {
+//            Log.i(this.getClass().getName(), "id product : " + detectedProduct.get(j).getIdProduit().toString());
+//        }
     }
 
     @Override
@@ -118,5 +222,34 @@ public class PopupFragment extends Fragment {
 
         public void popupOnResult();
 
+    }
+}
+
+class Result //can be replace by the Produit object. But need to create another constructor
+{
+    private final String name;
+    private final Float convidence;
+    private final Integer maturity;
+
+    public Result(String name, Integer maturity, Float convidence)
+    {
+        this.name = name;
+        this.maturity = maturity;
+        this.convidence = convidence;
+    }
+
+    public String getName()
+    {
+     return name;
+    }
+
+    public Integer getMaturity()
+    {
+    return maturity;
+    }
+
+    public Float getConvidence()
+    {
+        return convidence;
     }
 }
