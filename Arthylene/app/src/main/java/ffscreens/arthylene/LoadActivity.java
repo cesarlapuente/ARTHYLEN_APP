@@ -23,6 +23,7 @@ import java.util.List;
 import es.uab.cvc.scanfruits.ScanFruitsSDK;
 import ffscreens.arthylene.api.ApiRequest;
 import ffscreens.arthylene.api.AsyncDelegate;
+import ffscreens.arthylene.database.ProduitContract;
 import ffscreens.arthylene.enumeration.ApiAdress;
 
 /**

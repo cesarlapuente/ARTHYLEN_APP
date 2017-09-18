@@ -3,7 +3,6 @@ package ffscreens.arthylene.fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +38,7 @@ public class PopupFragment extends Fragment {
 
     private PopupCallback popupCallback;
     private TextView textViewNomProduit, textViewDescriptionProduit;
-    private  JSONArray detectedProductJSON;
+    private  JsonArray detectedProductJSON;
 
     public static PopupFragment newInstance(boolean valid, String popup, String bottom) {
         PopupFragment fragment = new PopupFragment();
@@ -68,7 +71,6 @@ public class PopupFragment extends Fragment {
 
         final Fragment me = this;
 
-
         popupCallback = (PopupCallback) getActivity();
 
         ArrayList<Result> results = new ArrayList<>();
@@ -81,7 +83,21 @@ public class PopupFragment extends Fragment {
             }
         });
 
-        //Texte en haut, avec la précision
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.i(this.getClass().getName(), "detectedProductJSON : " + getDetectedProductJSON().toString());
+
+                if(getDetectedProductJSON().size() > 0)
+                    popupCallback.onNextBtnClicked(true, getDetectedProductJSON().toString());
+//todo handle else statement
+//                else
+//                    popupCallback.onNextBtnClicked(false, "nothing");
+            }
+        });
+
+        //text on the top of fragment
         if (getArguments() != null)
         {
             Bundle args = getArguments(); //data about the scan
@@ -136,23 +152,6 @@ public class PopupFragment extends Fragment {
             if(detectedFruit.getConvidence() > 0.80 && !detectedFruit.getName().equals("UNKNOWN"))
                 getDetectedFruitInfo(results);
         }
-
-
-/**can be better**/
-        final Bundle dataBundle = new Bundle();
-        dataBundle.putString("detectedProductJSON", detectedProductJSON.toString());
-
-        final Fragment sheetFragment = new SheetFragment();
-        sheetFragment.setArguments(dataBundle);
-
-        //this button is init after the fruit has been detected; so minimum data can be send to the next fragment
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo, facile en fait !!!! je sais comment faire !!! Onclick je chope le bon objet, déjà trier et après je le met dans le bundle qui sur l'autre fragment sera transformé en tableau
-                getFragmentManager().beginTransaction().replace(R.id.frameLayout, sheetFragment).commit(); //envoi un objet nul
-            }
-        });
     }
 
     //looking for informations about the detected product in databases.
@@ -163,7 +162,8 @@ public class PopupFragment extends Fragment {
         productDAO = new ProduitDAO(getActivity());
         List<Produit> allProducts = productDAO.getAllProduct();
 
-        List<Produit> detectedProduct = new ArrayList<>();
+        ArrayList<Produit> detectedProduct = new ArrayList<>();
+//        detectedProductJSON = new JSONArray();
 
         PresentationDAO presentationDAO;
         presentationDAO = new PresentationDAO(getActivity());
@@ -185,8 +185,11 @@ public class PopupFragment extends Fragment {
             }
         }
 
-        detectedProductJSON = new JSONArray(detectedProduct);
+        Gson gson = new GsonBuilder().create();
+        detectedProductJSON = gson.toJsonTree(detectedProduct).getAsJsonArray();
 
+
+        //write presentation
         textViewNomProduit.setText(detectedProduct.get(0).getNomProduit());
         for(int j = 0; j < allPresentations.size(); j++)
         {
@@ -196,7 +199,6 @@ public class PopupFragment extends Fragment {
                 break;
             }
         }
-
 
 //        for(int j = 0;j < detectedProduct.size(); j++)
 //        {
@@ -222,11 +224,19 @@ public class PopupFragment extends Fragment {
 
         public void popupOnResult();
 
+        void onNextBtnClicked(boolean valid, String result);
+
+    }
+
+    private JsonArray getDetectedProductJSON()
+    {
+        return detectedProductJSON;
     }
 }
 
 class Result //can be replace by the Produit object. But need to create another constructor
 {
+    //todo better implement this
     private final String name;
     private final Float convidence;
     private final Integer maturity;

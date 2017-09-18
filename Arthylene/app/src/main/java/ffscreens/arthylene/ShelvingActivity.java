@@ -143,6 +143,13 @@ public class ShelvingActivity extends Activity
     }
 
     @Override
+    public void onNextBtnClicked(boolean valid, String result)
+    {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout, SheetFragment.newInstance(true, result)).commit();
+    }
+
+    @Override
     public void onResult() {
         showPictureFragment(etatEnum);
     }

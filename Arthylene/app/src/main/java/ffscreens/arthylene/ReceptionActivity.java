@@ -104,4 +104,9 @@ public class ReceptionActivity extends Activity implements PictureFragment.Pictu
     public void popupOnResult() {
         showPictureFragment(etatEnum);
     }
+
+    @Override
+    public void onNextBtnClicked(boolean valid, String result) {
+
+    }
 }

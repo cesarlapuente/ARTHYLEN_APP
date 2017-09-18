@@ -676,7 +676,6 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
                 etat = (EtatEnum) args.get(getString(R.string.etat));
             }
         }
-
     }
 
     @Override
