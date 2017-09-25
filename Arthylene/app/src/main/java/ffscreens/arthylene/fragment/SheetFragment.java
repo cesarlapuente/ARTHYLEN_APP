@@ -2,6 +2,7 @@ package ffscreens.arthylene.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -18,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ffscreens.arthylene.R;
+
+import static ffscreens.arthylene.R.drawable.tableborder;
 
 /**
  * Arthylene
@@ -77,16 +80,20 @@ public class SheetFragment extends Fragment {
             if(detectedProductJSON.length() > 0)
             {
                 int indexMaturity = 0;
-                int indexSate = 0;
+                int indexState = 0;
 
-                TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
+                layoutParams.setMargins(10, 10, 10, 10);
+
+                indexMaturity = initTableMaturityHeader(tableMaturity, layoutParams, indexMaturity);
+                indexState = initTableStateHeader(tableState, layoutParams, indexState);
 
                 for(int i = 0; detectedProductJSON.length() > i; i++) //populate the tables
                 {
                     try
                     {
                         JSONObject jsonProduct = detectedProductJSON.getJSONObject(i);
-                        Log.i(this.getClass().getName(), "l'object : " + detectedProductJSON.getJSONObject(i));
+//                        Log.i(this.getClass().getName(), "l'object : " + detectedProductJSON.getJSONObject(i));
 
                         if(jsonProduct.getInt("niveauMaturite") >= 0)
                         {
@@ -94,14 +101,22 @@ public class SheetFragment extends Fragment {
                             rowMaturity.setLayoutParams(layoutParams);
 
                             TextView name = new TextView(getActivity());
+                            TextView variety = new TextView(getActivity());
                             TextView maturityLvl = new TextView(getActivity());
                             TextView maturityIdeal = new TextView(getActivity());
 
                             name.setText(jsonProduct.getString("nomProduit"));
+                            variety.setText(jsonProduct.getString("varieteProduit"));
                             maturityLvl.setText(jsonProduct.getString("niveauMaturite"));
                             maturityIdeal.setText(jsonProduct.getString("idMaturite"));
 
+                            name.setBackgroundResource(tableborder);
+                            variety.setBackgroundResource(tableborder);
+                            maturityLvl.setBackgroundResource(tableborder);
+                            maturityIdeal.setBackgroundResource(tableborder);//todo maturity request based on id here, if maturiteIdeale == 1 then good
+
                             rowMaturity.addView(name);
+                            rowMaturity.addView(variety);
                             rowMaturity.addView(maturityLvl);
                             rowMaturity.addView(maturityIdeal);
 
@@ -115,14 +130,24 @@ public class SheetFragment extends Fragment {
 
                             rowState.setLayoutParams(layoutParams);
 
+                            TextView name = new TextView(getActivity());
+                            TextView variety = new TextView(getActivity());
                             TextView state = new TextView(getActivity());
 
+                            name.setText(jsonProduct.getString("nomProduit"));
+                            variety.setText(jsonProduct.getString("varieteProduit"));
                             state.setText(jsonProduct.getString("niveauEtat"));
 
+                            name.setBackgroundResource(tableborder);
+                            variety.setBackgroundResource(tableborder);
+                            state.setBackgroundResource(tableborder);
+
+                            rowState.addView(name);
+                            rowState.addView(variety);
                             rowState.addView(state);
 
-                            tableState.addView(rowState, indexSate);
-                            indexSate++;
+                            tableState.addView(rowState, indexState);
+                            indexState++;
                         }
                     }
                     catch (JSONException e) {
@@ -131,6 +156,72 @@ public class SheetFragment extends Fragment {
                 }
             }
         }
+    }
+
+    private int initTableMaturityHeader(TableLayout tableMaturity, TableRow.LayoutParams layoutParams, int indexMaturity)
+    {
+        TableRow rowMaturity = new TableRow(getActivity());
+        rowMaturity.setLayoutParams(layoutParams);
+
+        TextView name = new TextView(getActivity());
+        TextView variety = new TextView(getActivity());
+        TextView maturityLvl = new TextView(getActivity());
+        TextView maturityIdeal = new TextView(getActivity());
+
+        name.setText("Nom du produit");
+        variety.setText("Variete du produit");
+        maturityLvl.setText("Niveau de maturité");
+        maturityIdeal.setText("Maturité idéale");
+
+        name.setBackgroundResource(tableborder);
+        name.setTypeface(null, Typeface.BOLD);
+        variety.setBackgroundResource(tableborder);
+        variety.setTypeface(null, Typeface.BOLD);
+        maturityLvl.setBackgroundResource(tableborder);
+        maturityLvl.setTypeface(null, Typeface.BOLD);
+        maturityIdeal.setBackgroundResource(tableborder);
+        maturityIdeal.setTypeface(null, Typeface.BOLD);
+
+        rowMaturity.addView(name);
+        rowMaturity.addView(variety);
+        rowMaturity.addView(maturityLvl);
+        rowMaturity.addView(maturityIdeal);
+
+        tableMaturity.addView(rowMaturity, indexMaturity);
+        indexMaturity++;
+
+        return indexMaturity;
+    }
+
+    private int initTableStateHeader(TableLayout tableState, TableRow.LayoutParams layoutParams, int indexState)
+    {
+        TableRow rowState = new TableRow(getActivity());
+
+        rowState.setLayoutParams(layoutParams);
+
+        TextView name = new TextView(getActivity());
+        TextView variety = new TextView(getActivity());
+        TextView state = new TextView(getActivity());
+
+        name.setText("Nom du produit");
+        variety.setText("Variete du produit");
+        state.setText("Niveau de l'état");
+
+        name.setBackgroundResource(tableborder);
+        name.setTypeface(null, Typeface.BOLD);
+        variety.setBackgroundResource(tableborder);
+        variety.setTypeface(null, Typeface.BOLD);
+        state.setBackgroundResource(tableborder);
+        state.setTypeface(null, Typeface.BOLD);
+
+        rowState.addView(name);
+        rowState.addView(variety);
+        rowState.addView(state);
+
+        tableState.addView(rowState, indexState);
+        indexState++;
+
+        return indexState;
     }
 
     @Override

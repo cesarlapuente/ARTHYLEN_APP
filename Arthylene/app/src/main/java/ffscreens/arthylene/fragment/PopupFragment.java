@@ -87,13 +87,13 @@ public class PopupFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+            if(getDetectedProductJSON().isJsonNull())
+            {
                 Log.i(this.getClass().getName(), "detectedProductJSON : " + getDetectedProductJSON().toString());
-
-                if(getDetectedProductJSON().size() > 0)
-                    popupCallback.onNextBtnClicked(true, getDetectedProductJSON().toString());
-//todo handle else statement
-//                else
-//                    popupCallback.onNextBtnClicked(false, "nothing");
+                if(getDetectedProductJSON().size() > 0) popupCallback.onNextBtnClicked(true, getDetectedProductJSON().toString());
+            }
+            else
+                popupCallback.onNextBtnClicked(false, "nothing");
             }
         });
 
