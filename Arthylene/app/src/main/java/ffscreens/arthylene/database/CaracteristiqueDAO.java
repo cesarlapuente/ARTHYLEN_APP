@@ -82,6 +82,7 @@ public class CaracteristiqueDAO
                 null,
                 null,
                 null,
+                null,
                 null
         );
 
@@ -103,5 +104,4 @@ public class CaracteristiqueDAO
 
         return caracteristiques;
     }
-
 }

@@ -77,7 +77,8 @@ public class SheetFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            if(detectedProductJSON.length() > 0)
+
+            if(detectedProductJSON != null && detectedProductJSON.length() > 0)
             {
                 int indexMaturity = 0;
                 int indexState = 0;

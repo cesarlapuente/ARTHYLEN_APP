@@ -87,7 +87,7 @@ public class PopupFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-            if(getDetectedProductJSON().isJsonNull())
+            if(getDetectedProductJSON() != null)
             {
                 Log.i(this.getClass().getName(), "detectedProductJSON : " + getDetectedProductJSON().toString());
                 if(getDetectedProductJSON().size() > 0) popupCallback.onNextBtnClicked(true, getDetectedProductJSON().toString());

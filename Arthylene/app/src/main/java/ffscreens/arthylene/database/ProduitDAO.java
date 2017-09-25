@@ -106,5 +106,4 @@ public class ProduitDAO {
 
         return produits;
     }
-
 }

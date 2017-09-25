@@ -15,7 +15,7 @@ public class BeneficeSanteContract
 
     static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + BeneficeSanteContract.BeneficeSanteEntry.TABLE_NAME + "(" +
-                    BeneficeSanteContract.BeneficeSanteEntry.COLUM_NAME_idBeneficeSante + " INTEGER PRIMARY KEY," +
+                    BeneficeSanteContract.BeneficeSanteEntry.COLUM_NAME_IDBENEFICESANTE + " INTEGER PRIMARY KEY," +
                     BeneficeSanteContract.BeneficeSanteEntry.COLUM_NAME_IDPRODUIT + INTEGER +
                     BeneficeSanteContract.BeneficeSanteEntry.COLUM_NAME_BENEFICE1 + TEXT +
                     BeneficeSanteContract.BeneficeSanteEntry.COLUM_NAME_BENEFICE2 + TEXT +
@@ -32,7 +32,7 @@ public class BeneficeSanteContract
 
         static final String TABLE_NAME = "beneficeSante";
 
-        static final String COLUM_NAME_idBeneficeSante = "idBeneficeSante";
+        static final String COLUM_NAME_IDBENEFICESANTE = "idBeneficeSante";
 
         static final String COLUM_NAME_IDPRODUIT = "idproduit";
 
