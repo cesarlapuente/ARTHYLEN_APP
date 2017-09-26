@@ -15,11 +15,15 @@ public class Produit {
     private int niveauEtat;
     private Long idEtat;
     private Long idPresentation;
+    private Long idBeneficeSante;
+    private Long idCaracteristique;
+    private Long idConseil;
+    private Long idMarketing;
 
     public Produit() {
     }
 
-    public Produit(Long idProduit, String nomProduit, String varieteProduit, int niveauMaturite, Long idMaturite, int niveauEtat, Long idEtat, Long idPresentation) {
+    public Produit(Long idProduit, String nomProduit, String varieteProduit, int niveauMaturite, Long idMaturite, int niveauEtat, Long idEtat, Long idPresentation, Long idBeneficeSante, Long idCaracteristique, Long idConseil, Long idMarketing) {
         this.idProduit = idProduit;
         this.nomProduit = nomProduit;
         this.varieteProduit = varieteProduit;
@@ -28,13 +32,19 @@ public class Produit {
         this.niveauEtat = niveauEtat;
         this.idEtat = idEtat;
         this.idPresentation = idPresentation;
+        this.idBeneficeSante = idBeneficeSante;
+        this.idCaracteristique = idCaracteristique;
+        this.idConseil = idConseil;
+        this.idMarketing = idMarketing;
     }
 
     public String toString() {
         return "id : " + getIdProduit() + ", nom : " + getNomProduit() + ", variete : " + getVarieteProduit()
                 + ", niveauMaturite : " + getNiveauMaturite() + ", idMAturite : " + getIdMaturite()
                 + ", niveauEtat : " + getNiveauEtat() + ", idEtat : " + getIdEtat()
-                + ", idPresentation : " + getIdPresentation();
+                + ", idPresentation : " + getIdPresentation() + ", idBeneficeSante : " + getIdBeneficeSante()
+                + ", idCaracteristique : " + getIdCaracteristique() + ", idConseil : " + getIdConseil()
+                + ", idMarketing : " + getIdMarketing();
     }
 
     public Long getIdProduit() {
@@ -99,5 +109,37 @@ public class Produit {
 
     public void setIdPresentation(Long idPresentation) {
         this.idPresentation = idPresentation;
+    }
+
+    public Long getIdBeneficeSante() {
+        return idBeneficeSante;
+    }
+
+    public void setIdBeneficeSante(Long idBeneficeSante) {
+        this.idBeneficeSante = idBeneficeSante;
+    }
+
+    public Long getIdCaracteristique() {
+        return idCaracteristique;
+    }
+
+    public void setIdCaracteristique(Long idCaracteristique) {
+        this.idCaracteristique = idCaracteristique;
+    }
+
+    public Long getIdConseil() {
+        return idConseil;
+    }
+
+    public void setIdConseil(Long idConseil) {
+        this.idConseil = idConseil;
+    }
+
+    public Long getIdMarketing() {
+        return idMarketing;
+    }
+
+    public void setIdMarketing(Long idMarketing) {
+        this.idMarketing = idMarketing;
     }
 }

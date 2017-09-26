@@ -33,7 +33,9 @@ public class ProductRequest extends ApiRequest {
         Produit p = new Produit(o.getLong("idProduit"), o.getString("nomProduit"),
                 o.getString("varieteProduit"), o.optInt("niveauMaturite", -1),
                 o.optLong("idMaturite", -1L), o.optInt("niveauEtat", -1),
-                o.optLong("idEtat", -1), o.optLong("idPresentation", -1L));
+                o.optLong("idEtat", -1), o.optLong("idPresentation", -1L),
+                o.optLong("idBeneficeSante", -1), o.optLong("idCaracteristique", -1),
+                o.optLong("idConseil", -1), o.optLong("idMarketing", -1));
         produitList.add(p);
     }
 

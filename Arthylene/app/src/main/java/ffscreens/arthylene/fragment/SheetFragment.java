@@ -18,7 +18,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ffscreens.arthylene.R;
+import ffscreens.arthylene.objects.BeneficeSante;
+import ffscreens.arthylene.objects.Caracteristique;
+import ffscreens.arthylene.objects.Conseil;
+import ffscreens.arthylene.objects.Marketing;
+import ffscreens.arthylene.objects.Presentation;
+import ffscreens.arthylene.objects.Produit;
 
 import static ffscreens.arthylene.R.drawable.tableborder;
 
@@ -52,9 +61,6 @@ public class SheetFragment extends Fragment {
     {
         super.onViewCreated(view, savedInstanceState);
 
-        TableLayout tableMaturity = view.findViewById(R.id.tableMaturity);
-        TableLayout tableState = view.findViewById(R.id.tableState);
-
         Button back = view.findViewById(R.id.backSheet);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +68,7 @@ public class SheetFragment extends Fragment {
                 sheetCallback.onResult();
             }
         });
+        List<Produit> produitList = new ArrayList<>();
 
         if (getArguments() != null)
         {
@@ -80,76 +87,29 @@ public class SheetFragment extends Fragment {
 
             if(detectedProductJSON != null && detectedProductJSON.length() > 0)
             {
-                int indexMaturity = 0;
-                int indexState = 0;
-
-                TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
-                layoutParams.setMargins(10, 10, 10, 10);
-
-                indexMaturity = initTableMaturityHeader(tableMaturity, layoutParams, indexMaturity);
-                indexState = initTableStateHeader(tableState, layoutParams, indexState);
-
-                for(int i = 0; detectedProductJSON.length() > i; i++) //populate the tables
+                for(int i = 0; detectedProductJSON.length() > i; i++)
                 {
                     try
                     {
                         JSONObject jsonProduct = detectedProductJSON.getJSONObject(i);
-//                        Log.i(this.getClass().getName(), "l'object : " + detectedProductJSON.getJSONObject(i));
 
-                        if(jsonProduct.getInt("niveauMaturite") >= 0)
-                        {
-                            TableRow rowMaturity = new TableRow(getActivity());
-                            rowMaturity.setLayoutParams(layoutParams);
+                        Long id = jsonProduct.getLong("idProduit");
+                        String nom = jsonProduct.getString("nomProduit");
+                        String variete = jsonProduct.getString("varieteProduit");
+                        int niveauMaturite = jsonProduct.getInt("niveauMaturite");
+                        Long idmaturite = jsonProduct.getLong("idMaturite");
+                        int niveauEtat = jsonProduct.getInt("niveauEtat");
+                        Long idEtat = jsonProduct.getLong("idEtat");
+                        Long idPresentation = jsonProduct.getLong("idPresentation");
+                        Long idBeneficeSante = jsonProduct.getLong("idBeneficeSante");
+                        Long idCaracteristique = jsonProduct.getLong("idCaracteristique");
+                        Long idConseil = jsonProduct.getLong("idConseil");
+                        Long idMarketing = jsonProduct.getLong("idMarketing");
 
-                            TextView name = new TextView(getActivity());
-                            TextView variety = new TextView(getActivity());
-                            TextView maturityLvl = new TextView(getActivity());
-                            TextView maturityIdeal = new TextView(getActivity());
+                        Produit produit = new Produit(id, nom, variete, niveauMaturite, idmaturite, niveauEtat, idEtat, idPresentation, idBeneficeSante, idCaracteristique, idConseil, idMarketing);
+                        produitList.add(produit);
 
-                            name.setText(jsonProduct.getString("nomProduit"));
-                            variety.setText(jsonProduct.getString("varieteProduit"));
-                            maturityLvl.setText(jsonProduct.getString("niveauMaturite"));
-                            maturityIdeal.setText(jsonProduct.getString("idMaturite"));
-
-                            name.setBackgroundResource(tableborder);
-                            variety.setBackgroundResource(tableborder);
-                            maturityLvl.setBackgroundResource(tableborder);
-                            maturityIdeal.setBackgroundResource(tableborder);//todo maturity request based on id here, if maturiteIdeale == 1 then good
-
-                            rowMaturity.addView(name);
-                            rowMaturity.addView(variety);
-                            rowMaturity.addView(maturityLvl);
-                            rowMaturity.addView(maturityIdeal);
-
-                            tableMaturity.addView(rowMaturity, indexMaturity);
-                            indexMaturity++;
-                        }
-
-                        if(jsonProduct.getInt("niveauEtat") >= 0)
-                        {
-                            TableRow rowState = new TableRow(getActivity());
-
-                            rowState.setLayoutParams(layoutParams);
-
-                            TextView name = new TextView(getActivity());
-                            TextView variety = new TextView(getActivity());
-                            TextView state = new TextView(getActivity());
-
-                            name.setText(jsonProduct.getString("nomProduit"));
-                            variety.setText(jsonProduct.getString("varieteProduit"));
-                            state.setText(jsonProduct.getString("niveauEtat"));
-
-                            name.setBackgroundResource(tableborder);
-                            variety.setBackgroundResource(tableborder);
-                            state.setBackgroundResource(tableborder);
-
-                            rowState.addView(name);
-                            rowState.addView(variety);
-                            rowState.addView(state);
-
-                            tableState.addView(rowState, indexState);
-                            indexState++;
-                        }
+                        Log.i(this.getClass().getName(), "l'object : " + produit.toString());
                     }
                     catch (JSONException e) {
                         e.printStackTrace();
@@ -159,70 +119,17 @@ public class SheetFragment extends Fragment {
         }
     }
 
-    private int initTableMaturityHeader(TableLayout tableMaturity, TableRow.LayoutParams layoutParams, int indexMaturity)
+
+
+    private void getObjectFromDB()
     {
-        TableRow rowMaturity = new TableRow(getActivity());
-        rowMaturity.setLayoutParams(layoutParams);
-
-        TextView name = new TextView(getActivity());
-        TextView variety = new TextView(getActivity());
-        TextView maturityLvl = new TextView(getActivity());
-        TextView maturityIdeal = new TextView(getActivity());
-
-        name.setText("Nom du produit");
-        variety.setText("Variete du produit");
-        maturityLvl.setText("Niveau de maturité");
-        maturityIdeal.setText("Maturité idéale");
-
-        name.setBackgroundResource(tableborder);
-        name.setTypeface(null, Typeface.BOLD);
-        variety.setBackgroundResource(tableborder);
-        variety.setTypeface(null, Typeface.BOLD);
-        maturityLvl.setBackgroundResource(tableborder);
-        maturityLvl.setTypeface(null, Typeface.BOLD);
-        maturityIdeal.setBackgroundResource(tableborder);
-        maturityIdeal.setTypeface(null, Typeface.BOLD);
-
-        rowMaturity.addView(name);
-        rowMaturity.addView(variety);
-        rowMaturity.addView(maturityLvl);
-        rowMaturity.addView(maturityIdeal);
-
-        tableMaturity.addView(rowMaturity, indexMaturity);
-        indexMaturity++;
-
-        return indexMaturity;
+        //insert incoming json
+        //out = populateExpandableList
     }
 
-    private int initTableStateHeader(TableLayout tableState, TableRow.LayoutParams layoutParams, int indexState)
+    private void populateExpandbleList(Produit produit, Presentation presentation, Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing)
     {
-        TableRow rowState = new TableRow(getActivity());
 
-        rowState.setLayoutParams(layoutParams);
-
-        TextView name = new TextView(getActivity());
-        TextView variety = new TextView(getActivity());
-        TextView state = new TextView(getActivity());
-
-        name.setText("Nom du produit");
-        variety.setText("Variete du produit");
-        state.setText("Niveau de l'état");
-
-        name.setBackgroundResource(tableborder);
-        name.setTypeface(null, Typeface.BOLD);
-        variety.setBackgroundResource(tableborder);
-        variety.setTypeface(null, Typeface.BOLD);
-        state.setBackgroundResource(tableborder);
-        state.setTypeface(null, Typeface.BOLD);
-
-        rowState.addView(name);
-        rowState.addView(variety);
-        rowState.addView(state);
-
-        tableState.addView(rowState, indexState);
-        indexState++;
-
-        return indexState;
     }
 
     @Override

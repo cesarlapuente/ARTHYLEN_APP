@@ -28,6 +28,7 @@ import ffscreens.arthylene.database.PresentationDAO;
 import ffscreens.arthylene.database.ProduitDAO;
 import ffscreens.arthylene.objects.Presentation;
 import ffscreens.arthylene.objects.Produit;
+import ffscreens.arthylene.objects.ScanResult;
 
 /**
  * Arthylene
@@ -73,8 +74,8 @@ public class PopupFragment extends Fragment {
 
         popupCallback = (PopupCallback) getActivity();
 
-        ArrayList<Result> results = new ArrayList<>();
-        Result result;
+        ArrayList<ScanResult> results = new ArrayList<>();
+        ScanResult result;
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +129,7 @@ public class PopupFragment extends Fragment {
                         mat = 0;
                     }
 
-                    result = new Result(name, mat, Float.parseFloat(object.opt("confidence").toString()));
+                    result = new ScanResult(name, mat, Float.parseFloat(object.opt("confidence").toString()));
                     results.add(result);
                 }
 
@@ -147,7 +148,7 @@ public class PopupFragment extends Fragment {
         }
 
         //checking the detected fruit
-        for (Result detectedFruit : results)
+        for (ScanResult detectedFruit : results)
         {
             if(detectedFruit.getConvidence() > 0.80 && !detectedFruit.getName().equals("UNKNOWN"))
                 getDetectedFruitInfo(results);
@@ -156,7 +157,7 @@ public class PopupFragment extends Fragment {
 
     //looking for informations about the detected product in databases.
     //get all informations and after use them, optimization = get only useful informations
-    private void getDetectedFruitInfo(ArrayList<Result> results)
+    private void getDetectedFruitInfo(ArrayList<ScanResult> results)
     {
         ProduitDAO productDAO;
         productDAO = new ProduitDAO(getActivity());
@@ -169,7 +170,7 @@ public class PopupFragment extends Fragment {
         presentationDAO = new PresentationDAO(getActivity());
         List<Presentation> allPresentations = presentationDAO.getAllPresentations();
 
-        for (Result resultFruit : results)
+        for (ScanResult resultFruit : results)
         {
             if(resultFruit.getConvidence() > 0.80 && !resultFruit.getName().equals("UNKNOWN"))
             {
@@ -196,6 +197,7 @@ public class PopupFragment extends Fragment {
             if((allPresentations.get(j).getIdProduit().compareTo(detectedProduct.get(0).getIdProduit())) == 0)
             {
                 textViewDescriptionProduit.setText(allPresentations.get(j).getContenu());
+                //todo don't write presentation but the photo
                 break;
             }
         }
@@ -231,35 +233,5 @@ public class PopupFragment extends Fragment {
     private JsonArray getDetectedProductJSON()
     {
         return detectedProductJSON;
-    }
-}
-
-class Result //can be replace by the Produit object. But need to create another constructor
-{
-    //todo better implement this
-    private final String name;
-    private final Float convidence;
-    private final Integer maturity;
-
-    public Result(String name, Integer maturity, Float convidence)
-    {
-        this.name = name;
-        this.maturity = maturity;
-        this.convidence = convidence;
-    }
-
-    public String getName()
-    {
-     return name;
-    }
-
-    public Integer getMaturity()
-    {
-    return maturity;
-    }
-
-    public Float getConvidence()
-    {
-        return convidence;
     }
 }

@@ -55,6 +55,10 @@ public class ProduitDAO {
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_NIVEAUETAT, p.getNiveauEtat());
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDETAT, p.getIdEtat());
             values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDPRESENTATION, p.getIdPresentation());
+            values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDBENEFICESANTE, p.getIdBeneficeSante());
+            values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDCARACTERISTIQUE, p.getIdCaracteristique());
+            values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDCONSEIL, p.getIdConseil());
+            values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDMARKETING, p.getIdMarketing());
             update = db.update(ProduitContract.ProduitEntry.TABLE_NAME, values, ProduitContract.ProduitEntry.COLUM_NAME_IDPRODUIT + " = ?", new String[]{String.valueOf(p.getIdProduit())});
             if (update == 0) {
                 values.put(ProduitContract.ProduitEntry.COLUM_NAME_IDPRODUIT, p.getIdProduit());
@@ -77,6 +81,10 @@ public class ProduitDAO {
                 ProduitContract.ProduitEntry.COLUM_NAME_NIVEAUETAT,
                 ProduitContract.ProduitEntry.COLUM_NAME_IDETAT,
                 ProduitContract.ProduitEntry.COLUM_NAME_IDPRESENTATION,
+                ProduitContract.ProduitEntry.COLUM_NAME_IDBENEFICESANTE,
+                ProduitContract.ProduitEntry.COLUM_NAME_IDCARACTERISTIQUE,
+                ProduitContract.ProduitEntry.COLUM_NAME_IDCONSEIL,
+                ProduitContract.ProduitEntry.COLUM_NAME_IDMARKETING
         };
 
         Cursor cursor = db.query(
@@ -98,8 +106,12 @@ public class ProduitDAO {
             int niveauEtat = cursor.getInt(cursor.getColumnIndexOrThrow(ProduitContract.ProduitEntry.COLUM_NAME_NIVEAUETAT));
             Long idEtat = cursor.getLong(cursor.getColumnIndexOrThrow(ProduitContract.ProduitEntry.COLUM_NAME_IDETAT));
             Long idPresentation = cursor.getLong(cursor.getColumnIndexOrThrow(ProduitContract.ProduitEntry.COLUM_NAME_IDPRESENTATION));
+            Long idBeneficeSante = cursor.getLong(cursor.getColumnIndexOrThrow(ProduitContract.ProduitEntry.COLUM_NAME_IDBENEFICESANTE));
+            Long idCaracteristique = cursor.getLong(cursor.getColumnIndexOrThrow(ProduitContract.ProduitEntry.COLUM_NAME_IDCARACTERISTIQUE));
+            Long idConseil = cursor.getLong(cursor.getColumnIndexOrThrow(ProduitContract.ProduitEntry.COLUM_NAME_IDCONSEIL));
+            Long idMarketing = cursor.getLong(cursor.getColumnIndexOrThrow(ProduitContract.ProduitEntry.COLUM_NAME_IDMARKETING));
 
-            Produit p = new Produit(id, nom, variete, niveauMaturite, idmaturite, niveauEtat, idEtat, idPresentation);
+            Produit p = new Produit(id, nom, variete, niveauMaturite, idmaturite, niveauEtat, idEtat, idPresentation, idBeneficeSante, idCaracteristique, idConseil, idMarketing);
             produits.add(p);
         }
         cursor.close();

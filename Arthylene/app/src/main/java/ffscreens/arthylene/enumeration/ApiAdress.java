@@ -12,6 +12,10 @@ public enum ApiAdress {
     presentation,
     label,
     checklist,
-    picture
+    picture,
+    caracteristique,
+    conseil,
+    beneficeSante,
+    marketing
 
 }

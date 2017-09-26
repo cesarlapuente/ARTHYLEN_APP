@@ -25,7 +25,11 @@ public final class ProduitContract {
                     ProduitEntry.COLUM_NAME_IDMATURITE + INTEGER +
                     ProduitEntry.COLUM_NAME_NIVEAUETAT + INTEGER +
                     ProduitEntry.COLUM_NAME_IDETAT + INTEGER +
-                    ProduitEntry.COLUM_NAME_IDPRESENTATION + " INTEGER)";
+                    ProduitEntry.COLUM_NAME_IDPRESENTATION + INTEGER +
+                    ProduitEntry.COLUM_NAME_IDBENEFICESANTE + INTEGER +
+                    ProduitEntry.COLUM_NAME_IDCARACTERISTIQUE + INTEGER +
+                    ProduitEntry.COLUM_NAME_IDCONSEIL + INTEGER +
+                    ProduitEntry.COLUM_NAME_IDMARKETING +" INTEGER)";
 
     private ProduitContract() {
 
@@ -50,6 +54,16 @@ public final class ProduitContract {
         static final String COLUM_NAME_IDETAT = "idetat";
 
         static final String COLUM_NAME_IDPRESENTATION = "idpresentation";
+
+        static final String COLUM_NAME_IDBENEFICESANTE = "idBeneficeSante";
+
+        static final String COLUM_NAME_IDCARACTERISTIQUE = "idCaracteristique";
+
+        static final String COLUM_NAME_IDCONSEIL = "idConseil";
+
+        static final String COLUM_NAME_IDMARKETING = "idMarketing";
+
+
 
         private ProduitEntry() {
         }
