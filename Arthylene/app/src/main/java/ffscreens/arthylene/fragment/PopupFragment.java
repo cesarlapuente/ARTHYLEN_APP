@@ -24,8 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ffscreens.arthylene.R;
+import ffscreens.arthylene.database.PhotoDAO;
 import ffscreens.arthylene.database.PresentationDAO;
 import ffscreens.arthylene.database.ProduitDAO;
+import ffscreens.arthylene.objects.Photo;
 import ffscreens.arthylene.objects.Presentation;
 import ffscreens.arthylene.objects.Produit;
 import ffscreens.arthylene.objects.ScanResult;
@@ -155,8 +157,10 @@ public class PopupFragment extends Fragment {
         }
     }
 
-    //looking for informations about the detected product in databases.
-    //get all informations and after use them, optimization = get only useful informations
+    /**
+     * looking for produit about the detected product in databases
+     * @param results result of the CVC library formated in list of ScanResult
+     */
     private void getDetectedFruitInfo(ArrayList<ScanResult> results)
     {
         ProduitDAO productDAO;
@@ -164,11 +168,6 @@ public class PopupFragment extends Fragment {
         List<Produit> allProducts = productDAO.getAllProduct();
 
         ArrayList<Produit> detectedProduct = new ArrayList<>();
-//        detectedProductJSON = new JSONArray();
-
-        PresentationDAO presentationDAO;
-        presentationDAO = new PresentationDAO(getActivity());
-        List<Presentation> allPresentations = presentationDAO.getAllPresentations();
 
         for (ScanResult resultFruit : results)
         {
@@ -189,23 +188,37 @@ public class PopupFragment extends Fragment {
         Gson gson = new GsonBuilder().create();
         detectedProductJSON = gson.toJsonTree(detectedProduct).getAsJsonArray();
 
+        showNameAndPhoto(detectedProduct); //Once everything is done, show the name and the photo
+    }
+
+    private void showNameAndPhoto(ArrayList<Produit> detectedProduct)
+    {
+        PresentationDAO presentationDAO = new PresentationDAO(getActivity());
+        List<Presentation> allPresentations = presentationDAO.getAllPresentations();
+
+        PhotoDAO photoDAO = new PhotoDAO(getActivity());
+        List<Photo> allPhotos = photoDAO.getAllPicture();
+
+        Long idPhoto = null;
 
         //write presentation
         textViewNomProduit.setText(detectedProduct.get(0).getNomProduit());
-        for(int j = 0; j < allPresentations.size(); j++)
+
+        for(int i = 0; i < allPresentations.size(); i++)
         {
-            if((allPresentations.get(j).getIdProduit().compareTo(detectedProduct.get(0).getIdProduit())) == 0)
+            if((allPresentations.get(i).getIdProduit().compareTo(detectedProduct.get(0).getIdProduit())) == 0)
             {
-                textViewDescriptionProduit.setText(allPresentations.get(j).getContenu());
-                //todo don't write presentation but the photo
+                idPhoto = allPresentations.get(i).getIdPhoto();
                 break;
             }
         }
 
-//        for(int j = 0;j < detectedProduct.size(); j++)
-//        {
-//            Log.i(this.getClass().getName(), "id product : " + detectedProduct.get(j).getIdProduit().toString());
-//        }
+        if(idPhoto != null)
+        {
+            //get la view pour afficher la photo
+            //get le chemin de la photo
+            //affiche le chemin de la photo dans un premier temps
+        }
     }
 
     @Override
