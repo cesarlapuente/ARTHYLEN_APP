@@ -2,6 +2,7 @@ package ffscreens.arthylene.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -19,9 +22,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ffscreens.arthylene.R;
+import ffscreens.arthylene.adapter.ProductDetailExpandableListAdapter;
 import ffscreens.arthylene.database.BeneficeSanteDAO;
 import ffscreens.arthylene.database.CaracteristiqueDAO;
 import ffscreens.arthylene.database.ConseilDAO;
@@ -51,6 +56,7 @@ public class SheetFragment extends Fragment {
 
     private SheetCallback sheetCallback;
     private JSONArray detectedProductJSON;
+    private ExpandableListView expandableFicheDetail;
 
     public static SheetFragment newInstance(boolean valid, String data) {
         SheetFragment fragment = new SheetFragment();
@@ -80,6 +86,8 @@ public class SheetFragment extends Fragment {
             }
         });
         List<Produit> produitList = new ArrayList<>();
+
+        expandableFicheDetail = (ExpandableListView) view.findViewById(R.id.expandableFicheDetail);
 
         if (getArguments() != null)
         {
@@ -231,12 +239,18 @@ public class SheetFragment extends Fragment {
 
     private void populateExpandbleList(Produit produit, Presentation presentation, Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing)
     {
-        Log.i(this.getClass().getName(), "produit : " + produit.toString());
-        Log.i(this.getClass().getName(), "presentation : " + presentation.toString());
-        Log.i(this.getClass().getName(), "caracteristique : " + caracteristique.toString());
-        Log.i(this.getClass().getName(), "beneficeSante : " + beneficeSante.toString());
-        Log.i(this.getClass().getName(), "conseil : " + conseil.toString());
-        Log.i(this.getClass().getName(), "marketing : " + marketing.toString());
+//        Log.i(this.getClass().getName(), "produit : " + produit.toString());
+//        Log.i(this.getClass().getName(), "presentation : " + presentation.toString());
+//        Log.i(this.getClass().getName(), "caracteristique : " + caracteristique.toString());
+//        Log.i(this.getClass().getName(), "beneficeSante : " + beneficeSante.toString());
+//        Log.i(this.getClass().getName(), "conseil : " + conseil.toString());
+//        Log.i(this.getClass().getName(), "marketing : " + marketing.toString());
+
+
+        ProductDetailExpandableListAdapter productDetailExpandableListAdapter = new ProductDetailExpandableListAdapter(getActivity(), produit,
+                presentation, caracteristique, beneficeSante, conseil, marketing);
+
+        expandableFicheDetail.setAdapter(productDetailExpandableListAdapter);
     }
 
     @Override
