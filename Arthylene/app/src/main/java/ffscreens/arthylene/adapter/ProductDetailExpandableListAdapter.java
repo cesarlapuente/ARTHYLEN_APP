@@ -40,6 +40,11 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
 
     private SparseArray<Group> groups;
 
+    private TableLayout tableCaracteristique = null;
+    private TableLayout tableBeneficeSante = null;
+    private TableLayout tableConseil = null;
+    private TableLayout tableMarketing = null;
+
     public ProductDetailExpandableListAdapter(Activity activity, Produit produit, Presentation presentation,
                                               Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing)
     {
@@ -61,6 +66,8 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
         }
 
         inflater = activity.getLayoutInflater();
+
+        initTables();
     }
 
     @Override
@@ -132,7 +139,7 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
 
         if(groupPosition == InfoEnum.presentation.ordinal())
         {
-            tableLayout = convertView.findViewById(R.id.tableLayout);
+            tableCaracteristique = convertView.findViewById(R.id.tableLayout);
 
             tableRowPresentation = new TableRow(activity.getApplicationContext());
             TextView nom = new TextView(activity.getApplicationContext());
@@ -143,7 +150,7 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
 
             tableRowPresentation.addView(nom);
             tableRowPresentation.addView(contenu);
-            tableLayout.addView(tableRowPresentation);
+            tableCaracteristique.addView(tableRowPresentation);
         }
         else if(groupPosition == InfoEnum.caracteristique.ordinal())
         {
@@ -189,5 +196,10 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
     @Override
     public void onGroupExpanded(int groupPosition) {
         super.onGroupExpanded(groupPosition);
+    }
+
+    private void initTables()
+    {
+
     }
 }
