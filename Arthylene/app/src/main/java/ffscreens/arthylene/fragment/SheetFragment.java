@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ import ffscreens.arthylene.objects.Photo;
 import ffscreens.arthylene.objects.Presentation;
 import ffscreens.arthylene.objects.Produit;
 
+import static ffscreens.arthylene.R.drawable.avocado;
 import static ffscreens.arthylene.R.drawable.tableborder;
 
 /**
@@ -88,11 +90,12 @@ public class SheetFragment extends Fragment {
         List<Produit> produitList = new ArrayList<>();
 
         expandableFicheDetail = (ExpandableListView) view.findViewById(R.id.expandableFicheDetail);
+        expandableFicheDetail.setGroupIndicator(null);
+
 
         if (getArguments() != null)
         {
             Log.i(this.getClass().getName(), "sheet parameter : " + getArguments());
-
 
             try
             {

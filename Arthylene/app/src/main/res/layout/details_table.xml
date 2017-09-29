@@ -1,12 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:stretchColumns="*">
 
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10px"
+            android:paddingEnd="10px"
+            android:paddingLeft="10px"
+            android:paddingRight="10px">
+
+            <TextView
+                android:id="@+id/textViewTable1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewTable2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10px"
+            android:paddingEnd="10px"
+            android:paddingLeft="10px"
+            android:paddingRight="10px">
+
+            <TextView
+                android:id="@+id/textViewTable3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewTable4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10px"
+            android:paddingEnd="10px"
+            android:paddingLeft="10px"
+            android:paddingRight="10px">
+
+            <TextView
+                android:id="@+id/textViewTable5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/border" />
+
+            <TextView
+                android:id="@+id/textViewTable6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/border" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10px"
+            android:paddingEnd="10px"
+            android:paddingLeft="10px"
+            android:paddingRight="10px">
+
+            <TextView
+                android:id="@+id/textViewTable7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewTable8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10px"
+            android:paddingEnd="10px"
+            android:paddingLeft="10px"
+            android:paddingRight="10px">
+
+            <TextView
+                android:id="@+id/textViewTable9"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewTable10"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10px"
+            android:paddingEnd="10px"
+            android:paddingLeft="10px"
+            android:paddingRight="10px">
+
+            <TextView
+                android:id="@+id/textViewTable11"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewTable12"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:textColor="@color/colorPrimary" />
+        </TableRow>
     </TableLayout>
 </LinearLayout>

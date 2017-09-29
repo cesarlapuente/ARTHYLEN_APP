@@ -1,12 +1,19 @@
 package ffscreens.arthylene.adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,6 +27,11 @@ import ffscreens.arthylene.objects.Group;
 import ffscreens.arthylene.objects.Marketing;
 import ffscreens.arthylene.objects.Presentation;
 import ffscreens.arthylene.objects.Produit;
+
+import static android.R.drawable.arrow_down_float;
+import static android.R.drawable.arrow_up_float;
+import static ffscreens.arthylene.R.color.load_color;
+import static ffscreens.arthylene.R.drawable.avocado;
 
 public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapter
 {
@@ -102,10 +114,46 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_header, null);
+            convertView = inflater.inflate(R.layout.list_header, parent, false);
         }
         Group group = (Group) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(group.string);
+//        ((CheckedTextView) convertView).setText(group.string);
+
+        if(groupPosition == 0)
+        {
+            convertView = inflater.inflate(R.layout.list_first_item, parent, false);
+            convertView.setClickable(true);
+            convertView.setFocusable(false);
+
+            ImageView imageViewPicture = (ImageView) convertView.findViewById(R.id.imageViewPicture);
+            imageViewPicture.setImageResource(avocado);
+
+            TextView textViewProductName = (TextView) convertView.findViewById(R.id.textViewProductName);
+            textViewProductName.setText("Avocado");
+            textViewProductName.setTextColor(activity.getResources().getColor(load_color));
+        }
+        else
+        {
+            convertView = inflater.inflate(R.layout.list_header, parent, false);
+
+            TextView header_text = (TextView) convertView.findViewById(R.id.header);
+            String groupeTitle = group.string.substring(0,1).toUpperCase() + group.string.substring(1);
+            header_text.setText(groupeTitle);
+            header_text.setTextColor(Color.BLACK);
+
+            if (isExpanded)
+            {
+//                header_text.setTypeface(null, Typeface.BOLD);
+                header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0,arrow_up_float, 0);
+
+            } else
+            {
+//                header_text.setTypeface(null, Typeface.NORMAL);
+                header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0, arrow_down_float, 0);
+
+            }
+        }
+
 
         return convertView;
     }
@@ -116,179 +164,129 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
         convertView = inflater.inflate(R.layout.details_table, parent, false);
 
 
-        if(groupPosition == InfoEnum.presentation.ordinal())
+//        if(groupPosition == InfoEnum.presentation.ordinal())
+//        {
+//
+//        }
+        if(groupPosition == InfoEnum.caracteristique.ordinal())
         {
-
-        }
-        else if(groupPosition == InfoEnum.caracteristique.ordinal())
-        {
-            TableLayout tableCaracteristique = convertView.findViewById(R.id.tableLayout);
-
-            TableRow tableRowFamille = new TableRow(activity.getApplicationContext());
-            TableRow tableRowEspece = new TableRow(activity.getApplicationContext());
-            TableRow tableRowTaillePoids = new TableRow(activity.getApplicationContext());
-            TableRow tableRowCouleurTexture = new TableRow(activity.getApplicationContext());
-            TableRow tableRowSaveur = new TableRow(activity.getApplicationContext());
-            TableRow tableRowPrincipauxProducteur = new TableRow(activity.getApplicationContext());
-
-
-            TextView famille = new TextView(activity.getApplicationContext());
-            TextView contenuFamille = new TextView(activity.getApplicationContext());
-
-            TextView espece = new TextView(activity.getApplicationContext());
-            TextView contenuEspece = new TextView(activity.getApplicationContext());
-
-            TextView taillePoids = new TextView(activity.getApplicationContext());
-            TextView contenuTaillePoids = new TextView(activity.getApplicationContext());
-
-            TextView couleurTexture = new TextView(activity.getApplicationContext());
-            TextView contenuCouleurTexture= new TextView(activity.getApplicationContext());
-
-            TextView saveur = new TextView(activity.getApplicationContext());
-            TextView contenuSaveur = new TextView(activity.getApplicationContext());
-
-            TextView principauxProducteur = new TextView(activity.getApplicationContext());
-            TextView contenuPrincipauxProducteur = new TextView(activity.getApplicationContext());
-
-            tableRowFamille.setLayoutParams(layoutParams);
-            tableRowEspece.setLayoutParams(layoutParams);
-            tableRowTaillePoids.setLayoutParams(layoutParams);
-            tableRowCouleurTexture.setLayoutParams(layoutParams);
-            tableRowSaveur.setLayoutParams(layoutParams);
-            tableRowPrincipauxProducteur.setLayoutParams(layoutParams);
-
+            TextView famille = convertView.findViewById(R.id.textViewTable1);
+            TextView contenuFamille = convertView.findViewById(R.id.textViewTable2);
+            TextView espece = convertView.findViewById(R.id.textViewTable3);
+            TextView contenuEspece = convertView.findViewById(R.id.textViewTable4);
+            TextView taillePoids = convertView.findViewById(R.id.textViewTable5);
+            TextView contenuTaillePoids = convertView.findViewById(R.id.textViewTable6);
+            TextView couleurTexture = convertView.findViewById(R.id.textViewTable7);
+            TextView contenuCouleurTexture= convertView.findViewById(R.id.textViewTable8);
+            TextView saveur = convertView.findViewById(R.id.textViewTable9);
+            TextView contenuSaveur = convertView.findViewById(R.id.textViewTable10);
+            TextView principauxProducteur = convertView.findViewById(R.id.textViewTable11);
+            TextView contenuPrincipauxProducteur = convertView.findViewById(R.id.textViewTable12);
 
             famille.setText("Famille");
+            famille.setTextColor(Color.parseColor("#7D9F00"));
             contenuFamille.setText(caracteristique.getFamille());
-            tableRowFamille.addView(famille);
-            tableRowFamille.addView(contenuFamille);
-            tableCaracteristique.addView(tableRowFamille, 0);
 
             espece.setText("Espece");
+            espece.setTextColor(Color.parseColor("#7D9F00"));
             contenuEspece.setText(caracteristique.getEspece());
-            tableRowEspece.addView(espece);
-            tableRowEspece.addView(contenuEspece);
-            tableCaracteristique.addView(tableRowEspece, 1);
 
             taillePoids.setText("Taille et poids");
+            taillePoids.setTextColor(Color.parseColor("#7D9F00"));
             contenuTaillePoids.setText(caracteristique.getTaillePoids());
-            tableRowTaillePoids.addView(taillePoids);
-            tableRowTaillePoids.addView(contenuTaillePoids);
-            tableCaracteristique.addView(tableRowTaillePoids, 2);
 
             couleurTexture.setText("Couleur et texture");
+            couleurTexture.setTextColor(Color.parseColor("#7D9F00"));
             contenuCouleurTexture.setText(caracteristique.getCouleurTexture());
-            tableRowCouleurTexture.addView(couleurTexture);
-            tableRowCouleurTexture.addView(contenuCouleurTexture);
-            tableCaracteristique.addView(tableRowCouleurTexture, 3);
 
             saveur.setText("Saveur");
+            saveur.setTextColor(Color.parseColor("#7D9F00"));
             contenuSaveur.setText(caracteristique.getSaveur());
-            tableRowSaveur.addView(saveur);
-            tableRowSaveur.addView(contenuSaveur);
-            tableCaracteristique.addView(tableRowSaveur, 4);
 
             principauxProducteur.setText("Principaux producteur");
+            principauxProducteur.setTextColor(Color.parseColor("#7D9F00"));
             contenuPrincipauxProducteur.setText(caracteristique.getPrincipauxProducteur());
-            tableRowPrincipauxProducteur.addView(principauxProducteur);
-            tableRowPrincipauxProducteur.addView(contenuPrincipauxProducteur);
-            tableCaracteristique.addView(tableRowPrincipauxProducteur, 5);
 
         }
         else if(groupPosition == InfoEnum.conseil.ordinal())
         {
-            TableLayout tableConseil = convertView.findViewById(R.id.tableLayout);
+            TableLayout tableLayout = convertView.findViewById(R.id.tableLayout);
 
-            TableRow tableRowConseil1 = new TableRow(activity.getApplicationContext());
-            TableRow tableRowConseil2 = new TableRow(activity.getApplicationContext());
-            TableRow tableRowConseil3 = new TableRow(activity.getApplicationContext());
+            TextView conseil1 = convertView.findViewById(R.id.textViewTable1);
+            TextView conseil2 = convertView.findViewById(R.id.textViewTable2);
+            TextView conseil3 = convertView.findViewById(R.id.textViewTable3);
+            TextView conseil4 = convertView.findViewById(R.id.textViewTable4);
+            TextView conseil5 = convertView.findViewById(R.id.textViewTable5);
+            TextView conseil6 = convertView.findViewById(R.id.textViewTable6);
 
-            TextView conseil1 = new TextView(activity.getApplicationContext());
-            TextView conseil2 = new TextView(activity.getApplicationContext());
-
-            TextView conseil3 = new TextView(activity.getApplicationContext());
-            TextView conseil4 = new TextView(activity.getApplicationContext());
-
-            TextView conseil5 = new TextView(activity.getApplicationContext());
-            TextView conseil6 = new TextView(activity.getApplicationContext());
-
-            tableRowConseil1.setLayoutParams(layoutParams);
-            tableRowConseil2.setLayoutParams(layoutParams);
-            tableRowConseil3.setLayoutParams(layoutParams);
 
             conseil1.setText(conseil.getConseil1());
             conseil2.setText(conseil.getConseil2());
-            tableRowConseil1.addView(conseil1);
-            tableRowConseil1.addView(conseil2);
-            tableConseil.addView(tableRowConseil1, 0);
 
             conseil3.setText(conseil.getConseil3());
             conseil4.setText(conseil.getConseil4());
-            tableRowConseil2.addView(conseil3);
-            tableRowConseil2.addView(conseil4);
-            tableConseil.addView(tableRowConseil2, 1);
 
             conseil5.setText(conseil.getConseil5());
             conseil6.setText(conseil.getConseil6());
-            tableRowConseil3.addView(conseil5);
-            tableRowConseil3.addView(conseil6);
-            tableConseil.addView(tableRowConseil3, 2);
+
+            TableRow tableRow4 = convertView.findViewById(R.id.tableRow4);
+            TableRow tableRow5 = convertView.findViewById(R.id.tableRow5);
+            TableRow tableRow6 = convertView.findViewById(R.id.tableRow6);
+
+            tableLayout.removeView(tableRow4);
+            tableLayout.removeView(tableRow5);
+            tableLayout.removeView(tableRow6);
         }
         else if(groupPosition == InfoEnum.beneficeSante.ordinal())
         {
-            TableLayout tableBeneficeSante = convertView.findViewById(R.id.tableLayout);
+            TableLayout tableLayout = convertView.findViewById(R.id.tableLayout);
 
-            TableRow tableRowBenefice1 = new TableRow(activity.getApplicationContext());
-            TableRow tableRowBenefice2 = new TableRow(activity.getApplicationContext());
-            TableRow tableRowBenefice3 = new TableRow(activity.getApplicationContext());
-
-            TextView benefice1 = new TextView(activity.getApplicationContext());
-            TextView benefice2 = new TextView(activity.getApplicationContext());
-
-            TextView benefice3 = new TextView(activity.getApplicationContext());
-            TextView benefice4 = new TextView(activity.getApplicationContext());
-
-            TextView benefice5 = new TextView(activity.getApplicationContext());
-            TextView benefice6 = new TextView(activity.getApplicationContext());
-
-            tableRowBenefice1.setLayoutParams(layoutParams);
-            tableRowBenefice2.setLayoutParams(layoutParams);
-            tableRowBenefice3.setLayoutParams(layoutParams);
+            TextView benefice1 = convertView.findViewById(R.id.textViewTable1);
+            TextView benefice2 = convertView.findViewById(R.id.textViewTable2);
+            TextView benefice3 = convertView.findViewById(R.id.textViewTable3);
+            TextView benefice4 = convertView.findViewById(R.id.textViewTable4);
+            TextView benefice5 = convertView.findViewById(R.id.textViewTable5);
+            TextView benefice6 = convertView.findViewById(R.id.textViewTable6);
 
             benefice1.setText(beneficeSante.getBenefice1());
             benefice2.setText(beneficeSante.getBenefice2());
-            tableRowBenefice1.addView(benefice1);
-            tableRowBenefice1.addView(benefice2);
-            tableBeneficeSante.addView(tableRowBenefice1, 0);
 
             benefice3.setText(beneficeSante.getBenefice3());
             benefice4.setText(beneficeSante.getBenefice4());
-            tableRowBenefice2.addView(benefice3);
-            tableRowBenefice2.addView(benefice4);
-            tableBeneficeSante.addView(tableRowBenefice2, 1);
 
             benefice5.setText(beneficeSante.getBenefice5());
             benefice6.setText(beneficeSante.getBenefice6());
-            tableRowBenefice3.addView(benefice5);
-            tableRowBenefice3.addView(benefice6);
-            tableBeneficeSante.addView(tableRowBenefice3, 2);
+
+            TableRow tableRow4 = convertView.findViewById(R.id.tableRow4);
+            TableRow tableRow5 = convertView.findViewById(R.id.tableRow5);
+            TableRow tableRow6 = convertView.findViewById(R.id.tableRow6);
+
+            tableLayout.removeView(tableRow4);
+            tableLayout.removeView(tableRow5);
+            tableLayout.removeView(tableRow6);
         }
         else if(groupPosition == InfoEnum.marketing.ordinal())
         {
-            TableLayout tableMarketing = convertView.findViewById(R.id.tableLayout);
+            TableLayout tableLayout = convertView.findViewById(R.id.tableLayout);
 
-            TableRow tableRowMarketing1 = new TableRow(activity.getApplicationContext());
-
-            TextView marketing1 = new TextView(activity.getApplicationContext());
-            TextView marketing2 = new TextView(activity.getApplicationContext());
-
-            tableRowMarketing1.setLayoutParams(layoutParams);
+            TextView marketing1 = convertView.findViewById(R.id.textViewTable1);
+            TextView marketing2 = convertView.findViewById(R.id.textViewTable2);
 
             marketing1.setText(marketing.getMarketing1());
             marketing2.setText(marketing.getMarketing2());
-            tableRowMarketing1.addView(marketing1);
-            tableRowMarketing1.addView(marketing2);
-            tableMarketing.addView(tableRowMarketing1, 0);
+
+            TableRow tableRow2 = convertView.findViewById(R.id.tableRow2);
+            TableRow tableRow3 = convertView.findViewById(R.id.tableRow3);
+            TableRow tableRow4 = convertView.findViewById(R.id.tableRow4);
+            TableRow tableRow5 = convertView.findViewById(R.id.tableRow5);
+            TableRow tableRow6 = convertView.findViewById(R.id.tableRow6);
+
+            tableLayout.removeView(tableRow2);
+            tableLayout.removeView(tableRow3);
+            tableLayout.removeView(tableRow4);
+            tableLayout.removeView(tableRow5);
+            tableLayout.removeView(tableRow6);
+
         }
 
         return convertView;
@@ -296,17 +294,22 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        if(groupPosition != 0)
+            return false;
+        else
+            return true;
     }
 
     @Override
     public void onGroupCollapsed(int groupPosition) {
-        super.onGroupCollapsed(groupPosition);
+        if(groupPosition != 0)
+            super.onGroupCollapsed(groupPosition);
     }
 
     @Override
     public void onGroupExpanded(int groupPosition) {
-        super.onGroupExpanded(groupPosition);
+        if(groupPosition != 0)
+            super.onGroupExpanded(groupPosition);
     }
 
 }
