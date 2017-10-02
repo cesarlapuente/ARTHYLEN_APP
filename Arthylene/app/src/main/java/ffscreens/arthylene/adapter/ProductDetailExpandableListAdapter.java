@@ -113,9 +113,9 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_header, parent, false);
-        }
+//        if (convertView == null) {
+//            convertView = inflater.inflate(R.layout.list_header, parent, false);
+//        }
         Group group = (Group) getGroup(groupPosition);
 //        ((CheckedTextView) convertView).setText(group.string);
 
@@ -125,11 +125,12 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
             convertView.setClickable(true);
             convertView.setFocusable(false);
 
+            //todo fruit picture
             ImageView imageViewPicture = (ImageView) convertView.findViewById(R.id.imageViewPicture);
             imageViewPicture.setImageResource(avocado);
 
             TextView textViewProductName = (TextView) convertView.findViewById(R.id.textViewProductName);
-            textViewProductName.setText("Avocado");
+            textViewProductName.setText(produit.getNomProduit());
             textViewProductName.setTextColor(activity.getResources().getColor(load_color));
         }
         else
@@ -142,16 +143,9 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
             header_text.setTextColor(Color.BLACK);
 
             if (isExpanded)
-            {
-//                header_text.setTypeface(null, Typeface.BOLD);
                 header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0,arrow_up_float, 0);
-
-            } else
-            {
-//                header_text.setTypeface(null, Typeface.NORMAL);
+            else
                 header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0, arrow_down_float, 0);
-
-            }
         }
 
 

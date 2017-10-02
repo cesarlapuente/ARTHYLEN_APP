@@ -27,8 +27,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:background="@drawable/border_left"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"/>
 
             <TextView
                 android:id="@+id/textViewTable2"
@@ -36,7 +40,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"/>
         </TableRow>
 
         <TableRow
@@ -53,8 +61,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:background="@drawable/border_left"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"/>
 
             <TextView
                 android:id="@+id/textViewTable4"
@@ -62,7 +74,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"/>
         </TableRow>
 
         <TableRow
@@ -80,7 +96,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textColor="@color/colorPrimary"
-                android:background="@drawable/border" />
+                android:background="@drawable/border_left"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px" />
 
             <TextView
                 android:id="@+id/textViewTable6"
@@ -88,7 +108,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textColor="@color/colorPrimary"
-                android:background="@drawable/border" />
+                android:background="@drawable/border"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px" />
         </TableRow>
 
         <TableRow
@@ -105,8 +129,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:background="@drawable/border_left"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px" />
 
             <TextView
                 android:id="@+id/textViewTable8"
@@ -114,7 +142,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"/>
         </TableRow>
 
         <TableRow
@@ -131,8 +163,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:background="@drawable/border_left"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px" />
 
             <TextView
                 android:id="@+id/textViewTable10"
@@ -140,7 +176,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px" />
         </TableRow>
 
         <TableRow
@@ -157,8 +197,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:background="@drawable/border_left"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px" />
 
             <TextView
                 android:id="@+id/textViewTable12"
@@ -166,7 +210,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/border"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="10px"
+                android:paddingEnd="10px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px" />
         </TableRow>
     </TableLayout>
 </LinearLayout>
