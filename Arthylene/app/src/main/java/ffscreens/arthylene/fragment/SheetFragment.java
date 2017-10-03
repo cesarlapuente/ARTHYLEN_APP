@@ -176,6 +176,7 @@ public class SheetFragment extends Fragment {
         Long idPresentation = null;
 //        Long idEtat = null;
 //        Long idMaturite = null;
+        Long idPhoto = null;
         Long idBeneficeSante = null;
         Long idCaracteristique = null;
         Long idConseil = null;
@@ -184,6 +185,7 @@ public class SheetFragment extends Fragment {
         Presentation presentation = null;
 //        Etat etat = null;
 //        Maturite maturite = null;
+        Photo photo = null;
         Caracteristique caracteristique = null;
         BeneficeSante beneficeSante = null;
         Conseil conseil = null;
@@ -213,6 +215,12 @@ public class SheetFragment extends Fragment {
                 presentation = pres;
         }
 
+        for(Photo pho : allPhoto)
+        {
+            if(pho != null && pho.getIdPhoto().equals(presentation.getIdPhoto()) && photo == null)
+                photo = pho;
+        }
+
         for(Caracteristique carac : allCaracteristique)
         {
             if(carac != null && carac.getIdCaracteristique().equals(idCaracteristique) && caracteristique == null)
@@ -237,21 +245,25 @@ public class SheetFragment extends Fragment {
                 marketing = marke;
         }
 
-        populateExpandbleList(produitList.get(0), presentation, caracteristique, beneficeSante, conseil, marketing);
+        populateExpandbleList(produitList.get(0), presentation, photo, caracteristique, beneficeSante, conseil, marketing);
     }
 
-    private void populateExpandbleList(Produit produit, Presentation presentation, Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing)
+    private void populateExpandbleList(Produit produit, Presentation presentation, Photo photo, Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing)
     {
 //        Log.i(this.getClass().getName(), "produit : " + produit.toString());
 //        Log.i(this.getClass().getName(), "presentation : " + presentation.toString());
+//        Log.i(this.getClass().getName(), "photo : " + photo.toString());
 //        Log.i(this.getClass().getName(), "caracteristique : " + caracteristique.toString());
 //        Log.i(this.getClass().getName(), "beneficeSante : " + beneficeSante.toString());
 //        Log.i(this.getClass().getName(), "conseil : " + conseil.toString());
 //        Log.i(this.getClass().getName(), "marketing : " + marketing.toString());
 
 
+
+
+
         ProductDetailExpandableListAdapter productDetailExpandableListAdapter = new ProductDetailExpandableListAdapter(getActivity(), produit,
-                presentation, caracteristique, beneficeSante, conseil, marketing);
+                presentation, photo, caracteristique, beneficeSante, conseil, marketing);
 
         expandableFicheDetail.setAdapter(productDetailExpandableListAdapter);
     }

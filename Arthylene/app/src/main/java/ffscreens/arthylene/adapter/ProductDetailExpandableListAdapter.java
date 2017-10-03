@@ -1,43 +1,41 @@
 package ffscreens.arthylene.adapter;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import ffscreens.arthylene.R;
+import ffscreens.arthylene.api.DownloadImageRequest;
 import ffscreens.arthylene.enumeration.InfoEnum;
 import ffscreens.arthylene.objects.BeneficeSante;
 import ffscreens.arthylene.objects.Caracteristique;
 import ffscreens.arthylene.objects.Conseil;
 import ffscreens.arthylene.objects.Group;
 import ffscreens.arthylene.objects.Marketing;
+import ffscreens.arthylene.objects.Photo;
 import ffscreens.arthylene.objects.Presentation;
 import ffscreens.arthylene.objects.Produit;
 
 import static android.R.drawable.arrow_down_float;
 import static android.R.drawable.arrow_up_float;
 import static ffscreens.arthylene.R.color.load_color;
-import static ffscreens.arthylene.R.drawable.avocado;
 
-public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapter
+public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapter implements DownloadImageRequest.Listener
 {
     private Activity activity;
     private Produit produit;
     private Presentation presentation;
+    private Photo photo;
     private Caracteristique caracteristique;
     private BeneficeSante beneficeSante;
     private Conseil conseil;
@@ -49,12 +47,16 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
 
     private TableRow.LayoutParams layoutParams;
 
-    public ProductDetailExpandableListAdapter(Activity activity, Produit produit, Presentation presentation,
+    private ImageView imageViewPicture;
+    private Bitmap fruitBitmap;
+
+    public ProductDetailExpandableListAdapter(Activity activity, Produit produit, Presentation presentation, Photo photo,
                                               Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing)
     {
         this.activity = activity;
         this.produit = produit;
         this.presentation = presentation;
+        this.photo = photo;
         this.caracteristique = caracteristique;
         this.beneficeSante = beneficeSante;
         this.conseil = conseil;
@@ -125,9 +127,12 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
             convertView.setClickable(true);
             convertView.setFocusable(false);
 
-            //todo fruit picture
-            ImageView imageViewPicture = (ImageView) convertView.findViewById(R.id.imageViewPicture);
-            imageViewPicture.setImageResource(avocado);
+            imageViewPicture = (ImageView) convertView.findViewById(R.id.imageViewPicture);
+
+            if(fruitBitmap == null)
+                new DownloadImageRequest(this).execute(photo.getChemin());
+            else
+                imageViewPicture.setImageBitmap(fruitBitmap);
 
             TextView textViewProductName = (TextView) convertView.findViewById(R.id.textViewProductName);
             textViewProductName.setText(produit.getNomProduit());
@@ -306,6 +311,18 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
             super.onGroupExpanded(groupPosition);
     }
 
+    @Override
+    public void onImageLoaded(Bitmap bitmap)
+    {
+        fruitBitmap = bitmap;
+        imageViewPicture.setImageBitmap(fruitBitmap);
+    }
+
+    @Override
+    public void onError()
+    {
+        Log.e(this.getClass().getName(), "Error on loading Image");
+    }
 }
 
 
