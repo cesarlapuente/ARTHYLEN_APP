@@ -2,8 +2,6 @@ package ffscreens.arthylene.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,19 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ffscreens.arthylene.R;
@@ -31,23 +23,16 @@ import ffscreens.arthylene.adapter.ProductDetailExpandableListAdapter;
 import ffscreens.arthylene.database.BeneficeSanteDAO;
 import ffscreens.arthylene.database.CaracteristiqueDAO;
 import ffscreens.arthylene.database.ConseilDAO;
-import ffscreens.arthylene.database.EtatDAO;
 import ffscreens.arthylene.database.MarketingDAO;
-import ffscreens.arthylene.database.MaturiteDAO;
 import ffscreens.arthylene.database.PhotoDAO;
 import ffscreens.arthylene.database.PresentationDAO;
 import ffscreens.arthylene.objects.BeneficeSante;
 import ffscreens.arthylene.objects.Caracteristique;
 import ffscreens.arthylene.objects.Conseil;
-import ffscreens.arthylene.objects.Etat;
 import ffscreens.arthylene.objects.Marketing;
-import ffscreens.arthylene.objects.Maturite;
 import ffscreens.arthylene.objects.Photo;
 import ffscreens.arthylene.objects.Presentation;
 import ffscreens.arthylene.objects.Produit;
-
-import static ffscreens.arthylene.R.drawable.avocado;
-import static ffscreens.arthylene.R.drawable.tableborder;
 
 /**
  * Arthylene
@@ -106,7 +91,7 @@ public class SheetFragment extends Fragment {
                 e.printStackTrace();
             }
 
-
+            //transform json to produit object and insert all produit ocjet into produitList
             if(detectedProductJSON != null && detectedProductJSON.length() > 0)
             {
                 for(int i = 0; detectedProductJSON.length() > i; i++)
@@ -130,8 +115,6 @@ public class SheetFragment extends Fragment {
 
                         Produit produit = new Produit(id, nom, variete, niveauMaturite, idmaturite, niveauEtat, idEtat, idPresentation, idBeneficeSante, idCaracteristique, idConseil, idMarketing);
                         produitList.add(produit);
-
-//                        Log.i(this.getClass().getName(), "l'object : " + produit.toString());
                     }
                     catch (JSONException e) {
                         e.printStackTrace();
@@ -139,13 +122,14 @@ public class SheetFragment extends Fragment {
                 }
             }
 
+            //search produit information's based on database
             if(produitList.size() > 0)
                 getObjectFromDB(produitList);
         }
     }
 
     /**
-     * Get all informations stored in database
+     * Get all information stored in database
      * Create needed object based on id and informations
      *
      *  When all object are init, populate the expendable List
@@ -191,6 +175,7 @@ public class SheetFragment extends Fragment {
         Conseil conseil = null;
         Marketing marketing = null;
 
+        //get each id
         for(Produit produit : produitList)
         {
             if(produit.getIdPresentation() != null && idPresentation == null)
@@ -209,16 +194,17 @@ public class SheetFragment extends Fragment {
                 idMarketing = produit.getIdMarketing();
         }
 
+        //get each associate object
         for(Presentation pres : allPresentation)
         {
             if(pres != null && pres.getIdPresentation().equals(idPresentation) && presentation == null)
                 presentation = pres;
         }
 
-        for(Photo pho : allPhoto)
+        for(Photo dbPhoto : allPhoto)
         {
-            if(pho != null && pho.getIdPhoto().equals(presentation.getIdPhoto()) && photo == null)
-                photo = pho;
+            if(dbPhoto != null && dbPhoto.getIdPhoto().equals(presentation.getIdPhoto()) && photo == null)
+                photo = dbPhoto;
         }
 
         for(Caracteristique carac : allCaracteristique)
@@ -257,10 +243,6 @@ public class SheetFragment extends Fragment {
 //        Log.i(this.getClass().getName(), "beneficeSante : " + beneficeSante.toString());
 //        Log.i(this.getClass().getName(), "conseil : " + conseil.toString());
 //        Log.i(this.getClass().getName(), "marketing : " + marketing.toString());
-
-
-
-
 
         ProductDetailExpandableListAdapter productDetailExpandableListAdapter = new ProductDetailExpandableListAdapter(getActivity(), produit,
                 presentation, photo, caracteristique, beneficeSante, conseil, marketing);

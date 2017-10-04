@@ -115,11 +115,7 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
-//        if (convertView == null) {
-//            convertView = inflater.inflate(R.layout.list_header, parent, false);
-//        }
         Group group = (Group) getGroup(groupPosition);
-//        ((CheckedTextView) convertView).setText(group.string);
 
         if(groupPosition == 0)
         {
@@ -162,11 +158,6 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
     {
         convertView = inflater.inflate(R.layout.details_table, parent, false);
 
-
-//        if(groupPosition == InfoEnum.presentation.ordinal())
-//        {
-//
-//        }
         if(groupPosition == InfoEnum.caracteristique.ordinal())
         {
             TextView famille = convertView.findViewById(R.id.textViewTable1);
