@@ -199,7 +199,9 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback {
         // White Balance
         List<String> wbSupported = params.getSupportedWhiteBalance();
         if ((wbSupported != null) && (wbSupported.isEmpty() == false))
-            params.setWhiteBalance(getSupportedValue(wbSupported, Camera.Parameters.WHITE_BALANCE_DAYLIGHT));
+            params.setWhiteBalance(getSupportedValue(wbSupported, Camera.Parameters.WHITE_BALANCE_FLUORESCENT));
+//            params.setWhiteBalance(getSupportedValue(wbSupported, Camera.Parameters.WHITE_BALANCE_DAYLIGHT));
+
 
         // Frame rate
         List<Integer> fpsSupported = params.getSupportedPreviewFrameRates();

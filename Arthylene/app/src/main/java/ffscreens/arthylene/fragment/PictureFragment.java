@@ -49,6 +49,7 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
     private TextureView textureView;
     private SharedPreferences preferences;
     private PictureFragmentCallback pictureFragmentCallback;
+//    private Boolean grayInit = false;
 
     /*****************************************/
 
@@ -515,6 +516,7 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
             mCamera.stopPreview();
             mCamera.release();
             mCamera = null;
+//            grayInit = false;
         }
     }
 
@@ -530,6 +532,22 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
         // Check ScanFruitsSDK
         if (ScanFruitsSDK.processIsCreated() == false)
             return;
+
+//        if(!grayInit)
+//        {
+//            gray test only on camera start
+//            final int offsetX = (sizeFrame.width - sizeFrame.height) / 2 + (sizeFrame.height * 4) / 10;
+//            final int offsetY = (sizeFrame.height * 4) / 10;
+//            final int sizeROI2 = (sizeFrame.height * 2) / 10;
+//            double factors[] = ScanFruitsSDK.processGetWhiteBalanceROI(mPreview.mFrameRGB3, mPreview.sizeFrame.width, mPreview.sizeFrame.height, offsetX, offsetY, offsetX + sizeROI2, offsetY + sizeROI2);
+//            String result2 = String.format("Factors = R(%.3f), G(%.3f), B(%.3f)", factors[0], factors[1], factors[2]);
+//            Log.d("ScanFruits", result2);
+//
+//            ScanFruitsSDK.processSetWhiteBalance(factors[0], factors[1], factors[2]);
+//            grayInit = true;
+//        }
+
+
 
         // Convert YUV420sp data to BGRA data
         ScanFruitsSDK.convertYUV420sp2BGRA(data, sizeFrame.width, sizeFrame.height, mPreview.mFrameRGB3);
@@ -560,7 +578,6 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
     public void onPictureTaken(final byte[] data, Camera camera) {
         // Stop Preview...
         mCamera.stopPreview();
-
         // Create Picture...
     }
 

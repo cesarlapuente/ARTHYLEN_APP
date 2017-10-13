@@ -23,7 +23,6 @@ import java.util.List;
 import es.uab.cvc.scanfruits.ScanFruitsSDK;
 import ffscreens.arthylene.api.ApiRequest;
 import ffscreens.arthylene.api.AsyncDelegate;
-import ffscreens.arthylene.database.ProduitContract;
 import ffscreens.arthylene.enumeration.ApiAdress;
 
 /**
@@ -174,11 +173,17 @@ public class LoadActivity extends Activity implements AsyncDelegate {
             /* config CVC framework */
             String pathConfig = Environment.getExternalStorageDirectory().getPath() +
                     getApplicationContext().getString(R.string.pathCvc);
-            System.out.println("path :: "+pathConfig);
+
+//            System.out.println("path :: "+pathConfig);
+            Log.i(this.getClass().getName(), "path : " + pathConfig);
+
             publishProgress(10);
             ScanFruitsSDK.processCreate(pathConfig);
             ScanFruitsSDK.processSetNumThreads(2);
             ScanFruitsSDK.processSetTopK(3);
+            ScanFruitsSDK.processSetWhiteBalance(1.080, 1.000, 0.900); //best on work
+
+//            ScanFruitsSDK.processSetWhiteBalance(0.985, 1.000, 1.130); //test
             publishProgress(20);
         /*  */
             return 1;
