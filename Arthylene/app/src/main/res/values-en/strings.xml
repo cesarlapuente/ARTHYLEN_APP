@@ -1,16 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Arthylene</string>
-    <string name="title_activity_main" translatable="false">MainActivity</string>
-    <string name="shelving" translatable="false">Shelving</string>
-    <string name="reception" translatable="false">Reception</string>
-    <string name="etat" translatable="false">EtatEnum</string>
-    <string name="key_valid" translatable="false">valid</string>
     <string name="connection_fail">Failed to connect to site</string>
     <string name="network_fail">No network access</string>
-    <string name="pathCvc" translatable="false">/CVC/ScanFruits/</string>
-
-    <!-- Arthylene url website -->
-    <string name="url_website" translatable="false">http://vps342611.ovh.net/api/</string>
     <string name="tomato">Tomato</string>
     <string name="avocado">Avocado</string>
     <string name="banana">Banana</string>

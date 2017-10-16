@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="connection_fail">Impossible de se connecter au site</string>
+    <string name="network_fail">Pas d\'accès réseau</string>
+    <string name="tomato">Tomate</string>
+    <string name="avocado">Avocat</string>
+    <string name="banana">Banane</string>
+    <string name="pineapple">Ananas</string>
+    <string name="family">Famille</string>
+    <string name="species">Espece</string>
+    <string name="origin">Origine</string>
+    <string name="form">Forme</string>
+    <string name="size_and_weight">Taille et poids</string>
+    <string name="color_and_texture">Couleur et Texture</string>
+    <string name="flavor">Saveur</string>
+    <string name="main_producers">Principaux producteurs</string>
+    <string name="caracteristique">Caractéristiques</string>
+    <string name="conseil">Conseil de consommation</string>
+    <string name="beneficesante">Bénéfice sur la santé</string>
+    <string name="marketing">Márketing</string>
+    <string name="maturity">Maturité</string>
+    <string name="no_detail_available">No hay detalles disponibles</string>
+    <string name="more_details">Voir fiche</string>
+</resources>

@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.uab.cvc.scanfruits.ScanFruitsSDK;
@@ -24,8 +25,10 @@ import ffscreens.arthylene.Constants;
 import ffscreens.arthylene.R;
 import ffscreens.arthylene.camera.Preview;
 import ffscreens.arthylene.enumeration.EtatEnum;
+import ffscreens.arthylene.objects.ScanResult;
 import ffscreens.arthylene.show.DrawLayer;
 import ffscreens.arthylene.show.Drawing;
+import ffscreens.arthylene.utils.ResultFormat;
 
 /**
  * Arthylene
@@ -562,16 +565,21 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
         Log.d("ScanFruits", result);
         json = result;
 
-        result = result.replace("[", "");
-        result = result.replace("]", "");
-        result = result.replace("{", "");
-        result = result.replace("}", "");
-        result = result.replace("  ", "");
-        result = result.replace("\n \n", "");
-        result = result.replace(",\n", ",  ");
-        result = result.replace("\n ,", "\n");
-        result = result.replace("\"", "");
-        Drawing.getInstance().viewLayer.message = result;
+        ArrayList<ScanResult> results = ResultFormat.stringToScanResultArray(result);
+        StringBuilder redMessage = new StringBuilder();
+
+        for (ScanResult detectedFruit : results)
+        {
+            int idNomProduit = getActivity().getResources().getIdentifier(detectedFruit.getName().toLowerCase(), "string", getActivity().getPackageName());
+
+            if(idNomProduit != 0)
+                redMessage.append(getActivity().getString(idNomProduit) + " " + getActivity().getString(R.string.maturity) + " " + detectedFruit.getMaturity() + " : " + ((int)(detectedFruit.getConvidence() * 100)) + "% " + "\n");
+            else
+                redMessage.append(detectedFruit.getName() + " " + getActivity().getString(R.string.maturity) + " " + detectedFruit.getMaturity() + " : " + ((int)(detectedFruit.getConvidence() * 100)) + "% " + "\n");
+
+        }
+
+        Drawing.getInstance().viewLayer.message = redMessage.toString();
         Drawing.getInstance().viewLayer.invalidate();//write message on picture
     }
 

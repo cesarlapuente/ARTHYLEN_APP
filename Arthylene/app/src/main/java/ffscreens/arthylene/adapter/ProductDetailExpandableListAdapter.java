@@ -131,7 +131,14 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
                 imageViewPicture.setImageBitmap(fruitBitmap);
 
             TextView textViewProductName = (TextView) convertView.findViewById(R.id.textViewProductName);
-            textViewProductName.setText(produit.getNomProduit());
+
+            int idNomProduit = activity.getResources().getIdentifier(produit.getNomProduit().toLowerCase(), "string", activity.getPackageName());
+
+            if(idNomProduit != 0)
+                textViewProductName.setText(activity.getString(idNomProduit));
+            else
+                textViewProductName.setText(produit.getNomProduit());
+
             textViewProductName.setTextColor(activity.getResources().getColor(load_color));
         }
         else
@@ -140,7 +147,14 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
 
             TextView header_text = (TextView) convertView.findViewById(R.id.header);
             String groupeTitle = group.string.substring(0,1).toUpperCase() + group.string.substring(1);
-            header_text.setText(groupeTitle);
+
+            int idTitle = activity.getResources().getIdentifier(groupeTitle.toLowerCase(), "string", activity.getPackageName());
+
+            if(idTitle != 0)
+                header_text.setText(activity.getString(idTitle));
+            else
+                header_text.setText(groupeTitle);
+
             header_text.setTextColor(Color.BLACK);
 
             if (isExpanded)
@@ -173,27 +187,27 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
             TextView principauxProducteur = convertView.findViewById(R.id.textViewTable11);
             TextView contenuPrincipauxProducteur = convertView.findViewById(R.id.textViewTable12);
 
-            famille.setText("Famille");
+            famille.setText(R.string.family);
             famille.setTextColor(Color.parseColor("#7D9F00"));
             contenuFamille.setText(caracteristique.getFamille());
 
-            espece.setText("Espece");
+            espece.setText(R.string.species);
             espece.setTextColor(Color.parseColor("#7D9F00"));
             contenuEspece.setText(caracteristique.getEspece());
 
-            taillePoids.setText("Taille et poids");
+            taillePoids.setText(R.string.size_and_weight);
             taillePoids.setTextColor(Color.parseColor("#7D9F00"));
             contenuTaillePoids.setText(caracteristique.getTaillePoids());
 
-            couleurTexture.setText("Couleur et texture");
+            couleurTexture.setText(R.string.color_and_texture);
             couleurTexture.setTextColor(Color.parseColor("#7D9F00"));
             contenuCouleurTexture.setText(caracteristique.getCouleurTexture());
 
-            saveur.setText("Saveur");
+            saveur.setText(R.string.species);
             saveur.setTextColor(Color.parseColor("#7D9F00"));
             contenuSaveur.setText(caracteristique.getSaveur());
 
-            principauxProducteur.setText("Principaux producteur");
+            principauxProducteur.setText(R.string.main_producers);
             principauxProducteur.setTextColor(Color.parseColor("#7D9F00"));
             contenuPrincipauxProducteur.setText(caracteristique.getPrincipauxProducteur());
 

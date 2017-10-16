@@ -18,10 +18,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +30,7 @@ import ffscreens.arthylene.objects.Photo;
 import ffscreens.arthylene.objects.Presentation;
 import ffscreens.arthylene.objects.Produit;
 import ffscreens.arthylene.objects.ScanResult;
+import ffscreens.arthylene.utils.ResultFormat;
 
 /**
  * Arthylene
@@ -90,65 +87,38 @@ public class PopupFragment extends Fragment implements DownloadImageRequest.List
             }
         });
 
-        //format cvc result
         if (getArguments() != null)
         {
-            Bundle args = getArguments(); //data about the scan
+            Bundle args = getArguments(); //get data about the scan
             Log.i(this.getClass().getName(), "args : " + args);
 
-            try {
-                JSONArray array = new JSONArray(args.getString("popup", "default"));
-                StringBuilder resBuilder = new StringBuilder();
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    resBuilder.append(object.opt("value")).append(" : ").append(object.opt("confidence")).append("\n");
-
-                    //select and put the result result array
-                    String name;
-                    Integer mat;
-
-
-                    if(!object.opt("value").toString().equals("UNKNOWN"))
-                    {
-                        String concatResult = object.opt("value").toString();
-                        String[] separated = concatResult.split(" ");
-
-                        name = separated[0];
-                        mat = Integer.parseInt(separated[1].replaceAll("[^0-9]", ""));
-                    }
-                    else
-                    {
-                        name = "UNKNOWN";
-                        mat = 0;
-                    }
-
-                    result = new ScanResult(name, mat, Float.parseFloat(object.opt("confidence").toString()));
-                    results.add(result);
-                }
-
-                popup.setText(resBuilder.toString());//write default name, if better down, write the more precise one
-
-//                bottom.setText(args.getString("bottom", "default"));
-//                if (args.containsKey(getString(R.string.key_valid))) {
-//                    if (args.getBoolean(getString(R.string.key_valid))) {
-//                        image.setImageResource(R.drawable.icon_ok3x);
-//                    } else {
-//                        image.setImageResource(R.drawable.icon_wrong3x);
-//                    }
-//                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            //format the string from CVC lib to an ScanResult array
+            results = ResultFormat.stringToScanResultArray(args.getString("popup", "default"));
         }
 
-        //checking the three detected fruit and set listener on next button + background image and precise name
+        StringBuilder allScanResult = new StringBuilder();
+        int idNomProduit;
+
+        //checking the detected fruit and set listener on next button + background image and precise name
         for (ScanResult detectedFruit : results)
         {
+            idNomProduit = getActivity().getResources().getIdentifier(detectedFruit.getName().toLowerCase(), "string", getActivity().getPackageName());
+            if(idNomProduit != 0)
+                allScanResult.append(getActivity().getString(idNomProduit) + " " + getActivity().getString(R.string.maturity) + " " + detectedFruit.getMaturity() + " : " + ((int)(detectedFruit.getConvidence() * 100)) + "%" + "\n");
+            else
+                allScanResult.append(detectedFruit.getName() + " " + getActivity().getString(R.string.maturity) + " " + detectedFruit.getMaturity() + " : " + ((int)(detectedFruit.getConvidence() * 100)) + "%" + "\n");
+
             //classic entry
             if(detectedFruit.getConvidence() > 0.80 && !detectedFruit.getName().equals("UNKNOWN"))
             {
                 //write precise product name
-                popup.setText(detectedFruit.getName() + " Maturity " + detectedFruit.getMaturity() + " : " + ((int)(detectedFruit.getConvidence() * 100)) + "%");
+                idNomProduit = getActivity().getResources().getIdentifier(detectedFruit.getName().toLowerCase(), "string", getActivity().getPackageName());
+
+                if(idNomProduit != 0)
+                    popup.setText(getActivity().getString(idNomProduit) + " " + getActivity().getString(R.string.maturity) + " " + detectedFruit.getMaturity() + " : " + ((int)(detectedFruit.getConvidence() * 100)) + "% " + "\n");
+                else
+                    popup.setText(detectedFruit.getName() + " " + getActivity().getString(R.string.maturity) + " " + detectedFruit.getMaturity() + " : " + ((int)(detectedFruit.getConvidence() * 100)) + "% " + "\n");
+
 
                 //get fruit info and populate detectedProductJSON
                 getDetectedFruitInfo(results);
@@ -168,7 +138,7 @@ public class PopupFragment extends Fragment implements DownloadImageRequest.List
                             if(getDetectedProductJSON().size() > 0)
                                 popupCallback.onNextBtnClicked(true, getDetectedProductJSON().toString());
                             else
-                                Toast.makeText(getActivity(), "No detail available!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), getActivity().getString(R.string.no_detail_available), Toast.LENGTH_LONG).show();
                         }
                         else
                             popupCallback.onNextBtnClicked(false, "nothing");
@@ -190,7 +160,7 @@ public class PopupFragment extends Fragment implements DownloadImageRequest.List
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getActivity(), "No detail available!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getActivity().getString(R.string.no_detail_available), Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -198,8 +168,9 @@ public class PopupFragment extends Fragment implements DownloadImageRequest.List
             //if the most convidence product is between 0.80 and 0.51
             else if(detectedFruit.getConvidence() < 0.80 && detectedFruit.getConvidence() > 0.51)
             {
-                //keep default product name
-
+                //show all result
+//                if(popup.getText().length() == 0)
+//                    popup.setText(allScanResult);
                 //set image and text about unknown product
                 image.setImageResource(R.drawable.icon_wrong3x);
                 textViewDescriptionProduit.setText("Confidence too low");
@@ -207,12 +178,28 @@ public class PopupFragment extends Fragment implements DownloadImageRequest.List
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getActivity(), "No detail available!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getActivity().getString(R.string.no_detail_available), Toast.LENGTH_LONG).show();
                     }
                 });
             }
+            else if (detectedFruit.getConvidence() < 0.50 && popup.getText().length() == 0)
+            {
+                //If all less than 50% show the correct image
+                image.setImageResource(R.drawable.icon_wrong3x);
+                textViewDescriptionProduit.setText("Confidence too low");
 
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(getActivity(), getActivity().getString(R.string.no_detail_available), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         }
+
+        //we never know
+        if(popup.getText().length() == 0)
+            popup.setText(allScanResult);
     }
 
     /**
