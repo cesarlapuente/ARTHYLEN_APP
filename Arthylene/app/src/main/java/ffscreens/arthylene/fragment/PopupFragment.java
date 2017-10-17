@@ -72,7 +72,9 @@ public class PopupFragment extends Fragment implements DownloadImageRequest.List
 
         textViewDescriptionProduit = view.findViewById(R.id.textViewDescriptionProduit);
 
-        Button back = view.findViewById(R.id.back);
+//        Button back = view.findViewById(R.id.back); //old button
+        Button back = getActivity().findViewById(R.id.buttonReturn);
+        back.setVisibility(View.VISIBLE);
         Button next = view.findViewById(R.id.next);
 
         popupCallback = (PopupCallback) getActivity();
@@ -91,8 +93,6 @@ public class PopupFragment extends Fragment implements DownloadImageRequest.List
         {
             Bundle args = getArguments(); //get data about the scan
             Log.i(this.getClass().getName(), "args : " + args);
-
-            Log.i(this.getClass().getName(), " Un truc : " + args.getString("popup", "default"));
 
             //format the string from CVC lib to an ScanResult array
             results = ResultFormat.stringToScanResultArray(args.getString("popup", "default"));

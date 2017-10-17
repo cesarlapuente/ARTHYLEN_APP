@@ -160,6 +160,8 @@ public class ShelvingActivity extends Activity
     public void onResult() {
         if(etatEnum.equals(EtatEnum.ASSISTANCE))
             getFragmentManager().beginTransaction().replace(R.id.frameLayout, new AssistanceFragment()).commit();
+//        else if(etatEnum.equals(EtatEnum.CONDITION)) //good upgrade but need to do a lot of changes
+//            getFragmentManager().beginTransaction().replace(R.id.frameLayout, PopupFragment.newInstance(false, "Check presentation detail", "Detail")).commit();
         else
             showPictureFragment(etatEnum);
     }

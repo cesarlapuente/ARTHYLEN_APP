@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.List;
@@ -35,6 +36,10 @@ public class CheckListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Button back = getActivity().findViewById(R.id.buttonReturn);
+        back.setVisibility(View.INVISIBLE);
+
         dao = new ChecklistDAO(getActivity());
 
         view.getParent().requestDisallowInterceptTouchEvent(true);

@@ -65,13 +65,17 @@ public class SheetFragment extends Fragment {
     {
         super.onViewCreated(view, savedInstanceState);
 
-        Button back = view.findViewById(R.id.backSheet);
+//        Button back = view.findViewById(R.id.backSheet); //old button
+
+        Button back = getActivity().findViewById(R.id.buttonReturn);
+        back.setVisibility(View.VISIBLE);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sheetCallback.onResult();
             }
         });
+
         List<Produit> produitList = new ArrayList<>();
 
         expandableFicheDetail = (ExpandableListView) view.findViewById(R.id.expandableFicheDetail);

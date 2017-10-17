@@ -602,6 +602,9 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Button back = getActivity().findViewById(R.id.buttonReturn);
+        back.setVisibility(View.INVISIBLE);
+
         /*
          * part for camera2 api version
          */

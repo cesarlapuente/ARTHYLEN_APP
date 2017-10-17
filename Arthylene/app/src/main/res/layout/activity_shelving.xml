@@ -19,6 +19,14 @@
         android:textColor="@android:color/white"
         android:textSize="30sp" />
 
+    <Button
+        android:id="@+id/buttonReturn"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_margin="30dp"
+        android:background="@drawable/button_back"
+        android:visibility="invisible"/>
+
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
