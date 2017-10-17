@@ -661,7 +661,8 @@ public class PictureFragment extends Fragment implements Camera.AutoFocusCallbac
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (etat.equals(EtatEnum.ASSISTANCE)) {
+//                if (etat.equals(EtatEnum.ASSISTANCE)) { //old assistance feature
+                if (etat.equals(EtatEnum.CONDITION)) {
                     //takePicture();
                     pictureFragmentCallback.onPictureResult(true, json);
                 } else {

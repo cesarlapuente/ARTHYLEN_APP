@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import ffscreens.arthylene.enumeration.EtatEnum;
+import ffscreens.arthylene.fragment.AssistanceFragment;
 import ffscreens.arthylene.fragment.CheckListFragment;
 import ffscreens.arthylene.fragment.PictureFragment;
 import ffscreens.arthylene.fragment.PlacementFragment;
@@ -24,7 +25,8 @@ public class ShelvingActivity extends Activity
         implements
         PictureFragment.PictureFragmentCallback,
         PopupFragment.PopupCallback,
-        SheetFragment.SheetCallback {
+        SheetFragment.SheetCallback,
+        AssistanceFragment.AssistanceCallback{
 
     private Button home;
     private Activity activity;
@@ -52,10 +54,9 @@ public class ShelvingActivity extends Activity
         placement = findViewById(R.id.placement);
 
         /* set the initial state */
-        assistance.setChecked(true);
-        etatEnum = EtatEnum.ASSISTANCE;
-        getFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, PictureFragment.newInstance(etatEnum)).commit();
+        condition.setChecked(true);
+        etatEnum = EtatEnum.CONDITION;
+        getFragmentManager().beginTransaction().replace(R.id.frameLayout, PictureFragment.newInstance(etatEnum)).commit();
 
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -63,18 +64,20 @@ public class ShelvingActivity extends Activity
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
                 switch (id) {
                     case R.id.assistance:
+                        etatEnum = EtatEnum.ASSISTANCE;
+                        getFragmentManager().beginTransaction().replace(R.id.frameLayout, new AssistanceFragment()).commit();
+                        break;
                     case R.id.condition:
 //                    case R.id.presentation:
-                        showPictureFragment(getEtat(id));
+                        etatEnum = EtatEnum.CONDITION;
+                        showPictureFragment(etatEnum);
                         break;
                     case R.id.checklist:
                         etatEnum = EtatEnum.CHECKLIST;
-                        getFragmentManager().beginTransaction()
-                                .replace(R.id.frameLayout, new CheckListFragment()).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.frameLayout, new CheckListFragment()).commit();
                         break;
                     case R.id.placement:
-                        getFragmentManager().beginTransaction()
-                                .replace(R.id.frameLayout, new PlacementFragment()).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.frameLayout, new PlacementFragment()).commit();
                         break;
                     default:
                         break;
@@ -93,9 +96,10 @@ public class ShelvingActivity extends Activity
     /* open the picture fragment whith the actual state of the app */
     private void showPictureFragment(EtatEnum etatEnum) {
         this.etatEnum = etatEnum;
-        getFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, PictureFragment.newInstance(etatEnum)).commit();
+        getFragmentManager().beginTransaction().replace(R.id.frameLayout, PictureFragment.newInstance(etatEnum)).commit();
     }
+
+    /* open the assiatnce fragement with the actual state of the app */
 
     /* return the state assigned to this button */
     private EtatEnum getEtat(int id) {
@@ -122,8 +126,11 @@ public class ShelvingActivity extends Activity
     public void onPictureResult(boolean valid, String result) {
         switch (etatEnum) {
             case CONDITION:
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, PopupFragment.newInstance(true, "Check condition detail", "Product info sheet")).commit();
+                getFragmentManager().beginTransaction().replace(R.id.frameLayout, PopupFragment.newInstance(true, result, "Detail")).commit();
+
+                //old CONDITION feature
+//                getFragmentManager().beginTransaction()
+//                        .replace(R.id.frameLayout, PopupFragment.newInstance(true, "Check condition detail", "Product info sheet")).commit();
                 break;
             case PRESENTATION:
                 getFragmentManager().beginTransaction()
@@ -139,7 +146,7 @@ public class ShelvingActivity extends Activity
     /* re-open the pictureFragment */
     @Override
     public void popupOnResult() {
-        showPictureFragment(etatEnum);
+            showPictureFragment(etatEnum);
     }
 
     @Override
@@ -151,6 +158,15 @@ public class ShelvingActivity extends Activity
 
     @Override
     public void onResult() {
-        showPictureFragment(etatEnum);
+        if(etatEnum.equals(EtatEnum.ASSISTANCE))
+            getFragmentManager().beginTransaction().replace(R.id.frameLayout, new AssistanceFragment()).commit();
+        else
+            showPictureFragment(etatEnum);
+    }
+
+    @Override
+    public void onItemClicked(boolean valid, String result) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout, SheetFragment.newInstance(true, result)).commit();
     }
 }
