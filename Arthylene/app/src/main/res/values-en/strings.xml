@@ -21,4 +21,6 @@
     <string name="maturity">Maturity</string>
     <string name="no_detail_available">No detail available</string>
     <string name="more_details">More details</string>
+    <string name="audio">Audio description</string>
+    <string name="no_audio">No audio description available</string>
 </resources>

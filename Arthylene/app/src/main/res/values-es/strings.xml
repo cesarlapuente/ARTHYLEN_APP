@@ -21,4 +21,6 @@
     <string name="maturity">Madurez</string>
     <string name="no_detail_available">Aucun détail disponible</string>
     <string name="more_details">Mas detalles</string>
+    <string name="audio">Audio descripción</string>
+    <string name="no_audio">No hay audiodescripción disponible</string>
 </resources>

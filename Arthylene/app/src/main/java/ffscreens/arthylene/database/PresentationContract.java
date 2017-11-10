@@ -21,7 +21,8 @@ public final class PresentationContract {
                     PresentationEntry.COLUM_NAME_IDPRESENTATION + " INTEGER PRIMARY KEY," +
                     PresentationEntry.COLUM_NAME_IDPRODUIT + INTEGER +
                     PresentationEntry.COLUM_NAME_CONTENU + TEXT +
-                    PresentationEntry.COLUM_NAME_IDPHOTO + " INTEGER)";
+                    PresentationEntry.COLUM_NAME_IDPHOTO + INTEGER +
+                    PresentationEntry.COLUM_NAME_IDAUDIO + " INTEGER)";
 
     private PresentationContract() {
 
@@ -38,6 +39,8 @@ public final class PresentationContract {
         static final String COLUM_NAME_CONTENU = "contenu";
 
         static final String COLUM_NAME_IDPHOTO = "idPhoto";
+
+        static final String COLUM_NAME_IDAUDIO = "idAudio";
 
         private PresentationEntry() {
         }

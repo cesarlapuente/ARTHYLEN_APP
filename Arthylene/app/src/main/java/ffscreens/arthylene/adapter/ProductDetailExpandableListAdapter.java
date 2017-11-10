@@ -3,20 +3,29 @@ package ffscreens.arthylene.adapter;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import ffscreens.arthylene.R;
 import ffscreens.arthylene.api.DownloadImageRequest;
 import ffscreens.arthylene.enumeration.InfoEnum;
+import ffscreens.arthylene.objects.Audio;
 import ffscreens.arthylene.objects.BeneficeSante;
 import ffscreens.arthylene.objects.Caracteristique;
 import ffscreens.arthylene.objects.Conseil;
@@ -40,6 +49,7 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
     private BeneficeSante beneficeSante;
     private Conseil conseil;
     private Marketing marketing;
+    private Audio audio;
 
     private LayoutInflater inflater;
 
@@ -50,8 +60,17 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
     private ImageView imageViewPicture;
     private Bitmap fruitBitmap;
 
+    //audio part
+    private MediaPlayer mediaPlayer = null;
+    private Handler mHandler = new Handler();
+    private SeekBar seekBarTime;
+    private ProgressBar progressBarMusicLoading;
+    private TextView textViewCurrentTime, textViewTotalTime;
+    private Button btnPlay;
+
+
     public ProductDetailExpandableListAdapter(Activity activity, Produit produit, Presentation presentation, Photo photo,
-                                              Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing)
+                                              Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing, Audio audio)
     {
         this.activity = activity;
         this.produit = produit;
@@ -61,6 +80,7 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
         this.beneficeSante = beneficeSante;
         this.conseil = conseil;
         this.marketing = marketing;
+        this.audio = audio;
 
         groups = new SparseArray<Group>();
 
@@ -158,11 +178,20 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
             header_text.setTextColor(Color.BLACK);
 
             if (isExpanded)
+            {
                 header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0,arrow_up_float, 0);
-            else
-                header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0, arrow_down_float, 0);
-        }
 
+            }
+            else
+            {
+                header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0, arrow_down_float, 0);
+
+                if(mediaPlayer != null && mediaPlayer.isPlaying())
+                {
+                    mediaPlayer.pause();
+                }
+            }
+        }
 
         return convertView;
     }
@@ -290,8 +319,65 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
             tableLayout.removeView(tableRow4);
             tableLayout.removeView(tableRow5);
             tableLayout.removeView(tableRow6);
-
         }
+
+        else if(groupPosition == InfoEnum.audio.ordinal())
+        {
+            convertView = inflater.inflate(R.layout.music_player, parent, false);
+
+            if(!audio.getChemin().equals("null"))
+            {
+                btnPlay = (Button) convertView.findViewById(R.id.btnPlayPause);
+                seekBarTime = (SeekBar) convertView.findViewById(R.id.seekBarTime);
+                progressBarMusicLoading = (ProgressBar) convertView.findViewById(R.id.progressBarMusicLoading);
+
+                textViewCurrentTime = (TextView) convertView.findViewById(R.id.textViewCurrentTime);
+                textViewTotalTime = (TextView) convertView.findViewById(R.id.textViewTotalTime);
+
+                if(mediaPlayer == null)
+                {
+                    try {
+                        Log.i(this.getClass().getName(), "ini media player");
+                        mediaPlayer = new MediaPlayer();
+
+                        mediaPlayer.reset();
+                        mediaPlayer.setDataSource(audio.getChemin());
+                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(final MediaPlayer mediaPlayer)
+                            {
+                                setAudioListener();
+                            }
+                        });
+
+                        mediaPlayer.prepareAsync();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    setAudioListener();
+                }
+            }
+            else
+            {
+                TextView textViewNoAudioAvailable = convertView.findViewById(R.id.textViewNoAudioAvailable);
+                btnPlay = (Button) convertView.findViewById(R.id.btnPlayPause);
+                seekBarTime = (SeekBar) convertView.findViewById(R.id.seekBarTime);
+                progressBarMusicLoading = (ProgressBar) convertView.findViewById(R.id.progressBarMusicLoading);
+
+                btnPlay.setVisibility(View.GONE);
+                seekBarTime.setVisibility(View.GONE);
+                progressBarMusicLoading.setVisibility(View.GONE);
+
+                textViewNoAudioAvailable.setVisibility(View.VISIBLE);
+
+                textViewNoAudioAvailable.setText(activity.getResources().getString(R.string.no_audio));
+            }
+        }
+
 
         return convertView;
     }
@@ -327,6 +413,89 @@ public class ProductDetailExpandableListAdapter extends BaseExpandableListAdapte
     public void onError()
     {
         Log.e(this.getClass().getName(), "Error on loading Image");
+    }
+
+    private void setAudioListener()
+    {
+        seekBarTime.setMax(mediaPlayer.getDuration() /1000);
+        progressBarMusicLoading.setVisibility(View.GONE);
+
+        textViewCurrentTime.setVisibility(View.VISIBLE);
+        textViewTotalTime.setVisibility(View.VISIBLE);
+        textViewTotalTime.setText(" / " + totalTime(mediaPlayer.getDuration()));
+
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                if(!mediaPlayer.isPlaying())
+                {
+                    btnPlay.setText("Pause");
+                    mediaPlayer.start();
+
+                    activity.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run()
+                        {
+                            int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+
+                            seekBarTime.setProgress(mCurrentPosition);
+                            textViewCurrentTime.setText(totalTime(mediaPlayer.getCurrentPosition()));
+
+                            mHandler.postDelayed(this, 1000);
+                        }
+                    });
+                }
+                else if (mediaPlayer.isPlaying())
+                {
+                    btnPlay.setText("Play");
+                    mediaPlayer.pause();
+                }
+            }
+        });
+
+        seekBarTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(mediaPlayer != null && fromUser){
+                    mediaPlayer.seekTo(progress * 1000);
+                }
+            }
+        });
+    }
+
+    private String totalTime(int millis)
+    {
+        if(millis < 0)
+        {
+            throw new IllegalArgumentException("Duration must be greater than zero!");
+        }
+
+        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        millis -= TimeUnit.DAYS.toMillis(days);
+        long hours = TimeUnit.MILLISECONDS.toHours(millis);
+        millis -= TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+        millis -= TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+
+        StringBuilder sb = new StringBuilder(64);
+        sb.append(minutes);
+        sb.append(":");
+        sb.append(String.format("%02d", seconds));
+
+        return(sb.toString());
     }
 }
 

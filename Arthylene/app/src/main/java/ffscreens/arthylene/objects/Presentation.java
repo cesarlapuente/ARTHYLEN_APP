@@ -11,20 +11,22 @@ public class Presentation {
     private Long idProduit;
     private String contenu;
     private Long idPhoto;
+    private Long idAudio;
 
     public Presentation() {
     }
 
-    public Presentation(Long idPresentation, Long idProduit, String contenu, Long idPhoto) {
+    public Presentation(Long idPresentation, Long idProduit, String contenu, Long idPhoto, Long idAudio) {
         this.idPresentation = idPresentation;
         this.idProduit = idProduit;
         this.contenu = contenu;
         this.idPhoto = idPhoto;
+        this.idAudio = idAudio;
     }
 
     public String toString() {
         return "idPresentation : " + getIdPresentation() + ", idProduit : " + getIdProduit()
-                + ", contenu : " + getContenu() + ", id photo : " + getIdPhoto();
+                + ", contenu : " + getContenu() + ", id photo : " + getIdPhoto() + ", id audio : " + getIdAudio();
     }
 
     public Long getIdPresentation() {
@@ -57,5 +59,13 @@ public class Presentation {
 
     public void setIdPhoto(Long idPhoto) {
         this.idPhoto = idPhoto;
+    }
+
+    public Long getIdAudio() {
+        return idAudio;
+    }
+
+    public void setIdAudio(Long idAudio) {
+        this.idAudio = idAudio;
     }
 }

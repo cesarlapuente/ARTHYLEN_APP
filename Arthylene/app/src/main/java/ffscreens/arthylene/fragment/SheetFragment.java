@@ -20,12 +20,14 @@ import java.util.List;
 
 import ffscreens.arthylene.R;
 import ffscreens.arthylene.adapter.ProductDetailExpandableListAdapter;
+import ffscreens.arthylene.database.AudioDAO;
 import ffscreens.arthylene.database.BeneficeSanteDAO;
 import ffscreens.arthylene.database.CaracteristiqueDAO;
 import ffscreens.arthylene.database.ConseilDAO;
 import ffscreens.arthylene.database.MarketingDAO;
 import ffscreens.arthylene.database.PhotoDAO;
 import ffscreens.arthylene.database.PresentationDAO;
+import ffscreens.arthylene.objects.Audio;
 import ffscreens.arthylene.objects.BeneficeSante;
 import ffscreens.arthylene.objects.Caracteristique;
 import ffscreens.arthylene.objects.Conseil;
@@ -146,6 +148,8 @@ public class SheetFragment extends Fragment {
 //        EtatDAO etatDAO = new EtatDAO(getActivity());
 //        MaturiteDAO maturiteDAO = new MaturiteDAO(getActivity());
         PhotoDAO photoDAO = new PhotoDAO(getActivity());
+        AudioDAO audioDAO = new AudioDAO(getActivity());
+
         BeneficeSanteDAO beneficeSanteDAO = new BeneficeSanteDAO(getActivity());
         CaracteristiqueDAO caracteristiqueDAO = new CaracteristiqueDAO(getActivity());
         ConseilDAO conseilDAO = new ConseilDAO((getActivity()));
@@ -156,6 +160,7 @@ public class SheetFragment extends Fragment {
 //        List<Etat> allEtat = etatDAO.getAllStates();
 //        List<Maturite> allMaturite = maturiteDAO.getAllMaturity();
         List<Photo> allPhoto = photoDAO.getAllPicture();
+        List<Audio> allAudio = audioDAO.getAllAudio();
         List<BeneficeSante> allBeneficeSante = beneficeSanteDAO.getAllBenefice();
         List<Caracteristique> allCaracteristique = caracteristiqueDAO.getAllCaracteristique();
         List<Conseil> allConseil = conseilDAO.getAllConseil();
@@ -165,6 +170,7 @@ public class SheetFragment extends Fragment {
 //        Long idEtat = null;
 //        Long idMaturite = null;
         Long idPhoto = null;
+        Long idAudio = null;
         Long idBeneficeSante = null;
         Long idCaracteristique = null;
         Long idConseil = null;
@@ -174,6 +180,7 @@ public class SheetFragment extends Fragment {
 //        Etat etat = null;
 //        Maturite maturite = null;
         Photo photo = null;
+        Audio audio = null;
         Caracteristique caracteristique = null;
         BeneficeSante beneficeSante = null;
         Conseil conseil = null;
@@ -211,6 +218,12 @@ public class SheetFragment extends Fragment {
                 photo = dbPhoto;
         }
 
+        for(Audio dbAudio : allAudio)
+        {
+            if(dbAudio != null && dbAudio.getIdAudio().equals(presentation.getIdAudio()) && audio == null)
+                audio = dbAudio;
+        }
+
         for(Caracteristique carac : allCaracteristique)
         {
             if(carac != null && carac.getIdCaracteristique().equals(idCaracteristique) && caracteristique == null)
@@ -235,10 +248,10 @@ public class SheetFragment extends Fragment {
                 marketing = marke;
         }
 
-        populateExpandbleList(produitList.get(0), presentation, photo, caracteristique, beneficeSante, conseil, marketing);
+        populateExpandbleList(produitList.get(0), presentation, photo, caracteristique, beneficeSante, conseil, marketing, audio);
     }
 
-    private void populateExpandbleList(Produit produit, Presentation presentation, Photo photo, Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing)
+    private void populateExpandbleList(Produit produit, Presentation presentation, Photo photo, Caracteristique caracteristique, BeneficeSante beneficeSante, Conseil conseil, Marketing marketing, Audio audio)
     {
 //        Log.i(this.getClass().getName(), "produit : " + produit.toString());
 //        Log.i(this.getClass().getName(), "presentation : " + presentation.toString());
@@ -247,9 +260,10 @@ public class SheetFragment extends Fragment {
 //        Log.i(this.getClass().getName(), "beneficeSante : " + beneficeSante.toString());
 //        Log.i(this.getClass().getName(), "conseil : " + conseil.toString());
 //        Log.i(this.getClass().getName(), "marketing : " + marketing.toString());
+//        Log.i(this.getClass().getName(), "audio : " + audio.toString());
 
         ProductDetailExpandableListAdapter productDetailExpandableListAdapter = new ProductDetailExpandableListAdapter(getActivity(), produit,
-                presentation, photo, caracteristique, beneficeSante, conseil, marketing);
+                presentation, photo, caracteristique, beneficeSante, conseil, marketing, audio);
 
         expandableFicheDetail.setAdapter(productDetailExpandableListAdapter);
     }

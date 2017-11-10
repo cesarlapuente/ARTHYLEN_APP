@@ -16,6 +16,7 @@ public enum ApiAdress {
     caracteristique,
     conseil,
     beneficeSante,
-    marketing
+    marketing,
+    audio
 
 }

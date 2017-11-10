@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class DbHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     /**
      * The database name
@@ -33,6 +33,7 @@ class DbHandler extends SQLiteOpenHelper {
         db.execSQL(EtiquetteContract.SQL_CREATE_ENTRIES);
         db.execSQL(ChecklistContract.SQL_CREATE_ENTRIES);
         db.execSQL(PhotoContract.SQL_CREATE_ENTRIES);
+        db.execSQL(AudioContract.SQL_CREATE_ENTRIES);
         db.execSQL(CaracteristiqueContract.SQL_CREATE_ENTRIES);
         db.execSQL(BeneficeSanteContract.SQL_CREATE_ENTRIES);
         db.execSQL(ConseilContract.SQL_CREATE_ENTRIES);
@@ -48,6 +49,7 @@ class DbHandler extends SQLiteOpenHelper {
         db.execSQL(EtiquetteContract.SQL_DELETE_ENTRIES);
         db.execSQL(ChecklistContract.SQL_DELETE_ENTRIES);
         db.execSQL(PhotoContract.SQL_DELETE_ENTRIES);
+        db.execSQL(AudioContract.SQL_DELETE_ENTRIES);
         db.execSQL(CaracteristiqueContract.SQL_DELETE_ENTRIES);
         db.execSQL(BeneficeSanteContract.SQL_DELETE_ENTRIES);
         db.execSQL(ConseilContract.SQL_DELETE_ENTRIES);

@@ -6,5 +6,6 @@ public enum InfoEnum {
     caracteristique,
     conseil,
     beneficeSante,
-    marketing
+    marketing,
+    audio
 }

@@ -29,8 +29,7 @@ public class PresentationRequest extends ApiRequest {
 
     @Override
     void addEntity(JSONObject o) throws JSONException {
-        Presentation p = new Presentation(o.getLong("idPresentation"), o.getLong("idProduit"),
-                o.getString("contenu"), o.optLong("idPhoto", -1L));
+        Presentation p = new Presentation(o.getLong("idPresentation"), o.getLong("idProduit"), o.getString("contenu"), o.optLong("idPhoto", -1L), o.optLong("idAudio", -1L));
         presentationList.add(p);
     }
 

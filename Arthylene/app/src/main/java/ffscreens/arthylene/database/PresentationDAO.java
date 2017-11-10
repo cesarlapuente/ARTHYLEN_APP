@@ -50,6 +50,7 @@ public class PresentationDAO {
             values.put(PresentationContract.PresentationEntry.COLUM_NAME_IDPRODUIT, p.getIdProduit());
             values.put(PresentationContract.PresentationEntry.COLUM_NAME_CONTENU, p.getContenu());
             values.put(PresentationContract.PresentationEntry.COLUM_NAME_IDPHOTO, p.getIdPhoto());
+            values.put(PresentationContract.PresentationEntry.COLUM_NAME_IDAUDIO, p.getIdAudio());
             update = db.update(PresentationContract.PresentationEntry.TABLE_NAME, values, PresentationContract.PresentationEntry.COLUM_NAME_IDPRESENTATION + " = ?", new String[]{String.valueOf(p.getIdPresentation())});
             if (update == 0) {
                 values.put(PresentationContract.PresentationEntry.COLUM_NAME_IDPRESENTATION, p.getIdPresentation());
@@ -68,6 +69,7 @@ public class PresentationDAO {
                 PresentationContract.PresentationEntry.COLUM_NAME_IDPRODUIT,
                 PresentationContract.PresentationEntry.COLUM_NAME_CONTENU,
                 PresentationContract.PresentationEntry.COLUM_NAME_IDPHOTO,
+                PresentationContract.PresentationEntry.COLUM_NAME_IDAUDIO,
         };
 
         Cursor cursor = db.query(
@@ -85,8 +87,9 @@ public class PresentationDAO {
             Long idProduit = cursor.getLong(cursor.getColumnIndexOrThrow(PresentationContract.PresentationEntry.COLUM_NAME_IDPRODUIT));
             String contenu = cursor.getString(cursor.getColumnIndexOrThrow(PresentationContract.PresentationEntry.COLUM_NAME_CONTENU));
             Long idPhoto = cursor.getLong(cursor.getColumnIndexOrThrow(PresentationContract.PresentationEntry.COLUM_NAME_IDPHOTO));
+            Long idAudio = cursor.getLong(cursor.getColumnIndexOrThrow(PresentationContract.PresentationEntry.COLUM_NAME_IDAUDIO));
 
-            Presentation p = new Presentation(id, idProduit, contenu, idPhoto);
+            Presentation p = new Presentation(id, idProduit, contenu, idPhoto, idAudio);
             presentations.add(p);
         }
         cursor.close();
